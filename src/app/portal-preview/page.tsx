@@ -1,0 +1,1 @@
+import PortalPreview from '@/components/portal-preview';export const metadata={title:'Organization portal preview',robots:{index:false,follow:false}};export default function Page(){return <PortalPreview/>}
