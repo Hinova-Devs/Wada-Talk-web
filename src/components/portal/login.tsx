@@ -2,28 +2,43 @@
 import {useEffect, useState, type FormEvent} from "react";
 import {useRouter} from "next/navigation";
 import {createClient} from "@/lib/supabase/client";
+import {authErrorMessage, signInStaff, usesDemoPassword} from "@/lib/portal/auth";
 export function LoginForm() {
- const router = useRouter(); const [status, setStatus] = useState(""); const [busy, setBusy] = useState(false);
+ const router = useRouter();
+ const [email, setEmail] = useState("");
+ const [status, setStatus] = useState("");
+ const [busy, setBusy] = useState(false);
+ const demo = usesDemoPassword(email, process.env.NODE_ENV === "development");
  useEffect(() => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return;
   const client = createClient();
-  const invalidLink = new URLSearchParams(window.location.search).has("error");
-  const error = new URLSearchParams(window.location.hash.slice(1)).get("error_description");
-  if (error) window.history.replaceState(null, "", window.location.pathname);
-  void client.auth.getSession().then(({data: {session}}) => {if (error || invalidLink) setStatus(error || "This sign-in link is invalid or expired. Request another link."); if (session) {window.history.replaceState(null, "", window.location.pathname); router.replace("/portal"); router.refresh();}});
-  const {data: {subscription}} = client.auth.onAuthStateChange((event, session) => {if (session && ["SIGNED_IN", "INITIAL_SESSION"].includes(event)) {window.history.replaceState(null, "", window.location.pathname); router.replace("/portal"); router.refresh();}});
+  const params = new URLSearchParams(window.location.search);
+  const hash = new URLSearchParams(window.location.hash.slice(1));
+  const errorCode = hash.get("error_code") || params.get("reason") || undefined;
+  const errorDescription = hash.get("error_description");
+  const invalidLink = params.has("error");
+  if (errorDescription) window.history.replaceState(null, "", window.location.pathname);
+  void client.auth.getSession().then(({data: {session}, error}) => {
+   if (error) setStatus(authErrorMessage(error));
+   else if (errorDescription || invalidLink) setStatus(errorCode ? authErrorMessage({code: errorCode, message: errorDescription || "This sign-in link is invalid or expired. Request another link."}) : "This sign-in link is invalid or expired. Request another link.");
+   if (session) {window.history.replaceState(null, "", window.location.pathname); router.replace("/portal"); router.refresh();}
+  }).catch(() => setStatus("Could not connect to the sign-in service. Please try again."));
+  const {data: {subscription}} = client.auth.onAuthStateChange((event, session) => {
+   if (session && ["SIGNED_IN", "INITIAL_SESSION"].includes(event)) {window.history.replaceState(null, "", window.location.pathname); router.replace("/portal"); router.refresh();}
+  });
   return () => subscription.unsubscribe();
  }, [router]);
  async function login(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault(); setBusy(true); setStatus("");
+  event.preventDefault(); if (busy) return;
+  setBusy(true); setStatus("");
   const form = new FormData(event.currentTarget);
   try {
    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {setStatus("Organization sign-in is not configured."); return;}
-   const client = createClient(); const email = String(form.get("email")).trim();
-   const {error} = await client.auth.signInWithOtp({email, options: {emailRedirectTo: window.location.origin, shouldCreateUser: false}});
-   if (error) setStatus("Could not send a link. Check your email or ask your school admin to invite you.");
-   else setStatus("Check your email for your secure sign-in link.");
-  } catch {setStatus("Connection failed. Please try again.");} finally {setBusy(false);}
+   const {error} = await signInStaff(createClient(), {email: String(form.get("email")), password: String(form.get("password") || ""), development: process.env.NODE_ENV === "development", origin: window.location.origin});
+   if (error) setStatus(authErrorMessage(error));
+   else if (demo) {router.replace("/portal"); router.refresh();}
+   else setStatus("Check your email for your secure sign-in link. Open it in this browser.");
+  } catch {setStatus("Could not connect to the sign-in service. Check your connection and try again.");} finally {setBusy(false);}
  }
- return <div><form className="demo-form" onSubmit={event => void login(event)}><label>Work email<input name="email" type="email" required autoComplete="email" placeholder="you@school.so"/></label><button className="button" disabled={busy}>{busy ? "Please wait…" : "Send sign-in link"}</button><p>Staff access is by invitation.</p></form>{status && <p className="notice" role="status">{status}</p>}</div>;
+ return <div><form className="demo-form" onSubmit={event => void login(event)}><label>Work email<input name="email" type="email" required autoComplete="email" placeholder="you@school.so" value={email} onChange={event => {setEmail(event.target.value); setStatus("");}}/></label>{demo && <label>Password<input name="password" type="password" required autoComplete="current-password"/><small>Use the seeded development account password.</small></label>}<button className="button" disabled={busy}>{busy ? "Please wait…" : demo ? "Sign in" : "Send sign-in link"}</button><p>Staff access is by invitation.</p></form>{status && <p className="notice" role="status">{status}</p>}</div>;
 }

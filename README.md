@@ -22,7 +22,7 @@ Reads: `my_orgs`, `org_overview`, `class_overview`, `class_students`, `student_d
 
 Changes: `create_class`, `update_class` (all four fields), `new_join_code`, `revoke_join_code`, `remove_student`, `assign_teacher`, `set_staff_role`. Staff invitation uses `functions.invoke('invite-staff', {body: {org_id, email, role, class_id?}})` and displays the Edge Function's safe error message.
 
-Staff sign-in uses email OTP with `shouldCreateUser: false` and the dashboard origin as redirect URL. Root callbacks with a PKCE code and token-hash callbacks are handled by `/auth/callback`; implicit invite sessions are picked up on the login page. The login page provides one email sign-in form for invited staff. No service-role key belongs in this app.
+Staff sign-in uses email OTP with `shouldCreateUser: false` and the dashboard origin as redirect URL. Root callbacks with a PKCE code and token-hash callbacks are handled by `/auth/callback`; implicit invite sessions are picked up on the login page. The login page provides one sign-in form. Invited staff use email links. In development only, entering the documented seeded account `sahra@demo.wada.test` shows a password field in that same form and uses `signInWithPassword`; its password is entered by the user and never hardcoded in the frontend. Production always uses invitation-only email OTP. Authentication errors distinguish email delivery setup, sending limits, missing invitation and expired callbacks. No service-role key belongs in this app.
 
 New join codes are held only in component memory and shown when generated. They are not written to localStorage, URLs or the database by the frontend. Existing codes cannot be retrieved. The CSV export uses `class_students` and a fixed field whitelist, with formula protection and proper CSV quoting. It excludes learner contact details, transcripts, recordings and mistake sentences. Skills are shown out of 20; unavailable feedback remains empty. Dates are displayed in Africa/Nairobi (East Africa time).
 
@@ -43,10 +43,11 @@ Creating organizations and first admins is an owner workflow through the Supabas
 
 ## Verification
 
-- `npm test`: CSV escaping, formula protection, privacy whitelist, API errors and supported sections.
+- `npm test`: CSV escaping, formula protection, privacy whitelist, API errors, supported sections and authentication routing/error handling.
 - `npx tsc --noEmit`: type checking.
 - `npm run lint`: lint.
 - `npm run build`: production compilation.
 - `node scripts/verify-backend.mjs`: optional read-only check using the documented seeded Sahra development account. Do not use this demo account in production. Session tokens are never printed or saved by the script.
 
 On this configured project, Sahra currently returns `teacher`, despite the supplied backend note describing her as an admin. Live teacher reads were verified; admin changes and staff emails require an actual admin account and are not exercised by the read-only check.
+
