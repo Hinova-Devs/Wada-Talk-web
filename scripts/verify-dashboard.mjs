@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import ts from 'typescript';
+const source = readFileSync('src/lib/portal/data.ts', 'utf8');
+const compiled = ts.transpileModule(source, {compilerOptions: {module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022}}).outputText;
+const {csv, errorMessage, isPortalSection} = await import('data:text/javascript;base64,' + Buffer.from(compiled).toString('base64'));
+const report = csv([{user_id: 'id', first_name: '=SUM(1,2)', current_unit: {position: 0, title: 'Unit "one", intro'}, calls: 0, units_done: 0, first_score: null, latest_score: null, streak: 0, email: 'private@example.com', transcript: 'PRIVATE TRANSCRIPT', said: 'PRIVATE MISTAKE'}]);
+assert.ok(report.includes('"\'=SUM(1,2)"'));
+assert.ok(report.includes('"Unit ""one"", intro"'));
+assert.ok(report.includes('"0"'));
+assert.ok(!report.includes('private@example.com') && !report.includes('PRIVATE'));
+assert.equal(csv([]).split('\r\n').length, 1);
+assert.equal(errorMessage('last_admin'), 'Make someone else admin first');
+assert.equal(errorMessage('not_allowed'), "You don't have access to this");
+assert.equal(isPortalSection('audit'), true);
+for (const removed of ['settings', 'reports', 'talk-hours', 'discussions']) assert.equal(isPortalSection(removed), false);
+console.log('PASS: CSV quoting, formula protection, privacy, empty export, API errors and supported sections.');
