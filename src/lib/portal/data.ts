@@ -1,9 +1,10 @@
-export const portalSections = [["overview", "Overview"], ["classes", "Classes"], ["class-detail", "Class detail"], ["students", "Students"], ["student-detail", "Student detail"], ["skills", "Skills and mistakes"], ["export", "CSV export"], ["team", "Staff"], ["audit", "Audit log"]] as const;
+import type {InstitutionType} from "./institution";
+export const portalSections = [["overview", "Overview"], ["classes", "Classes"], ["class-detail", "Class detail"], ["students", "Students"], ["student-detail", "Student detail"], ["skills", "Skills and mistakes"], ["join-codes", "Student join codes"], ["export", "CSV export"], ["team", "Staff"], ["audit", "Audit log"], ["institution", "Institution"]] as const;
 export type PortalSection = (typeof portalSections)[number][0];
 export type PortalRow = Record<string, unknown>;
 export type Role = "admin" | "teacher";
 export type Org = {org_id: string; name: string; role: Role; classes: PortalRow[]};
-export type DashboardData = {checkedAt: number; org: Org; orgs: Org[]; email: string; overview?: PortalRow; students: PortalRow[]; student?: PortalRow; skills: PortalRow[]; mistakes: PortalRow[]; staff: PortalRow[]; audit: PortalRow[]; errors: string[]};
+export type DashboardData = {institutionType: InstitutionType; profileAvailable: boolean; checkedAt: number; org: Org; orgs: Org[]; email: string; overview?: PortalRow; students: PortalRow[]; student?: PortalRow; skills: PortalRow[]; mistakes: PortalRow[]; staff: PortalRow[]; audit: PortalRow[]; errors: string[]};
 export function rows(value: unknown): PortalRow[] {return Array.isArray(value) ? value.filter((item): item is PortalRow => !!item && typeof item === "object") : [];}
 export function record(value: unknown): PortalRow | undefined {return value && typeof value === "object" && !Array.isArray(value) ? value as PortalRow : undefined;}
 export function text(value: unknown, fallback = "—"): string {return typeof value === "string" || typeof value === "number" ? String(value) : fallback;}
@@ -17,4 +18,3 @@ export function csv(students: PortalRow[]): string {
  const escape = (value: unknown) => {let cell = text(value, ""); if (/^[\s]*[=+@-]/.test(cell)) cell = "'" + cell; return '"' + cell.replaceAll('"', '""') + '"';};
  return [fields.join(","), ...students.map(student => {const unit = record(student.current_unit); return fields.map(field => escape(field === "current_unit_position" ? unit?.position : field === "current_unit_title" ? unit?.title : student[field])).join(",");})].join("\r\n");
 }
-

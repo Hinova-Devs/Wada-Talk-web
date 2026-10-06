@@ -51,3 +51,23 @@ Creating organizations and first admins is an owner workflow through the Supabas
 
 On this configured project, Sahra currently returns `teacher`, despite the supplied backend note describing her as an admin. Live teacher reads were verified; admin changes and staff emails require an actual admin account and are not exercised by the read-only check.
 
+
+## University and school workspaces
+
+`/register` requests an institution admin invitation and requires a University/School choice. Existing invited staff use the single `/login` form. Selecting a type at sign-in sets a browser presentation preference only; it never creates an organization or grants permissions. A saved organization profile takes precedence over that preference.
+
+The workspace adapts its group and staff labels to the institution: course groups and lecturers for universities, classes and teachers for schools. Both use the existing learning-progress API. The Institution section is admin-only. Student join codes have their own section: choose a group, generate or replace a 7/30/90-day code, copy it, print a student card or revoke it. Students enter the code in the learner app; they do not sign in to the staff dashboard. Codes are held in component memory and cannot be retrieved after leaving the section. QR cards contain the code itself; app scanner support depends on the learner app.
+
+### Supabase owner setup
+
+Apply `database/institution-portal.sql` in the existing project's SQL Editor. It adds `org_portal_profiles`, `org_access_requests`, and three RPCs without changing the original org/class API:
+
+- `org_portal_profile(p_org)` reads a profile for existing staff.
+- `set_org_portal_profile(p_org,p_type)` saves a type for existing admins only.
+- `request_org_access(...)` receives public onboarding requests. It validates fields and limits repeated requests per email to one every 24 hours. Tables have RLS enabled and no direct anon/authenticated access.
+
+The migration assumes the existing `my_orgs()` returns the contract's JSON array. Verify that signature before applying it. Run the script as the project owner; use an invited admin to save each existing institution's type in the portal. Review pending requests privately in the Supabase table editor, create the organization using the existing owner workflow, send the admin invitation and mark the request approved. Receiving a request does not automatically send email or create privileged accounts. Match the requested type in the new institution's profile.
+
+Until the migration is applied, the portal still reads existing dashboard data, institution settings clearly report pending setup, and registration prepares a request that the user must send through their email app. `NEXT_PUBLIC_CONTACT_EMAIL` controls the destination for this fallback. No service-role credential is included in this web app.
+
+Validation: the extension was applied twice to a temporary PostgreSQL runtime (PGlite 0.5.8), with mocked `auth.uid()` and JSON `my_orgs()`. Anonymous direct table reads and profile calls were denied, teachers could read their organization but not save a type, cross-organization reads were denied, admins could save, malformed public requests and duplicate email requests were rejected. This does not replace validation against the real Supabase migration and roles.

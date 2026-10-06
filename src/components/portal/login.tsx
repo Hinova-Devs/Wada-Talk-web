@@ -1,10 +1,12 @@
 "use client";
+import Link from "next/link";
 import {useEffect, useState, type FormEvent} from "react";
 import {useRouter} from "next/navigation";
 import {createClient} from "@/lib/supabase/client";
 import {authErrorMessage, signInStaff, usesDemoPassword} from "@/lib/portal/auth";
 export function LoginForm() {
  const router = useRouter();
+ const [type, setType] = useState("university");
  const [email, setEmail] = useState("");
  const [status, setStatus] = useState("");
  const [busy, setBusy] = useState(false);
@@ -32,6 +34,7 @@ export function LoginForm() {
   event.preventDefault(); if (busy) return;
   setBusy(true); setStatus("");
   const form = new FormData(event.currentTarget);
+  document.cookie = `wada_institution_type=${type}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
   try {
    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {setStatus("Organization sign-in is not configured."); return;}
    const {error} = await signInStaff(createClient(), {email: String(form.get("email")), password: String(form.get("password") || ""), development: process.env.NODE_ENV === "development", origin: window.location.origin});
@@ -40,5 +43,5 @@ export function LoginForm() {
    else setStatus("Check your email for your secure sign-in link. Open it in this browser.");
   } catch {setStatus("Could not connect to the sign-in service. Check your connection and try again.");} finally {setBusy(false);}
  }
- return <div><form className="demo-form" onSubmit={event => void login(event)}><label>Work email<input name="email" type="email" required autoComplete="email" placeholder="you@school.so" value={email} onChange={event => {setEmail(event.target.value); setStatus("");}}/></label>{demo && <label>Password<input name="password" type="password" required autoComplete="current-password"/><small>Use the seeded development account password.</small></label>}<button className="button" disabled={busy}>{busy ? "Please wait…" : demo ? "Sign in" : "Send sign-in link"}</button><p>Staff access is by invitation.</p></form>{status && <p className="notice" role="status">{status}</p>}</div>;
+ return <div><form className="demo-form" onSubmit={event => void login(event)}><label>Institution type<select value={type} onChange={event => setType(event.target.value)}><option value="university">University</option><option value="school">School</option></select></label><label>Work email<input name="email" type="email" required autoComplete="email" placeholder="you@school.so" value={email} onChange={event => {setEmail(event.target.value); setStatus("");}}/></label>{demo && <label>Password<input name="password" type="password" required autoComplete="current-password"/><small>Use the seeded development account password.</small></label>}<button className="button" disabled={busy}>{busy ? "Please wait…" : demo ? "Sign in" : "Send sign-in link"}</button><p>Staff access is by invitation. <Link href="/register">Register your institution →</Link></p></form>{status && <p className="notice" role="status">{status}</p>}</div>;
 }

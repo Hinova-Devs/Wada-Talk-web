@@ -36,3 +36,13 @@ assert.match(authErrorMessage({code: 'bad_code_verifier', message: 'API error'})
 assert.match(authErrorMessage({status: 500, message: 'API error'}), /email delivery/);
 assert.equal(authErrorMessage({code: 'invalid_credentials', message: 'API error'}), 'The email or password is incorrect.');
 console.log('PASS: staff OTP stays invitation-only, production excludes demo password login, development seed login and specific authentication errors.');
+const institutionSource = readFileSync('src/lib/portal/institution.ts', 'utf8');
+const institutionCompiled = ts.transpileModule(institutionSource, {compilerOptions: {module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022}}).outputText;
+const {institutionType, portalLabel} = await import('data:text/javascript;base64,' + Buffer.from(institutionCompiled).toString('base64'));
+assert.equal(institutionType('school'), 'school');
+assert.equal(institutionType('admin'), 'university');
+assert.equal(portalLabel('classes', 'school', 'fallback'), 'Classes');
+assert.equal(portalLabel('classes', 'university', 'fallback'), 'Course groups');
+assert.equal(portalLabel('team', 'university', 'fallback'), 'Lecturers & admins');
+assert.ok(isPortalSection('join-codes') && isPortalSection('institution'));
+console.log('PASS: Institution selection and institution-specific navigation.');

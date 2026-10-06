@@ -1,4 +1,6 @@
 import Link from "next/link";
+import {cookies} from "next/headers";
+import {institutionType} from "@/lib/portal/institution";
 import {redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 import PortalDashboard from "@/components/portal/dashboard";
@@ -22,12 +24,17 @@ export default async function Portal({searchParams}: {searchParams: Params}) {
  const org = orgs.find(item => item.org_id === value("org_id")) ?? orgs[0];
  const raw = value("section");
  let section = isPortalSection(raw) ? raw : "overview";
- if (org.role !== "admin" && ["team", "audit"].includes(section)) section = "overview";
+ if (org.role !== "admin" && ["team", "audit", "institution"].includes(section)) section = "overview";
  const selected = org.classes.find(item => item.id === value("class_id"));
- const requiresClass = ["class-detail", "students", "student-detail", "skills", "export"].includes(section) || org.role === "teacher";
+ const requiresClass = ["class-detail", "students", "student-detail", "skills", "export", "join-codes"].includes(section) || org.role === "teacher";
  const classId = String((selected ?? (requiresClass ? org.classes[0] : undefined))?.id ?? "");
  const days = [7, 30, 90].includes(Number(value("days"))) ? Number(value("days")) : 30;
+ const profile = await client.rpc("org_portal_profile", {p_org: org.org_id});
+ const preference = (await cookies()).get("wada_institution_type")?.value;
+ const workspaceType = institutionType(record(profile.data)?.institution_type ?? preference);
+ const profileAvailable = !profile.error;
  const errors: string[] = [];
+ if (profile.error && !["PGRST202", "42883"].includes(profile.error.code)) errors.push(errorMessage(profile.error.message));
  async function rpc(name: string, args: Record<string, unknown>) {const result = await client.rpc(name, args); if (result.error) errors.push(errorMessage(result.error.message)); return result.error ? undefined : result.data;}
  let overview: PortalRow | undefined;
  let students: PortalRow[] = [], skills: PortalRow[] = [], mistakes: PortalRow[] = [], staff: PortalRow[] = [], audit: PortalRow[] = [];
@@ -38,7 +45,5 @@ export default async function Portal({searchParams}: {searchParams: Params}) {
  if (org.role === "admin" && section === "audit") audit = rows(await rpc("org_audit_log", {p_org: org.org_id, p_limit: 100}));
  const studentId = students.some(item => item.user_id === value("student_id")) ? value("student_id") : "";
  const student = classId && studentId && section === "student-detail" ? record(await rpc("student_detail", {p_class: classId, p_user: studentId})) : undefined;
- return <PortalDashboard key={`${org.org_id}:${classId}:${section}`} data={{checkedAt: currentTime(), org, orgs, email: user.email ?? "", overview, students, student, skills, mistakes, staff, audit, errors}} section={section} classId={classId} studentId={studentId} days={days}/>;
+ return <PortalDashboard key={`${org.org_id}:${classId}:${section}`} data={{institutionType: workspaceType, profileAvailable, checkedAt: currentTime(), org, orgs, email: user.email ?? "", overview, students, student, skills, mistakes, staff, audit, errors}} section={section} classId={classId} studentId={studentId} days={days}/>;
 }
-
-
