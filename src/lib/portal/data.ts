@@ -10,7 +10,7 @@ export function record(value: unknown): PortalRow | undefined {return value && t
 export function text(value: unknown, fallback = "—"): string {return typeof value === "string" || typeof value === "number" ? String(value) : fallback;}
 export function isPortalSection(value: string): value is PortalSection {return portalSections.some(([id]) => id === value);}
 export function errorMessage(message: string): string {
- const errors: Record<string, string> = {not_authenticated: "Your session expired. Sign in again.", not_allowed: "You don't have access to this", not_in_class: "This learner is no longer in this class.", not_staff: "This person must be staff of the organization first.", bad_role: "Choose Teacher or Admin.", last_admin: "Make someone else admin first", name_required: "Enter a class name."};
+ const errors: Record<string, string> = {not_authenticated: "Your session expired. Sign in again.", not_allowed: "You don't have access to this", not_in_class: "This learner is no longer in this class.", not_staff: "This person must be staff of the organization first.", bad_role: "Choose English Teacher or Super Admin.", last_admin: "Make someone else admin first", name_required: "Enter a class name."};
  return Object.entries(errors).find(([code]) => message.includes(code))?.[1] ?? "We could not complete this request. Please try again.";
 }
 export function csv(students: PortalRow[]): string {

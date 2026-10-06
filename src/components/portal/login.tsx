@@ -11,6 +11,8 @@ export function LoginForm() {
  const [status, setStatus] = useState("");
  const [busy, setBusy] = useState(false);
  const demo = usesDemoPassword(email, process.env.NODE_ENV === "development");
+ const [method,setMethod] = useState("password");
+ const passwordLogin = demo || method === "password";
  useEffect(() => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return;
   const client = createClient();
@@ -37,11 +39,11 @@ export function LoginForm() {
   document.cookie = `wada_institution_type=${type}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
   try {
    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {setStatus("Organization sign-in is not configured."); return;}
-   const {error} = await signInStaff(createClient(), {email: String(form.get("email")), password: String(form.get("password") || ""), development: process.env.NODE_ENV === "development", origin: window.location.origin});
+   const {error} = await signInStaff(createClient(), {email: String(form.get("email")), password: String(form.get("password") || ""), development: process.env.NODE_ENV === "development", method: passwordLogin ? "password" : "link", origin: window.location.origin});
    if (error) setStatus(authErrorMessage(error));
-   else if (demo) {router.replace("/portal"); router.refresh();}
+   else if (passwordLogin) {router.replace("/portal"); router.refresh();}
    else setStatus("Check your email for your secure sign-in link. Open it in this browser.");
   } catch {setStatus("Could not connect to the sign-in service. Check your connection and try again.");} finally {setBusy(false);}
  }
- return <div><form className="demo-form" onSubmit={event => void login(event)}><label>Institution type<select value={type} onChange={event => setType(event.target.value)}><option value="university">University</option><option value="school">School</option></select></label><label>Work email<input name="email" type="email" required autoComplete="email" placeholder="you@school.so" value={email} onChange={event => {setEmail(event.target.value); setStatus("");}}/></label>{demo && <label>Password<input name="password" type="password" required autoComplete="current-password"/><small>Use the seeded development account password.</small></label>}<button className="button" disabled={busy}>{busy ? "Please wait…" : demo ? "Sign in" : "Send sign-in link"}</button><p>Staff access is by invitation. <Link href="/register">Register your institution →</Link></p></form>{status && <p className="notice" role="status">{status}</p>}</div>;
+ return <div><form className="demo-form" onSubmit={event => void login(event)}><label>Institution type<select value={type} onChange={event => setType(event.target.value)}><option value="university">University</option><option value="school">School</option></select></label><label>Sign in with<select value={method} onChange={event => setMethod(event.target.value)}><option value="password">Email & password</option><option value="link">Email sign-in link</option></select></label><label>Work email<input name="email" type="email" required autoComplete="email" placeholder="you@school.so" value={email} onChange={event => {setEmail(event.target.value); setStatus("");}}/></label>{passwordLogin && <label>Password<input name="password" type="password" required autoComplete="current-password"/><small>Use the password your Super Admin provided.</small></label>}<button className="button" disabled={busy}>{busy ? "Please wait…" : passwordLogin ? "Sign in" : "Send sign-in link"}</button><p>Super Admin: all institution classes. English Teacher: assigned classes only.</p><p>English Teacher accounts are created by your Super Admin. <Link href="/register">Register your institution →</Link></p></form>{status && <p className="notice" role="status">{status}</p>}</div>;
 }

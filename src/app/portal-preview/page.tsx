@@ -6,8 +6,14 @@ const org: Org = {org_id: "demo-org", name: "Demo University", role: "admin", cl
 const data: DashboardData = {institutionType: "university", profileAvailable: true, checkedAt: new Date("2026-10-06T10:00:00Z").getTime(), org, orgs: [org], email: "sahra@demo.wada.test", overview: {students: 2, active_7d: 1, active_30d: 2, units_done: 5, calls: 8, avg_score: null, with_streak: 1}, students: [{user_id: "demo-learner", first_name: "Amina", joined_at: "2026-09-01T10:00:00Z", current_unit: {position: 3, title: "Introductions"}, units_done: 2, last_active: "2026-10-05T10:00:00Z", calls: 4, first_score: null, latest_score: null, streak: 3}], student: {user_id: "demo-learner", first_name: "Amina", joined_at: "2026-09-01T10:00:00Z", streak: 3, units: [{position: 3, title: "Introductions", status: "in_progress", steps: 2, level: "A1"}], scores: [], mistakes: [], activity: [{day: "2026-10-05", points: 3}]}, skills: [], mistakes: [], staff: [{user_id: "demo-admin", first_name: "Sahra", email: "sahra@demo.wada.test", role: "admin", classes: [{id: "demo-class", name: "ENG 201"}]}], audit: [{at: "2026-10-01T10:00:00Z", action: "class_created", actor: "Sahra", target: null, class: "ENG 201", detail: null}], errors: []};
 export default async function Preview({searchParams}: {searchParams: Promise<Record<string, string | string[] | undefined>>}) {
  const params = await searchParams;
- const section = typeof params.section === "string" && isPortalSection(params.section) ? params.section : "overview";
+ let section = typeof params.section === "string" && isPortalSection(params.section) ? params.section : "overview";
  const type = institutionType(params.type);
- const workspaceOrg: Org = type === "school" ? {...org, name: "Demo School", classes: org.classes.map(group => ({...group, name: "Grade 8 · English A"}))} : org;
- return <PortalDashboard key={`${section}:${type}`} preview data={{...data, org: workspaceOrg, orgs: [workspaceOrg], institutionType: type}} section={section} classId="demo-class" studentId={typeof params.student_id === "string" ? params.student_id : ""} days={30}/>;
+ const classAdmin = params.role === "teacher" || params.role === "class-admin";
+ if(classAdmin && ["team","audit","institution"].includes(section)) section="overview";
+ const classes = [{...org.classes[0],name:type==="school"?"Grade 8 · English A":"ENG 201"}, ...(!classAdmin?[{id:"demo-class-2",name:type==="school"?"Grade 9 · English B":"ENG 301",teacher_name:"Mr. Ali",seat_limit:25,students:0,has_code:false,code_expires_at:null}]:[])];
+ const workspaceOrg: Org={...org,role:classAdmin?"teacher":"admin",name:type==="school"?"Demo School":"Demo University",classes};
+ const selected=classes.find(group=>group.id===params.class_id);
+ const classId=String((selected??(["overview","classes","team","audit","institution"].includes(section)&&!classAdmin?undefined:classes[0]))?.id??"");
+ const empty=classId==="demo-class-2";
+ return <PortalDashboard key={`${section}:${type}:${classId}:${classAdmin}`} preview data={{...data,org:workspaceOrg,orgs:[workspaceOrg],institutionType:type,students:empty?[]:data.students,student:empty?undefined:data.student,overview:empty?{students:0,active_7d:0,active_30d:0,units_done:0,calls:0,avg_score:null,with_streak:0}:data.overview}} section={section} classId={classId} studentId={typeof params.student_id === "string" ? params.student_id : ""} days={30}/>;
 }

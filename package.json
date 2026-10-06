@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node scripts/verify-dashboard.mjs"
+    "test": "node scripts/verify-dashboard.mjs && node scripts/verify-manager-provisioning.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

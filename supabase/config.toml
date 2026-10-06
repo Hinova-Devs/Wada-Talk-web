@@ -1,0 +1,4 @@
+project_id = "wada-org-portal"
+
+[functions.provision-class-manager]
+verify_jwt = true

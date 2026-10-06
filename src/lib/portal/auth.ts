@@ -27,8 +27,8 @@ export function authErrorMessage(error: {code?: string; message: string; status?
  if (/failed to fetch|network|fetch failed/i.test(error.message)) return "Could not connect to the sign-in service. Check your connection and try again.";
  return error.message || "Could not sign in. Please try again.";
 }
-export async function signInStaff(client: SupabaseClient, input: {email: string; password: string; development: boolean; origin: string}) {
+export async function signInStaff(client: SupabaseClient, input: {email: string; password: string; development: boolean; origin: string; method?: "password" | "link"}) {
  const email = input.email.trim().toLowerCase();
- if (usesDemoPassword(email, input.development)) return client.auth.signInWithPassword({email, password: input.password});
+ if (input.method === "password" || usesDemoPassword(email, input.development)) return client.auth.signInWithPassword({email, password: input.password});
  return client.auth.signInWithOtp({email, options: {emailRedirectTo: input.origin, shouldCreateUser: false}});
 }
