@@ -14,8 +14,7 @@ export function OpsShell({ email, section, children }: { email: string; section:
     <div className="oa-shell">
       <aside className="oa-sidebar">
         <Link href="/lessons" className="wordmark">
-          <img src="/assets/fox-tile.webp" width="34" height="34" alt="" />
-          <span>wada</span>
+          <span>Wada-Talk</span>
         </Link>
         <div className="oa-side-org">
           <small>HINOVA OPS</small>
@@ -49,8 +48,12 @@ export function NoAccess({ email, failed }: { email: string; failed: boolean }) 
           <p>
             {failed
               ? "The server did not answer. Refresh the page in a moment."
-              : `${email} is not on the Hinova staff list. Ask a Hinova admin to add you.`}
+              : `${email} can't change lessons yet. Only the founders can; a founder adds you by running this once in the Supabase SQL editor:`}
           </p>
+          {!failed && (
+            <pre className="ops-sql">{`insert into public.platform_admins (user_id)
+select id from auth.users where email = '${email}';`}</pre>
+          )}
         </div>
       </div>
     </OpsShell>

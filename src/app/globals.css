@@ -47,3 +47,4 @@
 .ops-row{display:flex;align-items:center;gap:8px}.ops-row.topic>input:first-child{flex:1.4}.ops-row .text-button{font-size:10px;white-space:nowrap}
 .ops-pre{white-space:pre-line}.ops-editor .oa-page-head p{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.ops-editor .oa-page-actions{flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:639px){.ops-grid{grid-template-columns:1fr}}
+.ops-sql{margin:10px 0 0;padding:10px 12px;border:1px solid #DDE3EA;border-radius:7px;background:#fff;color:#27364A;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}
