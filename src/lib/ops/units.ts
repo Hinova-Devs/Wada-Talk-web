@@ -44,3 +44,36 @@ export type PlanRow = {
   can_do_items: { text_en: string; text_so: string | null } | null;
 };
 export const PLAN_COLUMNS = "id, position, title, status, level, notes, generation_error, updated_at, can_do_items(text_en, text_so)";
+
+// ---------------------------------------------------------------- unit content (wada-backend shared/src/unit.ts)
+type Explain = { id: string; explain_en: string; explain_so: string | null };
+export type ChoiceDrill = Explain & { type: "choice"; prompt: string; options: string[]; answer: number };
+export type BuildDrill = Explain & { type: "build"; prompt: string; bank: string[]; target: string[] };
+export type SayDrill = Explain & { type: "say"; text: string; hint?: string };
+export type Drill = ChoiceDrill | BuildDrill | SayDrill;
+export type Topic = { q: string; help?: string };
+export type Variant = {
+  drills: Drill[];
+  ai_script: {
+    persona: string; setting: string; goal: string; opening: string; max_learner_turns: number;
+    points: { id: string; target: string; chips: string[] }[];
+  };
+  plan_prompts: string[];
+  talk_topics: { interviewer: Topic[]; candidate: Topic[] };
+};
+export const VARIANT_LEVELS = [
+  ["easy", "Easy"],
+  ["medium", "Medium"],
+  ["hard", "Hard"],
+] as const;
+export type VariantLevel = (typeof VARIANT_LEVELS)[number][0];
+
+/** Everything the unit editor reads. */
+export type UnitRow = PlanRow & {
+  path: Category;
+  variants: Partial<Record<VariantLevel, Variant>>;
+  prompt_version: string | null;
+  somali_checked_at: string | null;
+  content_credits: { source: string; note: string | null }[];
+};
+export const UNIT_COLUMNS = `${PLAN_COLUMNS}, path, variants, prompt_version, somali_checked_at, content_credits(source, note)`;
