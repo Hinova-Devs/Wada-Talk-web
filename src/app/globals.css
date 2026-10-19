@@ -34,3 +34,4 @@
 .oa-button.danger{color:#9B3434}.oa-button:disabled{opacity:.55;cursor:wait}.oa-empty p{margin:0 0 8px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media(max-width:639px){.ops-add>div{grid-template-columns:1fr!important}}
+.ops-sql{margin:10px 0 0;padding:10px 12px;border:1px solid #DDE3EA;border-radius:7px;background:#fff;color:#27364A;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}
