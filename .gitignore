@@ -30,6 +30,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 .pnpm-store
+/related-projects/
+/Wada.code-workspace
 
 # env files (can opt-in for committing if needed)
 .env*

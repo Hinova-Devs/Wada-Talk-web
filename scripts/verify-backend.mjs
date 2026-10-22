@@ -1,6 +1,14 @@
-import {readFileSync} from 'node:fs';
+import {readFileSync, existsSync} from 'node:fs';
 import {createClient} from '@supabase/supabase-js';
-const env = Object.fromEntries(readFileSync('.env.local', 'utf8').split(/\r?\n/).filter(line => line.includes('=')).map(line => line.split(/=(.*)/s).slice(0, 2)));
+const env = {...process.env};
+for (const file of ['.env', '.env.local']) {
+ if (!existsSync(file)) continue;
+ for (const line of readFileSync(file, 'utf8').split(/\r?\n/)) {
+  const match = line.match(/^\s*([A-Z_][A-Z_0-9]*)\s*=\s*(.*?)\s*$/);
+  if (match && process.env[match[1]] === undefined) env[match[1]] = match[2].replace(/^(['"])(.*)\1$/, '$2');
+ }
+}
+if (!env.NEXT_PUBLIC_SUPABASE_URL || !env.NEXT_PUBLIC_SUPABASE_ANON_KEY) throw new Error('Configure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local, .env or the process environment.');
 const client = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY, {auth: {persistSession: false, autoRefreshToken: false}});
 const auth = await client.auth.signInWithPassword({email: 'sahra@demo.wada.test', password: 'demo1234'});
 if (auth.error) {console.log('Demo sign-in unavailable:', auth.error.message); process.exitCode = 1;} else {

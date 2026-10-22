@@ -1,6 +1,5 @@
 "use client";
 import {useEffect,useState} from "react";
-import QRCode from "qrcode";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 import {createClient} from "@/lib/supabase/client";
@@ -9,7 +8,7 @@ import {errorMessage,record,text,type PortalRow} from "@/lib/portal/data";
 type Generated={code:string;expires:string;qr:string};
 export function JoinCodes({group,orgName,groupLabel,preview}: {group?:PortalRow;orgName:string;groupLabel:string;preview:boolean}) {
  const router=useRouter();const [days,setDays]=useState(30);const [automatic,setAutomatic]=useState(true);const [available,setAvailable]=useState(preview);const [loading,setLoading]=useState(!preview);const [busy,setBusy]=useState(false);const [notice,setNotice]=useState("");const [generated,setGenerated]=useState<Generated|null>(null);const [now,setNow]=useState(()=>Date.now());
- async function renderCode(value:PortalRow):Promise<Generated|null>{if(!value.code||codeIsExpired(value.expires_at))return null;const code=String(value.code);return {code,expires:String(value.expires_at),qr:await QRCode.toDataURL(code,{width:240,margin:2,color:{dark:"#142b35",light:"#ffffff"}})};}
+ async function renderCode(value:PortalRow):Promise<Generated|null>{if(!value.code||codeIsExpired(value.expires_at))return null;const code=String(value.code);const QRCode=(await import("qrcode")).default;return {code,expires:String(value.expires_at),qr:await QRCode.toDataURL(code,{width:240,margin:2,color:{dark:"#142b35",light:"#ffffff"}})};}
  useEffect(()=>{
   let active=true;let polling=false;let initial=true;
   async function read(){if(preview||!group||polling)return;polling=true;
