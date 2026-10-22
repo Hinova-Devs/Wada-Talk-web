@@ -12,7 +12,7 @@ export function LoginForm() {
  const [busy, setBusy] = useState(false);
  const [mfaFactor,setMfaFactor]=useState("");
  const enterPortal = useCallback(() => {if (entering.current) return;const requested=new URLSearchParams(window.location.search).get("next")||"/portal";const destination=requested.startsWith("/portal")&&!requested.startsWith("//")?requested:"/portal";entering.current = true; router.replace(destination); router.refresh();}, [router]);
- const continueAuthenticated=useCallback(async(client:ReturnType<typeof createClient>)=>{const assurance=await client.auth.mfa.getAuthenticatorAssuranceLevel();if(assurance.error){setStatus(authErrorMessage(assurance.error));return;}if(assurance.data.nextLevel==="aal2"&&assurance.data.currentLevel!=="aal2"){const listed=await client.auth.mfa.listFactors();if(listed.error||!listed.data.totp.length){setStatus(listed.error?authErrorMessage(listed.error):"Your two-step verification setup could not be loaded.");return;}setMfaFactor(listed.data.totp[0].id);setStatus("Enter the six-digit code from your authenticator app.");return;}enterPortal();},[enterPortal]);
+ const continueAuthenticated=useCallback(async(client:ReturnType<typeof createClient>,method="session")=>{const assurance=await client.auth.mfa.getAuthenticatorAssuranceLevel();if(assurance.error){setStatus(authErrorMessage(assurance.error));return;}if(assurance.data.nextLevel==="aal2"&&assurance.data.currentLevel!=="aal2"){const listed=await client.auth.mfa.listFactors();if(listed.error||!listed.data.totp.length){setStatus(listed.error?authErrorMessage(listed.error):"Your two-step verification setup could not be loaded.");return;}setMfaFactor(listed.data.totp[0].id);setStatus("Enter the six-digit code from your authenticator app.");return;}void Promise.resolve(client.rpc("record_portal_login",{p_method:method,p_client_label:"University web portal"}));enterPortal();},[enterPortal]);
  const demo = usesDemoPassword(email, process.env.NODE_ENV === "development");
  const [method,setMethod] = useState("password");
  const passwordLogin = demo || method === "password";
@@ -31,7 +31,7 @@ export function LoginForm() {
    if (session) {void continueAuthenticated(client);}
   }).catch(() => setStatus("Could not connect to the sign-in service. Please try again."));
   const {data: {subscription}} = client.auth.onAuthStateChange((event, session) => {
-   if (session && ["SIGNED_IN", "INITIAL_SESSION", "MFA_CHALLENGE_VERIFIED"].includes(event)) {void continueAuthenticated(client);}
+   if (session && ["INITIAL_SESSION", "MFA_CHALLENGE_VERIFIED"].includes(event)) {void continueAuthenticated(client);}
   });
   return () => subscription.unsubscribe();
  }, [continueAuthenticated]);
@@ -43,10 +43,10 @@ export function LoginForm() {
   try {
    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {setStatus("University sign-in is not configured."); return;}
    const client=createClient();
-   if(mfaFactor){const code=String(form.get("mfa_code")||"").replace(/\s/g,"");const {error}=await client.auth.mfa.challengeAndVerify({factorId:mfaFactor,code});if(error){setStatus(authErrorMessage(error));return;}void Promise.resolve(client.rpc("record_portal_login",{p_method:"session",p_client_label:"University web portal"}));enterPortal();return;}
+   if(mfaFactor){const code=String(form.get("mfa_code")||"").replace(/\s/g,"");const {error}=await client.auth.mfa.challengeAndVerify({factorId:mfaFactor,code});if(error){setStatus(authErrorMessage(error));return;}await continueAuthenticated(client,"session");return;}
    const {error} = await signInStaff(client, {email: String(form.get("email")), password: String(form.get("password") || ""), development: process.env.NODE_ENV === "development", method: passwordLogin ? "password" : "link", origin: window.location.origin});
    if (error) setStatus(authErrorMessage(error));
-   else if (passwordLogin) {void Promise.resolve(client.rpc("record_portal_login",{p_method:"password",p_client_label:"University web portal"}));await continueAuthenticated(client);}
+   else if (passwordLogin) await continueAuthenticated(client,"password");
    else setStatus("Check your email for your secure sign-in link. Open it in this browser.");
   } catch {setStatus("Could not connect to the sign-in service. Check your connection and try again.");} finally {setBusy(false);}
  }

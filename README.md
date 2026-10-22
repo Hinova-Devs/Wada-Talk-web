@@ -36,7 +36,7 @@ The **Planning & departments** view adds university departments, course timetabl
 
 Without the rotation migration, manual codes are held only in component memory and shown when generated. With `class-code-rotation.sql`, codes are retained privately by the backend and readable only by staff assigned to that class or its institution's Super Admin. The frontend never writes codes to localStorage or URLs. The CSV export uses `class_students` and a fixed field whitelist, with formula protection and proper CSV quoting. It excludes learner contact details, transcripts, recordings and mistake sentences. Skills are shown out of 20; unavailable feedback remains empty. Dates are displayed in Africa/Nairobi (East Africa time).
 
-Removed unsupported portal features: schedule editing, group discussions, safety reports, PDF export, billing seats and organization settings. The supplied API provides none of these. The public join page hands off to the learner app and displays the required privacy notice; it does not call the nonexistent `class_preview` RPC or claim that an unverified code is valid/expired.
+Unsupported portal features remain out of the university workspace: group discussions, safety reports, billing seats and organization settings. The supplied core API does not provide them. Department schedules are supported by the university operations extension described below. The public join page hands off to the learner app and displays the required privacy notice; it does not call the nonexistent `class_preview` RPC or claim that an unverified code is valid/expired.
 
 ## Backend setup owned by the Supabase project
 
@@ -102,6 +102,10 @@ Validation: `node scripts/verify-manager-provisioning.mjs` type-checks the Edge 
 After the core dashboard API and class extensions are active, apply `database/university-operations.sql` in the Supabase SQL Editor. It creates portal-owned department, timetable, snapshot, notification, safe error and personal sign-in-history storage. Its tables have RLS enabled with direct anon/authenticated table access revoked; staff use role-checked RPCs based on `my_orgs()`. Authenticator two-step verification uses Supabase Auth and does not store authenticator secrets in portal tables.
 
 The portal deliberately treats this migration as optional during rollout: existing dashboard reads continue to work, while Planning & departments displays a setup message until the RPC is available. After applying it, sign in as a real Super Admin, create a department, save a timetable, capture two snapshots on different dates, refresh notifications and confirm that an English Lecturer sees only assigned course groups. Live SQL execution, MFA policy, SMTP and production redirect URLs must be verified in the project-owner Supabase account.
+
+## Branch relationship to GitHub main
+
+The university workspace is maintained on `ENG-faarax`. The latest checked GitHub `main` (`3700ed1`, 2026-10-22) contains separate `/ops` lesson-authoring and `/school-admin` routes that use another membership/API contract. These histories have no shared Git ancestor, and the main portal uses different role and RPC names. Keep the university branch on its current API; move any future shared features across by reviewing their data contract and permissions first, rather than merging the unrelated histories wholesale.
 
 ## Responsive local portal (2026-10-22)
 

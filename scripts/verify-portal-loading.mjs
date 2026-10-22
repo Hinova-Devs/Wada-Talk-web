@@ -18,8 +18,12 @@ let releaseAuth, releaseOverview;
 const authGate = new Promise(resolve => {releaseAuth = resolve;});
 const overviewGate = new Promise(resolve => {releaseOverview = resolve;});
 let signedIn = true;
+let needsMfa = false;
 const client = {
- auth: {getUser: async () => {started.push('auth'); await authGate; return {data: {user: signedIn ? {email: 'lecturer@example.test'} : null}};}},
+ auth: {
+  getUser: async () => {started.push('auth'); await authGate; return {data: {user: signedIn ? {email: 'lecturer@example.test'} : null}};},
+  mfa: {getAuthenticatorAssuranceLevel: async()=>({data:{currentLevel:'aal1',nextLevel:needsMfa?'aal2':'aal1'},error:null})},
+ },
  rpc: async name => {
   started.push(name);
   if (name === 'my_orgs') {releaseAuth(); return {data: [currentOrg], error: null};}
@@ -63,6 +67,11 @@ try {
  currentOrg = org;started.length = 0;
  const teacherAnalytics = await Portal({searchParams: Promise.resolve({section: 'analytics'})});
  assert.equal(teacherAnalytics.props.section, 'overview');
+ started.length = 0;
+ needsMfa = true;
+ await assert.rejects(Portal({searchParams: Promise.resolve({section: 'analytics'})}), /redirect:\/login\?mfa=1&next=/);
+ assert.deepEqual(started, ['auth', 'my_orgs']);
+ needsMfa = false;
  started.length = 0;
  signedIn = false;
  await assert.rejects(Portal({searchParams: Promise.resolve({section: 'class-detail'})}), /redirect:\/login/);

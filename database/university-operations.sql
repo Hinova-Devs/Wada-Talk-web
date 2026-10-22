@@ -131,7 +131,7 @@ returns integer language plpgsql security definer set search_path='' as $$
 declare item jsonb;class_id uuid;department_name text;department_id uuid;changed integer:=0;allowed boolean;
 begin
  if public.portal_university_role(p_org)<>'admin' then raise exception 'not_allowed';end if;
- if jsonb_typeof(p_rows)<>'array' or jsonb_array_length(p_rows)>200 then raise exception 'invalid_import';end if;
+ if coalesce(jsonb_typeof(p_rows),'null')<>'array' or jsonb_array_length(p_rows)>200 then raise exception 'invalid_import';end if;
  for item in select value from jsonb_array_elements(p_rows) loop
   begin class_id:=(item->>'class_id')::uuid;exception when others then raise exception 'invalid_class_id';end;
   select exists(select 1 from jsonb_array_elements(to_jsonb(public.my_orgs())) o,jsonb_array_elements(coalesce(o->'classes','[]'::jsonb)) c where o->>'org_id'=p_org::text and o->>'role'='admin' and c->>'id'=class_id::text) into allowed;
@@ -183,17 +183,19 @@ end $$;
 create or replace function public.set_university_notification_status(p_org uuid,p_id bigint,p_status text)
 returns void language plpgsql security definer set search_path='' as $$
 declare role_name text;
+changed integer;
 begin
  role_name:=public.portal_university_role(p_org);if p_status not in ('read','resolved') then raise exception 'invalid_status';end if;
  update public.university_notifications n set status=p_status where n.id=p_id and n.org_id=p_org and (role_name='admin' or exists(select 1 from jsonb_array_elements(to_jsonb(public.my_orgs())) o,jsonb_array_elements(coalesce(o->'classes','[]'::jsonb)) c where o->>'org_id'=p_org::text and o->>'role'='teacher' and c->>'id'=n.class_id::text));
+ get diagnostics changed=row_count;if changed=0 then raise exception 'not_allowed';end if;
 end $$;
 
 create or replace function public.record_university_portal_error(p_org uuid,p_area text,p_message text)
 returns void language plpgsql security definer set search_path='' as $$
 begin
  perform public.portal_university_role(p_org);
- if length(trim(p_area)) not between 2 and 60 or length(trim(p_message)) not between 2 and 300 then raise exception 'invalid_error';end if;
- insert into public.university_portal_errors(org_id,actor_id,area,safe_message) values(p_org,auth.uid(),trim(p_area),trim(p_message));
+ if p_area not in ('save_university_department','save_university_class_plan','bulk_update_university_classes','capture_university_snapshot','refresh_university_notifications','set_university_notification_status') or p_message<>'University operation failed' then raise exception 'invalid_error';end if;
+ insert into public.university_portal_errors(org_id,actor_id,area,safe_message) values(p_org,auth.uid(),p_area,p_message);
 end $$;
 
 create or replace function public.record_portal_login(p_method text default 'session',p_client_label text default 'University web portal')
