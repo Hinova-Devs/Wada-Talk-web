@@ -34,4 +34,17 @@
 .oa-button.danger{color:#9B3434}.oa-button:disabled{opacity:.55;cursor:wait}.oa-empty p{margin:0 0 8px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media(max-width:639px){.ops-add>div{grid-template-columns:1fr!important}}
+/* Hinova ops: unit editor */
+.ops-tabs button{padding:7px 11px;border:1px solid #DDE3EA;border-radius:7px;background:#fff;color:#344357;font-size:11px;font-weight:800}.ops-tabs button[aria-current=page]{border-color:#DA6D26;background:#EB873E;color:#19263B}
+.ops-unit a{color:inherit;text-decoration:none}.ops-unit a:hover strong{text-decoration:underline}
+.ops-fieldset{border:0;margin:0;padding:0;min-width:0}.ops-fieldset:disabled{opacity:.75}
+.ops-section{display:grid;gap:10px;margin-bottom:12px}.ops-section h2{margin:0 0 4px!important}.ops-section h3{margin:4px 0 2px;font-size:13px}.ops-section h3 small{color:#9AA5B3;font-weight:600}.ops-hint{margin:0;color:#748194;font-size:10px}
+.ops-section label,.ops-list legend{display:grid;gap:4px;color:#6C798A;font-size:9px;font-weight:800}.ops-section label small{font-weight:500;color:#8A95A2}
+.ops-section input:not([type=radio]),.ops-section select,.ops-section textarea{min-height:32px;padding:6px 8px;border:1px solid #DDE3EA;border-radius:6px;background:#fff;color:#27364A;font:inherit;font-size:11px;font-weight:500;width:100%}.ops-section textarea{resize:vertical}
+.ops-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.ops-grid .full{grid-column:1/-1}
+.ops-drill{display:grid;gap:8px;padding:12px 0;border-top:1px solid #EDF0F4}
+.ops-list{display:grid;gap:6px;border:0;margin:0;padding:0;min-width:0}.ops-list>.oa-button{justify-self:start}
+.ops-row{display:flex;align-items:center;gap:8px}.ops-row.topic>input:first-child{flex:1.4}.ops-row .text-button{font-size:10px;white-space:nowrap}
+.ops-pre{white-space:pre-line}.ops-editor .oa-page-head p{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.ops-editor .oa-page-actions{flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:639px){.ops-grid{grid-template-columns:1fr}}
 .ops-sql{margin:10px 0 0;padding:10px 12px;border:1px solid #DDE3EA;border-radius:7px;background:#fff;color:#27364A;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}

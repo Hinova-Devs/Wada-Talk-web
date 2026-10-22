@@ -8,7 +8,7 @@ import { CATEGORIES, categoryLabel, type Category, LEVELS, levelLabel, type Plan
 const when = (iso: string) =>
   new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
 
-/** The course plan of one category: add units, generate them, see their status. Editing a unit is the next page (O3). */
+/** The course plan of one category: add units, generate them, see their status. A title opens the unit editor. */
 export function LessonsBoard({ category, rows, loadFailed }: { category: Category; rows: PlanRow[]; loadFailed: boolean }) {
   const router = useRouter();
   const [adding, setAdding] = useState(false);
@@ -74,7 +74,7 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
         <div>
           <span>Lessons</span>
           <h1>Course plan</h1>
-          <p>Plan the units of each category, then let the AI write them from the plan. Review and publish come next.</p>
+          <p>Plan the units of each category, let the AI write them from the plan, then open a unit to review and publish it.</p>
         </div>
         <div className="oa-page-actions">
           <button type="button" className="oa-button primary" onClick={() => setAdding((a) => !a)} aria-expanded={adding}>
@@ -156,7 +156,7 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
                   <tr key={r.id}>
                     <td>{r.position}</td>
                     <td className="ops-unit">
-                      <strong>{r.title}</strong>
+                      <Link href={`/lessons/${r.id}`}><strong>{r.title}</strong></Link>
                       <small>{r.can_do_items?.text_en}</small>
                       {r.status === "failed" && r.generation_error && <small className="ops-error">{r.generation_error}</small>}
                     </td>
