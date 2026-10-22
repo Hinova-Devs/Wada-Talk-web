@@ -48,3 +48,6 @@
 .ops-pre{white-space:pre-line}.ops-editor .oa-page-head p{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.ops-editor .oa-page-actions{flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:639px){.ops-grid{grid-template-columns:1fr}}
 .ops-sql{margin:10px 0 0;padding:10px 12px;border:1px solid #DDE3EA;border-radius:7px;background:#fff;color:#27364A;font-size:11px;white-space:pre-wrap;overflow-wrap:anywhere}
+.ops-hint{margin:0;color:#7B8797;font-size:10px;line-height:1.5}.ops-inline-form{display:flex;flex-wrap:wrap;align-items:end;gap:8px}.ops-inline-form label{display:grid;gap:4px;color:#6C798A;font-size:9px;font-weight:800}.ops-inline-form input{min-width:260px;min-height:32px;padding:6px 8px;border:1px solid #DDE3EA;border-radius:6px;background:#fff;color:#27364A;font:inherit;font-size:10px}
+@media(max-width:639px){.oa-sidebar .ops-nav{display:flex!important;flex-wrap:wrap;gap:5px;margin:4px 0!important}}
+.ops-cell{display:grid;gap:3px;color:#5B687A}
