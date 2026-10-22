@@ -28,6 +28,7 @@ const client = {
   if (name === 'org_overview') return {data: {students: 1, classes: []}, error: null};
   if (name === 'org_staff') return {data: [{user_id: 'staff-a', role: 'teacher'}], error: null};
   if (name === 'org_audit_log') return {data: [{action: 'class_created'}], error: null};
+  if (name === 'university_operations') return {data: {available: true, departments: []}, error: null};
   throw new Error('Unnecessary or unauthorized RPC: ' + name);
  },
 };
@@ -57,7 +58,7 @@ try {
  started.length = 0;
  const adminAnalytics = await Portal({searchParams: Promise.resolve({section: 'analytics', class_id: 'class-a'})});
  assert.equal(adminAnalytics.props.section, 'analytics');assert.equal(adminAnalytics.props.classId, '');
- assert.deepEqual(started, ['auth', 'my_orgs', 'org_overview', 'org_staff', 'org_audit_log']);
+ assert.deepEqual(started, ['auth', 'my_orgs', 'org_overview', 'org_staff', 'org_audit_log', 'university_operations']);
  assert.equal(adminAnalytics.props.data.staff.length, 1);assert.equal(adminAnalytics.props.data.audit.length, 1);
  currentOrg = org;started.length = 0;
  const teacherAnalytics = await Portal({searchParams: Promise.resolve({section: 'analytics'})});

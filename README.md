@@ -26,11 +26,13 @@ Changes: `create_class`, `update_class` (all four fields), `new_join_code`, `rev
 
 The single login form supports email/password for provisioned English Lecturers and existing staff, plus invitation-only email links (`shouldCreateUser: false`) for existing invitation workflows. Backend `my_orgs()` is checked after either sign-in method; signing in never grants staff access by itself. Root callbacks with a PKCE code and token-hash callbacks are handled by `/auth/callback`. Passwords are never hardcoded in the frontend. Service-role credentials are used only inside the Supabase Edge Function environment.
 
-Every signed-in staff member has a **My account** page showing their role and work email. English Lecturers and Super Admins can change their own password there after confirming the current password. New passwords use the same 12–128 character policy as lecturer provisioning. Changing a password does not change university or class permissions.
+Every signed-in staff member has a **My account** page showing their role and work email. English Lecturers and Super Admins can change their own password there after confirming the current password, request a recovery email from login, manage authenticator-app two-step verification, inspect recent portal sign-ins and sign out every active device. New passwords use the same 12–128 character policy as lecturer provisioning. Changing a password does not change university or class permissions.
 
 The portal also includes six operational views: the Lecturer Home quick-action view, lesson-position progress, student attention alerts, a Super Admin-only course comparison, staff access and course-assignment controls, and a weekly report with privacy-limited CSV plus browser Print / Save PDF. Alerts are derived only from available activity, completed-unit and score fields; they are guidance rather than automated decisions. Course comparison always uses the institution-wide overview and is never exposed to the English Lecturer role.
 
-The Super Admin comparison is organized into university summary, course groups needing attention, current activity leaders, expandable lecturer workloads, a searchable course table, department grouping, recent audit activity and data-freshness information. It includes university-level CSV and Print / Save PDF actions. “Most active” is used instead of claiming historical improvement until comparable past-period data is provided by the backend; missing department values are shown as `Department not set`.
+The Super Admin comparison is organized into university summary, course groups needing attention, activity or historical improvement leaders, expandable lecturer workloads, a searchable course table, department grouping, recent audit activity and data-freshness information. It includes university-level CSV and Print / Save PDF actions. Once snapshots exist, rankings compare stored periods; before that, the page accurately labels the current-period result as “Most active”.
+
+The **Planning & departments** view adds university departments, course timetables, next-lesson plans, notifications, historical snapshots, a protected CSV planning import and privacy-safe portal error events. English Lecturers can update only their assigned course groups; university-wide creation, imports, snapshots and error history remain Super Admin-only. Planning import updates existing authorized groups and does not create learner or staff accounts.
 
 Without the rotation migration, manual codes are held only in component memory and shown when generated. With `class-code-rotation.sql`, codes are retained privately by the backend and readable only by staff assigned to that class or its institution's Super Admin. The frontend never writes codes to localStorage or URLs. The CSV export uses `class_students` and a fixed field whitelist, with formula protection and proper CSV quoting. It excludes learner contact details, transcripts, recordings and mistake sentences. Skills are shown out of 20; unavailable feedback remains empty. Dates are displayed in Africa/Nairobi (East Africa time).
 
@@ -38,7 +40,7 @@ Removed unsupported portal features: schedule editing, group discussions, safety
 
 ## Backend setup owned by the Supabase project
 
-This checkout does not contain `backend/`, SQL migrations or Edge Function source. Configure the existing backend from its own repository:
+The core dashboard API remains in the backend repository. This checkout also contains narrowly scoped portal extensions in `database/` and an Edge Function in `supabase/functions/`. Configure the existing backend first:
 
 1. Apply `20261006100000_org_dashboard.sql`.
 2. Deploy `invite-staff`.
@@ -94,6 +96,12 @@ Validation: the extension was applied twice to a temporary PostgreSQL runtime (P
 Automatic rotation records the user who configured it. Every worker run rechecks that user's current class access before calling the original code RPC. Removed staff stop authorizing renewal; failures disable renewal and are reported in the portal. Tables have RLS and no direct public or staff read permissions, and the worker is not executable by anon/authenticated roles. Rotation does not enroll, remove or reset students. This extension changes the original "show a code only once" rule to make the current automatically renewed code available to authorized class staff.
 
 Validation: `node scripts/verify-manager-provisioning.mjs` type-checks the Edge Function against the installed SDK and tests authorization, new-account password assignment, existing-account preservation and partial failures with mocked Supabase calls. `node scripts/verify-code-rotation.mjs <path-to-installed-pglite/dist/index.js>` uses optional PGlite to test SQL permissions, expiry/renewal, revocation, actor removal, claim restoration and learner preservation against mocked original functions. Actual project schema, Cron jobs, SMTP and Edge Function deployment must still be checked in Supabase.
+
+## University operations deployment
+
+After the core dashboard API and class extensions are active, apply `database/university-operations.sql` in the Supabase SQL Editor. It creates portal-owned department, timetable, snapshot, notification, safe error and personal sign-in-history storage. Its tables have RLS enabled with direct anon/authenticated table access revoked; staff use role-checked RPCs based on `my_orgs()`. Authenticator two-step verification uses Supabase Auth and does not store authenticator secrets in portal tables.
+
+The portal deliberately treats this migration as optional during rollout: existing dashboard reads continue to work, while Planning & departments displays a setup message until the RPC is available. After applying it, sign in as a real Super Admin, create a department, save a timetable, capture two snapshots on different dates, refresh notifications and confirm that an English Lecturer sees only assigned course groups. Live SQL execution, MFA policy, SMTP and production redirect URLs must be verified in the project-owner Supabase account.
 
 ## Responsive local portal (2026-10-22)
 

@@ -67,11 +67,13 @@ assert.ok(isPortalSection('join-codes') && isPortalSection('institution') && isP
 console.log('PASS: University-only navigation and legacy school preference normalization.');
 const managementSource=readFileSync('src/lib/portal/management.ts','utf8');
 const managementCompiled=ts.transpileModule(managementSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
-const {staffRoleName,codeDays,codeIsExpired,validManagerPassword}=await import('data:text/javascript;base64,'+Buffer.from(managementCompiled).toString('base64'));
+const {staffRoleName,codeDays,codeIsExpired,validManagerPassword,parseOperationsCsv}=await import('data:text/javascript;base64,'+Buffer.from(managementCompiled).toString('base64'));
 assert.equal(staffRoleName('teacher'),'English Lecturer');assert.equal(staffRoleName('admin'),'Super Admin');
 for(const invalid of [0,-1,366,1.5,'bad'])assert.equal(codeDays(invalid),null);
 assert.equal(codeDays('30'),30);assert.equal(codeIsExpired('2026-10-06T00:00:00Z',Date.parse('2026-10-06T00:00:00Z')),true);
 assert.equal(codeIsExpired('invalid'),true);assert.equal(validManagerPassword('StrongPassword!2468'),true);assert.equal(validManagerPassword('short1!'),false);
+assert.deepEqual(parseOperationsCsv('class_id,department,meeting_day,meeting_time,next_lesson\r\n"class-1","English, Languages",1,09:00,"Speaking, part 1"'),[{class_id:'class-1',department:'English, Languages',meeting_day:'1',meeting_time:'09:00',next_lesson:'Speaking, part 1'}]);
+assert.deepEqual(parseOperationsCsv('department,next_lesson\nEnglish,Speaking'),[]);assert.deepEqual(parseOperationsCsv('class_id,department\n"broken'),[]);
 await signInStaff(authClient,{email:' Manager@school.so ',password:'StrongPassword!2468',development:false,origin:'https://admin.wada.com',method:'password'});
 assert.deepEqual(calls.pop(),['password',{email:'manager@school.so',password:'StrongPassword!2468'}]);
-console.log('PASS: Role labels, duration/expiry validation, password policy, production provisioned-account sign-in.');
+console.log('PASS: Role labels, duration/expiry validation, password policy, operations CSV parsing and production provisioned-account sign-in.');
