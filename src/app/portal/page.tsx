@@ -37,8 +37,8 @@ export default async function Portal({searchParams}: {searchParams: Params}) {
   requests.push(rpc("class_skills", {p_class: classId, p_weeks: 8}).then(value => {skills = rows(value);}));
   requests.push(rpc("class_mistakes", {p_class: classId, p_days: days}).then(value => {mistakes = rows(value);}));
  }
- if (org.role === "admin" && ["team", "classes"].includes(section)) requests.push(rpc("org_staff", {p_org: org.org_id}).then(value => {staff = rows(value);}));
- if (org.role === "admin" && section === "audit") requests.push(rpc("org_audit_log", {p_org: org.org_id, p_limit: 100}).then(value => {audit = rows(value);}));
+ if (org.role === "admin" && ["team", "classes", "analytics"].includes(section)) requests.push(rpc("org_staff", {p_org: org.org_id}).then(value => {staff = rows(value);}));
+ if (org.role === "admin" && ["audit", "analytics"].includes(section)) requests.push(rpc("org_audit_log", {p_org: org.org_id, p_limit: section === "analytics" ? 10 : 100}).then(value => {audit = rows(value);}));
  await Promise.all(requests);
  const studentId = students.some(item => item.user_id === value("student_id")) ? value("student_id") : "";
  const student = classId && studentId && section === "student-detail" ? record(await rpc("student_detail", {p_class: classId, p_user: studentId})) : undefined;

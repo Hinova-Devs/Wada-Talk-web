@@ -12,6 +12,7 @@ function compile(path, imports = {}) {
 }
 const data = compile('src/lib/portal/data.ts');
 const org = {org_id: 'org-a', name: 'University A', role: 'teacher', classes: [{id: 'class-a', name: 'ENG 201'}]};
+let currentOrg = org;
 const started = [];
 let releaseAuth, releaseOverview;
 const authGate = new Promise(resolve => {releaseAuth = resolve;});
@@ -21,9 +22,12 @@ const client = {
  auth: {getUser: async () => {started.push('auth'); await authGate; return {data: {user: signedIn ? {email: 'lecturer@example.test'} : null}};}},
  rpc: async name => {
   started.push(name);
-  if (name === 'my_orgs') {releaseAuth(); return {data: [org], error: null};}
+  if (name === 'my_orgs') {releaseAuth(); return {data: [currentOrg], error: null};}
   if (name === 'class_overview') {await overviewGate; return {data: {students: 1}, error: null};}
   if (name === 'class_students') {releaseOverview(); return {data: [{user_id: 'learner-a', first_name: 'Amina'}], error: null};}
+  if (name === 'org_overview') return {data: {students: 1, classes: []}, error: null};
+  if (name === 'org_staff') return {data: [{user_id: 'staff-a', role: 'teacher'}], error: null};
+  if (name === 'org_audit_log') return {data: [{action: 'class_created'}], error: null};
   throw new Error('Unnecessary or unauthorized RPC: ' + name);
  },
 };
@@ -49,11 +53,20 @@ try {
  assert.equal(element.props.data.students.length, 1);
  assert.equal(element.props.data.org.role, 'teacher');
  assert.equal(element.props.data.institutionType, 'university');
+ currentOrg = {org_id: 'org-a', name: 'University A', role: 'admin', classes: [{id: 'class-a', name: 'ENG 201'}]};
+ started.length = 0;
+ const adminAnalytics = await Portal({searchParams: Promise.resolve({section: 'analytics', class_id: 'class-a'})});
+ assert.equal(adminAnalytics.props.section, 'analytics');assert.equal(adminAnalytics.props.classId, '');
+ assert.deepEqual(started, ['auth', 'my_orgs', 'org_overview', 'org_staff', 'org_audit_log']);
+ assert.equal(adminAnalytics.props.data.staff.length, 1);assert.equal(adminAnalytics.props.data.audit.length, 1);
+ currentOrg = org;started.length = 0;
+ const teacherAnalytics = await Portal({searchParams: Promise.resolve({section: 'analytics'})});
+ assert.equal(teacherAnalytics.props.section, 'overview');
  started.length = 0;
  signedIn = false;
  await assert.rejects(Portal({searchParams: Promise.resolve({section: 'class-detail'})}), /redirect:\/login/);
  assert.deepEqual(started, ['auth', 'my_orgs']);
- console.log('PASS: Authentication and membership start together; independent class reads run together; obsolete profile RPC is absent; anonymous users still redirect before class data loads.');
+ console.log('PASS: Authentication and membership start together; independent class reads run together; Super Admin comparison loads institution/staff/audit data together; lecturers are redirected away; anonymous users redirect before class data loads.');
 } finally {
  clearTimeout(timeout);
  if (savedUrl === undefined) delete process.env.NEXT_PUBLIC_SUPABASE_URL; else process.env.NEXT_PUBLIC_SUPABASE_URL = savedUrl;
