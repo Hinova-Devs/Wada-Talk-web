@@ -102,7 +102,7 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
           <div>
             <label>Title<input name="title" required minLength={3} maxLength={120} placeholder="Talk about your work experience" /></label>
             <label>Level
-              <select name="level" defaultValue="a2_b1">
+              <select name="level" defaultValue="a2">
                 {LEVELS.map(([id, label]) => <option key={id} value={id}>{label}</option>)}
               </select>
             </label>

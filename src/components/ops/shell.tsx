@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 /** The /ops frame: sidebar (sections, who is signed in, sign out) and the page. */
-export function OpsShell({ email, section, children }: { email: string; section: "lessons" | null; children: React.ReactNode }) {
+export function OpsShell({ email, section, children }: { email: string; section: "lessons" | "organizations" | null; children: React.ReactNode }) {
   const router = useRouter();
   async function signOut() {
     await createClient().auth.signOut();
@@ -20,9 +20,12 @@ export function OpsShell({ email, section, children }: { email: string; section:
           <small>HINOVA OPS</small>
           <strong>Internal tools</strong>
         </div>
-        <nav className="oa-nav" aria-label="Sections">
+        <nav className="oa-nav ops-nav" aria-label="Sections">
           <Link href="/lessons" className="oa-nav-link" aria-current={section === "lessons" ? "page" : undefined}>
             <i>▤</i>Lessons
+          </Link>
+          <Link href="/organizations" className="oa-nav-link" aria-current={section === "organizations" ? "page" : undefined}>
+            <i>▦</i>Organizations
           </Link>
         </nav>
         <div className="oa-side-footer">
@@ -48,7 +51,7 @@ export function NoAccess({ email, failed }: { email: string; failed: boolean }) 
           <p>
             {failed
               ? "The server did not answer. Refresh the page in a moment."
-              : `${email} can't change lessons yet. Only the founders can; a founder adds you by running this once in the Supabase SQL editor:`}
+              : `${email} can't use the ops tools yet. Only the founders can; a founder adds you by running this once in the Supabase SQL editor:`}
           </p>
           {!failed && (
             <pre className="ops-sql">{`insert into public.platform_admins (user_id)

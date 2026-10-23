@@ -13,11 +13,12 @@ export type Category = (typeof CATEGORIES)[number][0];
 export const isCategory = (v: unknown): v is Category => CATEGORIES.some(([id]) => id === v);
 export const categoryLabel = (v: string) => CATEGORIES.find(([id]) => id === v)?.[1] ?? v;
 
-/** A unit's level band. Inside a unit, easy / medium / hard still adapt to each learner. */
+/** A unit's CEFR level (B2 also covers stronger learners). Inside a unit, easy / medium / hard still adapt to each learner. */
 export const LEVELS = [
-  ["a2_b1", "A2–B1"],
+  ["a1", "A1"],
+  ["a2", "A2"],
   ["b1", "B1"],
-  ["b1_b2", "B1–B2"],
+  ["b2", "B2"],
 ] as const;
 export type Level = (typeof LEVELS)[number][0];
 export const levelLabel = (v: string) => LEVELS.find(([id]) => id === v)?.[1] ?? v;
