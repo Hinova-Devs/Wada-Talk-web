@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { opsUnits } from "@/lib/ops/call";
-import { categoryLabel, LEVELS, levelLabel, STATUS_LABELS, type UnitRow, type Variant, type VariantLevel, VARIANT_LEVELS } from "@/lib/ops/units";
+import { categoryLabel, isStuck, LEVELS, levelLabel, lineList, STATUS_LABELS, type UnitRow, type Variant, type VariantLevel, VARIANT_LEVELS, wordList } from "@/lib/ops/units";
 import { cleanVariant, VariantFields } from "./variant-fields";
 
 type Form = {
@@ -12,6 +12,8 @@ type Form = {
   can_do_en: string;
   can_do_so: string;
   notes: string;
+  words: string;
+  grammar: string;
   variants: Partial<Record<VariantLevel, Variant>>;
 };
 
@@ -21,6 +23,8 @@ const fromUnit = (u: UnitRow): Form => ({
   can_do_en: u.can_do_items?.text_en ?? "",
   can_do_so: u.can_do_items?.text_so ?? "",
   notes: u.notes ?? "",
+  words: (u.target_words ?? []).join(", "),
+  grammar: (u.grammar ?? []).join("\n"),
   variants: u.variants ?? {},
 });
 
@@ -36,14 +40,15 @@ export function UnitEditor({ unit }: { unit: UnitRow }) {
   const hasContent = VARIANT_LEVELS.every(([l]) => !!form.variants[l]);
   const dirty = JSON.stringify(form) !== JSON.stringify(initial);
   const editable = unit.status === "planned" || unit.status === "draft" || unit.status === "failed";
+  const stuck = isStuck(unit);
   const back = `/lessons?category=${unit.path}`;
 
-  // While the AI writes this unit, re-read it every 5 seconds.
+  // While the AI writes this unit, re-read it every 5 seconds (not once it is stuck).
   useEffect(() => {
-    if (unit.status !== "generating") return;
+    if (unit.status !== "generating" || stuck) return;
     const t = setInterval(() => router.refresh(), 5000);
     return () => clearInterval(t);
-  }, [unit.status, router]);
+  }, [unit.status, stuck, router]);
 
   // Unsaved changes: ask before the tab closes.
   useEffect(() => {
@@ -76,6 +81,8 @@ export function UnitEditor({ unit }: { unit: UnitRow }) {
       can_do_en: form.can_do_en.trim(),
       can_do_so: form.can_do_so.trim() || null,
       notes: form.notes.trim() || null,
+      target_words: wordList(form.words),
+      grammar: lineList(form.grammar),
       ...(hasContent
         ? { variants: Object.fromEntries(VARIANT_LEVELS.map(([l]) => [l, cleanVariant(form.variants[l]!)])) }
         : {}),
@@ -85,7 +92,7 @@ export function UnitEditor({ unit }: { unit: UnitRow }) {
     const replacing = hasContent ? "The current content will be replaced. " : "";
     const losing = dirty ? "Your unsaved changes will be lost. " : "";
     if ((replacing || losing) && !confirm(`${replacing}${losing}Generate "${unit.title}" now?`)) return;
-    void run("generate", { action: "generate" }, "Generating. This takes 1–3 minutes; the page updates by itself.");
+    void run("generate", { action: "generate" }, "Generating. This takes about a minute; the page updates by itself.");
   }
 
   function remove() {
@@ -125,9 +132,9 @@ export function UnitEditor({ unit }: { unit: UnitRow }) {
           {unit.status === "published" && (
             <button type="button" className="oa-button ghost" disabled={!!busy} onClick={unpublish}>{busy === "unpublish" ? "Working…" : "Unpublish"}</button>
           )}
-          {editable && (
+          {(editable || stuck) && (
             <button type="button" className="oa-button ghost" disabled={!!busy} onClick={generate}>
-              {busy === "generate" ? "Starting…" : hasContent ? "Regenerate" : "Generate"}
+              {busy === "generate" ? "Starting…" : stuck ? "Try again" : hasContent ? "Regenerate" : "Generate"}
             </button>
           )}
           {editable && <button type="button" className="oa-button ghost danger" disabled={!!busy} onClick={remove}>Remove</button>}
@@ -140,7 +147,8 @@ export function UnitEditor({ unit }: { unit: UnitRow }) {
           <button type="button" onClick={() => setMessage(null)}>Dismiss</button>
         </div>
       )}
-      {unit.status === "generating" && <div className="oa-preview-banner" role="status"><b>The AI is writing this unit.</b> This takes 1–3 minutes; the page updates by itself.</div>}
+      {unit.status === "generating" && !stuck && <div className="oa-preview-banner" role="status"><b>The AI is writing this unit.</b> This takes about a minute; the page updates by itself.</div>}
+      {stuck && <div className="oa-message error" role="alert"><span>The server stopped the AI before it finished. Press Try again.</span></div>}
       {unit.status === "published" && <div className="oa-preview-banner"><b>Published units can&apos;t be edited.</b> Unpublish it first (only possible while no learner has started it).</div>}
       {unit.status === "failed" && unit.generation_error && <div className="oa-message error" role="alert"><span>Generation failed: {unit.generation_error}</span></div>}
 
@@ -157,6 +165,12 @@ export function UnitEditor({ unit }: { unit: UnitRow }) {
             <label>Can-do (English)<textarea rows={2} value={form.can_do_en} maxLength={300} onChange={(e) => setForm({ ...form, can_do_en: e.target.value })} /></label>
             <label>Can-do (Somali)<textarea rows={2} value={form.can_do_so} maxLength={300} onChange={(e) => setForm({ ...form, can_do_so: e.target.value })} /></label>
             <label className="full">Notes for the AI<textarea rows={2} value={form.notes} maxLength={2000} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></label>
+            <label>Words to teach (separated by commas)<textarea rows={3} value={form.words} onChange={(e) => setForm({ ...form, words: e.target.value })} /></label>
+            <label>Grammar to teach (one per line)<textarea rows={3} value={form.grammar} onChange={(e) => setForm({ ...form, grammar: e.target.value })} /></label>
+            <p className="full ops-hint">Empty = the AI picks 8–10 words of this level from the word lists and 1–3 grammar points when you generate. After a change, save, then regenerate so the content uses them.</p>
+            {unit.word_warnings?.length > 0 && (
+              <p className="full ops-hint" role="note"><b>Words above {levelLabel(unit.level)} in this unit:</b> {unit.word_warnings.join(", ")}. Check that learners at this level can understand them, or replace them.</p>
+            )}
           </div>
         </section>
       </fieldset>

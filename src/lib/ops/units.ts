@@ -24,6 +24,13 @@ export type Level = (typeof LEVELS)[number][0];
 export const levelLabel = (v: string) => LEVELS.find(([id]) => id === v)?.[1] ?? v;
 
 export type UnitStatus = "planned" | "generating" | "draft" | "failed" | "published";
+
+/**
+ * Still "generating" after 10 minutes = the server stopped the AI before it finished (a generation takes about a minute).
+ * The backend then allows generating again (STALE_GENERATING_MS in wada-backend shared/src/ops-handler.ts).
+ */
+export const isStuck = (r: { status: UnitStatus; updated_at: string }, now = Date.now()) =>
+  r.status === "generating" && now - Date.parse(r.updated_at) > 10 * 60_000;
 export const STATUS_LABELS: Record<UnitStatus, string> = {
   planned: "Planned",
   generating: "Generating…",
@@ -42,9 +49,19 @@ export type PlanRow = {
   notes: string | null;
   generation_error: string | null;
   updated_at: string;
+  /** What the unit teaches (from the backend's word lists and grammar list). Empty = the AI picks them when generating. */
+  target_words: string[];
+  grammar: string[];
+  /** List words above the unit's level that the generated content uses: review them. */
+  word_warnings: string[];
   can_do_items: { text_en: string; text_so: string | null } | null;
 };
-export const PLAN_COLUMNS = "id, position, title, status, level, notes, generation_error, updated_at, can_do_items(text_en, text_so)";
+export const PLAN_COLUMNS = "id, position, title, status, level, notes, generation_error, updated_at, target_words, grammar, word_warnings, can_do_items(text_en, text_so)";
+
+/** "seat, traffic, weather" → ["seat", "traffic", "weather"]: words split on commas or lines, lowercase, no repeats. */
+export const wordList = (text: string) => [...new Set(text.split(/[,\n]/).map((w) => w.trim().toLowerCase()).filter(Boolean))];
+/** One grammar point per line. */
+export const lineList = (text: string) => text.split("\n").map((l) => l.trim()).filter(Boolean);
 
 // ---------------------------------------------------------------- unit content (wada-backend shared/src/unit.ts)
 type Explain = { id: string; explain_en: string; explain_so: string | null };
