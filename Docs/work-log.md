@@ -1,0 +1,61 @@
+# Work log
+
+**The living record of this repo.** Humans and AI agents read this to know what is done, what is half-done, and what is waiting on someone.
+**Every session must update it before finishing:** (1) add an entry at the top of "Log" (newest first), (2) update the status table, (3) add anything the owner must do to "Needs the owner", (4) add any gotcha to "Decisions & gotchas".
+Keep it short and factual. No code, no secrets. Backend and app work is logged in the wada repo's `Docs/work-log.md`.
+
+Legend: ✅ done and verified · 🟡 code done, someone must verify or do a manual step · 🔄 in progress · ⏳ not started · ⛔ blocked
+
+## Status
+| Area | Status |
+|---|---|
+| Public site (EN + SO pages, home, students, organizations, safety, legal) | 🟡 built; content partly draft |
+| Join a class (`/join/<code>`) | 🟡 calls `class_preview`; not tried against real class codes |
+| Organization portal (`/portal`) + previews | 🟡 built by the team; calls `portal_*` functions the backend does not have yet (see gotchas), so it shows "not ready" for real users |
+| Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wadatalk.com` DNS / host setup not done |
+| Ops: Lessons plan + unit editor (O3) | ✅ merged; used by the owner against the dev project |
+| Ops: Organizations (K2) | 🟡 merged into `o3/fox` after O3 had gone to `main`; reached `main` through P0 (#7) |
+| Ops: CEFR levels A1–B2 (levels plan P0) | ✅ merged (#7) and deployed with the backend |
+| Ops: words and grammar per unit (P1b) + "Stopped / Try again" for stuck generations | 🟡 PR #8 (`p1b/fox`) open; tsc + lint clean; not tried signed in |
+| Docs (this folder) | 🟡 first version on `web-docs/fox` |
+
+## Needs the owner
+- [ ] **Merge PR #8** (`p1b/fox`) after the backend generation fix (wada-backend #8) is merged and `ops-units` is deployed.
+- [ ] **ops subdomain:** DNS record for `ops.wadatalk.com`, add the domain in the host, and add `https://ops.wadatalk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
+- [ ] **Ops access:** each founder creates an account on the ops site, then is added to `platform_admins` (see `development-workflow.md`).
+- [ ] **Write down the hosting:** which host serves the site, how `main` deploys, where env is set (`development-workflow.md` → Deploy).
+- [ ] **Portal vs backend:** decide whether the portal changes to the backend's dashboard functions (`DOC/dashboard-api.md`) or the backend adds the `portal_*` functions the portal calls.
+
+## Decisions & gotchas
+- **Next.js 16:** `src/proxy.ts` is the middleware (renamed from `middleware.ts`). Read `node_modules/next/dist/docs/` before writing Next code; `next dev` re-writes the Next block in `AGENTS.md`.
+- **Ops is subdomain-only:** `/ops/...` on the main host is a 404 on purpose. Locally use `ops.localhost:3000`. Links inside ops leave out `/ops`.
+- **Ship order with the backend:** a page that reads new columns must deploy after the backend migration (P1b read `target_words`, `grammar`, `word_warnings`; before `db push` the Lessons list said "Could not load the plan").
+- **Stacked PRs:** a PR based on another feature branch merges into that branch, not `main` (K2 #6 merged into `o3/fox` 26 s after O3 went to `main`, so K2 missed `main`). Base PRs on `main`, or check the base before merging.
+- **`package-lock.json`** differs on the owner's machine: leave it unstaged unless a package change is the point.
+- **Lint:** `npm run lint` over the whole repo reports old errors in files not touched recently; check only the files you change.
+- **Portal functions:** the merged portal calls `portal_*` RPCs and the role `org_admin`; the backend has `my_orgs`, `class_overview`… and the role `admin` (`DOC/dashboard-api.md`). Until one side changes, real users see "not ready".
+
+## Log (newest first)
+
+## 2026-10-23 — Docs folder and agent rules (`web-docs/fox`)
+- Added `Docs/` like the wada repo: `README.md` (index, the three repos, reading order), `agent-rules.md`, `project-overview.md`, `project-structure.md`, `development-workflow.md`, this work log (history below rebuilt from git and the wada work log).
+- `CLAUDE.md` now points agents at `Docs/` (and still imports `AGENTS.md`). `.env.example` added (names only) and allowed in `.gitignore`. README replaced the create-next-app text.
+- Nothing in `src/` changed. Not verified: the hosting section is a placeholder for the owner.
+
+## 2026-10-23 — Ops: words and grammar per unit (P1b) + stuck generations (`p1b/fox`, PR #8)
+- Add unit and the unit editor show and edit the words and grammar a unit teaches (empty = the AI picks them from the backend's word lists); the editor lists `word_warnings`. A unit still "generating" after 10 minutes shows "Stopped" with "Try again", and the page stops re-reading. tsc + lint clean; not tried signed in.
+
+## 2026-10-23 — Ops: CEFR levels (levels plan P0, PR #7)
+- Level choices A1, A2, B1, B2 (default A2), matching wada-backend migration `20261023110000`. Also brought K2 to `main`.
+
+## 2026-10-22 — Ops Organizations page (K2)
+- Create universities and companies, add admins, change kind (`ops-orgs`). Merged into `o3/fox` by mistake (see gotchas); reached `main` via #7.
+
+## 2026-10-19 — Hinova ops site (O2, O3)
+- O2: ops on its own subdomain, sign-in (email + password, open sign-up), platform-admin gate, Lessons course plan per category. O3: unit editor (edit every field, generate, regenerate, publish / unpublish).
+
+## 2026-10-01 — Organization portal (team, `admin/cusub`)
+- Portal dashboard, school / university admin pages and previews.
+
+## 2026-09-28 — First version of the site (team)
+- Public site, students page with a "how to get started" download call to action.
