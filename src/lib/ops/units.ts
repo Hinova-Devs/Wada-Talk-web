@@ -70,7 +70,17 @@ export type BuildDrill = Explain & { type: "build"; prompt: string; bank: string
 export type SayDrill = Explain & { type: "say"; text: string; hint?: string };
 export type Drill = ChoiceDrill | BuildDrill | SayDrill;
 export type Topic = { q: string; help?: string };
+/** The "learn first" part (levels plan P2a): same in every variant; missing on units written before it existed. */
+export type Teach = {
+  scene_so: string;
+  scene_en: string;
+  dialogue: { speaker: string; en: string; so: string }[];
+  words: { en: string; so: string; example_en: string; example_so: string }[];
+  grammar: { title: string; explain_en: string; explain_so: string; examples: string[] }[];
+  sound_pairs: { sound: string; a: string; b: string; tip_en: string; tip_so: string }[];
+};
 export type Variant = {
+  teach?: Teach;
   drills: Drill[];
   ai_script: {
     persona: string; setting: string; goal: string; opening: string; max_learner_turns: number;

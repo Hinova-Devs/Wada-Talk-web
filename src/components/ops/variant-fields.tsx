@@ -1,5 +1,5 @@
 "use client";
-import type { Drill, Topic, Variant } from "@/lib/ops/units";
+import type { Drill, Teach, Topic, Variant } from "@/lib/ops/units";
 
 // Form for one variant (easy / medium / hard) of a unit. Every change returns a new Variant through onChange.
 // Lists are edited as typed; empty entries are dropped when the unit is saved (see cleanVariant).
@@ -105,6 +105,7 @@ export function VariantFields({ v, onChange }: { v: Variant; onChange: (v: Varia
   const script = (patch: Partial<Variant["ai_script"]>) => onChange({ ...v, ai_script: { ...s, ...patch } });
   return (
     <>
+      <TeachView t={v.teach} />
       <section className="oa-panel ops-section">
         <h2>Learn: drills</h2>
         {v.drills.map((d, i) => (
@@ -152,6 +153,51 @@ export function VariantFields({ v, onChange }: { v: Variant; onChange: (v: Varia
 }
 
 /** Drops what an editor leaves behind: empty list entries, stray spaces in word lists. */
+/**
+ * The "learn first" part learners see before the drills: the same in easy, medium and hard. Read-only here: to change
+ * it, edit the words, grammar or notes in the plan and generate again.
+ */
+function TeachView({ t }: { t?: Teach }) {
+  if (!t) {
+    return (
+      <section className="oa-panel ops-section">
+        <h2>Learn first: scene, words, grammar</h2>
+        <p className="ops-hint">This unit was written before the teaching part existed, so learners go straight to the drills. Generate it again to add the scene, words, grammar and listening pairs.</p>
+      </section>
+    );
+  }
+  return (
+    <section className="oa-panel ops-section">
+      <h2>Learn first: scene, words, grammar</h2>
+      <p className="ops-hint">What learners see before any question; the same for easy, medium and hard. Check the Somali. To change it, edit the plan (words, grammar, notes) and generate again.</p>
+      <h3>Scene</h3>
+      <p lang="so">{t.scene_so}</p>
+      <p className="ops-hint">{t.scene_en}</p>
+      <h3>Conversation</h3>
+      <ul className="ops-teach-list">
+        {t.dialogue.map((l, i) => <li key={i}><b>{l.speaker}:</b> {l.en} <small lang="so">{l.so}</small></li>)}
+      </ul>
+      <h3>Words ({t.words.length})</h3>
+      <ul className="ops-teach-list">
+        {t.words.map((w, i) => <li key={i}><b>{w.en}</b> · <span lang="so">{w.so}</span> — {w.example_en} <small lang="so">{w.example_so}</small></li>)}
+      </ul>
+      <h3>Grammar</h3>
+      {t.grammar.map((g, i) => (
+        <article key={i} className="ops-drill">
+          <p><b>{g.title}</b></p>
+          <p>{g.explain_en}</p>
+          <p lang="so">{g.explain_so}</p>
+          <p className="ops-hint">{g.examples.join(" · ")}</p>
+        </article>
+      ))}
+      <h3>Hear the difference</h3>
+      <ul className="ops-teach-list">
+        {t.sound_pairs.map((p, i) => <li key={i}><b>{p.sound}</b>: {p.a} / {p.b} — {p.tip_en} <small lang="so">{p.tip_so}</small></li>)}
+      </ul>
+    </section>
+  );
+}
+
 export function cleanVariant(v: Variant): Variant {
   const words = (xs: string[]) => xs.map((x) => x.trim()).filter(Boolean);
   return {
