@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useEffect, useState } from "react";
 import { opsUnits } from "@/lib/ops/call";
-import { CATEGORIES, categoryLabel, type Category, LEVELS, levelLabel, type PlanRow, STATUS_LABELS } from "@/lib/ops/units";
+import { CATEGORIES, categoryLabel, type Category, isStuck, LEVELS, levelLabel, lineList, type PlanRow, STATUS_LABELS, wordList } from "@/lib/ops/units";
 
 const when = (iso: string) =>
   new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
@@ -14,9 +14,9 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
   const [adding, setAdding] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
-  const generating = rows.some((r) => r.status === "generating");
+  const generating = rows.some((r) => r.status === "generating" && !isStuck(r));
 
-  // While the AI works (1–3 minutes), re-read the plan every 5 seconds.
+  // While the AI works (about a minute), re-read the plan every 5 seconds. A stuck unit stops this (see isStuck).
   useEffect(() => {
     if (!generating) return;
     const t = setInterval(() => router.refresh(), 5000);
@@ -44,6 +44,8 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
     const f = new FormData(e.currentTarget);
     const position = Number(f.get("position"));
     const notes = String(f.get("notes")).trim();
+    const words = wordList(String(f.get("words")));
+    const grammar = lineList(String(f.get("grammar")));
     const ok = await run("add", {
       action: "plan",
       path: category,
@@ -52,13 +54,15 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
       level: f.get("level"),
       notes: notes || null,
       ...(position > 0 ? { position } : {}),
+      ...(words.length ? { target_words: words } : {}),
+      ...(grammar.length ? { grammar } : {}),
     }, "Unit added to the plan.");
     if (ok) setAdding(false);
   }
 
   function generate(r: PlanRow) {
     if (r.status === "draft" && !confirm(`Generate "${r.title}" again? The current draft will be replaced.`)) return;
-    void run(r.id, { action: "generate", unit_id: r.id }, `Generating "${r.title}". This takes 1–3 minutes.`);
+    void run(r.id, { action: "generate", unit_id: r.id }, `Generating "${r.title}". This takes about a minute.`);
   }
 
   function remove(r: PlanRow) {
@@ -113,6 +117,13 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
             <label className="full">Notes for the AI (optional)
               <textarea name="notes" rows={3} maxLength={2000} placeholder="Focus on internships and volunteer work. Use the past simple and present perfect." />
             </label>
+            <label className="full">Words to teach (optional, separated by commas)
+              <input name="words" placeholder="seat, traffic, weather" />
+            </label>
+            <label className="full">Grammar to teach (optional, one per line)
+              <textarea name="grammar" rows={2} placeholder="past simple" />
+            </label>
+            <p className="full ops-hint">Leave words and grammar empty and the AI picks 8–10 words of this level from the word lists (not taught in earlier units) and 1–3 grammar points. You can change them in the unit afterwards.</p>
           </div>
           <div className="oa-action-row">
             <button className="oa-button primary" type="submit" disabled={busy === "add"}>{busy === "add" ? "Adding…" : "Add to plan"}</button>
@@ -158,16 +169,21 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
                     <td className="ops-unit">
                       <Link href={`/lessons/${r.id}`}><strong>{r.title}</strong></Link>
                       <small>{r.can_do_items?.text_en}</small>
+                      {r.target_words?.length > 0 && <small>Words: {r.target_words.join(", ")}</small>}
                       {r.status === "failed" && r.generation_error && <small className="ops-error">{r.generation_error}</small>}
                     </td>
                     <td>{levelLabel(r.level)}</td>
-                    <td><span className={`ops-status ${r.status}`}>{STATUS_LABELS[r.status]}</span></td>
+                    <td>
+                      {isStuck(r)
+                        ? <span className="ops-status failed" title="The server stopped the AI before it finished.">Stopped</span>
+                        : <span className={`ops-status ${r.status}`}>{STATUS_LABELS[r.status]}</span>}
+                    </td>
                     <td>{when(r.updated_at)}</td>
                     <td>
                       <div className="oa-action-row">
-                        {(r.status === "planned" || r.status === "failed" || r.status === "draft") && (
+                        {(r.status === "planned" || r.status === "failed" || r.status === "draft" || isStuck(r)) && (
                           <button type="button" className="oa-button ghost" disabled={busy !== null} onClick={() => generate(r)}>
-                            {busy === r.id ? "Working…" : r.status === "draft" ? "Regenerate" : r.status === "failed" ? "Try again" : "Generate"}
+                            {busy === r.id ? "Working…" : r.status === "draft" ? "Regenerate" : r.status === "planned" ? "Generate" : "Try again"}
                           </button>
                         )}
                         {r.status !== "published" && r.status !== "generating" && (
