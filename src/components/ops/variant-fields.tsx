@@ -106,15 +106,30 @@ export function VariantFields({ v, onChange }: { v: Variant; onChange: (v: Varia
   return (
     <>
       <TeachView t={v.teach} />
-      <section className="oa-panel ops-section">
-        <h2>Learn: drills</h2>
-        {v.drills.map((d, i) => (
-          <article key={d.id} className="ops-drill">
-            <h3>{i + 1}. {DRILL_TYPE[d.type]} <small>{d.id}</small></h3>
-            <DrillFields d={d} onChange={(nd) => onChange({ ...v, drills: v.drills.map((x, j) => (j === i ? nd : x)) })} />
-          </article>
-        ))}
-      </section>
+      {v.say_your_way?.length ? (
+        <section className="oa-panel ops-section">
+          <h2>Say it your way</h2>
+          <p className="ops-hint">Learners answer each question out loud; the app shows what they said, which words they used, and the example. Read-only here: generate again to change it.</p>
+          {v.say_your_way.map((q, i) => (
+            <article key={i} className="ops-drill">
+              <p><b>{i + 1}. {q.prompt}</b> <small lang="so">{q.prompt_so}</small></p>
+              <p className="ops-hint">Use: {q.use_words.join(", ")}</p>
+              <p>{q.example} <small lang="so">{q.example_so}</small></p>
+            </article>
+          ))}
+        </section>
+      ) : null}
+      {v.drills.length > 0 && (
+        <section className="oa-panel ops-section">
+          <h2>Learn: drills (older units)</h2>
+          {v.drills.map((d, i) => (
+            <article key={d.id} className="ops-drill">
+              <h3>{i + 1}. {DRILL_TYPE[d.type]} <small>{d.id}</small></h3>
+              <DrillFields d={d} onChange={(nd) => onChange({ ...v, drills: v.drills.map((x, j) => (j === i ? nd : x)) })} />
+            </article>
+          ))}
+        </section>
+      )}
 
       <section className="oa-panel ops-section">
         <h2>Practice with AI: role-play</h2>

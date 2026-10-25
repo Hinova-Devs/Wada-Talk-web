@@ -79,8 +79,11 @@ export type Teach = {
   grammar: { title: string; explain_en: string; explain_so: string; examples: string[] }[];
   sound_pairs: { sound: string; a: string; b: string; tip_en: string; tip_so: string }[];
 };
+/** "Say it your way" (levels plan P2b): replaces the drills from prompt unit-8. */
+export type SayPrompt = { prompt: string; prompt_so?: string; use_words: string[]; example: string; example_so?: string };
 export type Variant = {
   teach?: Teach;
+  say_your_way?: SayPrompt[];
   drills: Drill[];
   ai_script: {
     persona: string; setting: string; goal: string; opening: string; max_learner_turns: number;
