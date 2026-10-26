@@ -13,6 +13,7 @@ This repo is the **website**: the public site (wadatalk.com), the organization p
 
 | File | What it tells you |
 |---|---|
+| [`product-brief.md`](product-brief.md) | **Everyone: read first.** What Wada is, product and design rules, the three repos (same file in all three) |
 | [`agent-rules.md`](agent-rules.md) | **AI agents: read first.** What you must never do, what you must always do, what "done" means |
 | [`project-overview.md`](project-overview.md) | What the site is, its parts, how it is built, the decisions already made |
 | [`project-structure.md`](project-structure.md) | Where every kind of code lives, naming, code style |
@@ -26,8 +27,8 @@ Product plans (in the **wada** repo, `Docs/`): `admin-lessons-plan.md`, `levels-
 **Tasks:** Linear, team Hinova, project Wada App (`HDT-…`).
 
 ## Reading order
-- **New teammate:** overview → structure → development-workflow → work-log.
-- **AI agent:** agent-rules → work-log → the doc for your area (and the backend contract for any function you call).
+- **New teammate:** product-brief → overview → structure → development-workflow → work-log.
+- **AI agent:** product-brief → agent-rules → work-log → the doc for your area (and the backend contract for any function you call).
 
 ## Keeping the docs true
 - A doc that is wrong is worse than no doc. If you change behaviour, change the doc in the same commit.

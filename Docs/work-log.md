@@ -6,6 +6,8 @@ Keep it short and factual. No code, no secrets. Backend and app work is logged i
 
 Legend: ✅ done and verified · 🟡 code done, someone must verify or do a manual step · 🔄 in progress · ⏳ not started · ⛔ blocked
 
+**Current sprint (2026-10-26 → 27) and who owns what:** top of `../wada/Docs/work-log.md`. Web dev owns this repo; backend contract changes go to fox.
+
 ## Status
 | Area | Status |
 |---|---|
@@ -36,6 +38,9 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - **Portal functions:** the merged portal calls `portal_*` RPCs and the role `org_admin`; the backend has `my_orgs`, `class_overview`… and the role `admin` (`DOC/dashboard-api.md`). Until one side changes, real users see "not ready".
 
 ## Log (newest first)
+
+## 2026-10-26 — Product brief and start-here header (`agent-context/fox`)
+- `Docs/product-brief.md` (same file in all three repos) and a start-here header at the top of `AGENTS.md` (above the Next.js block). Docs only.
 
 ## 2026-10-23 — Docs folder and agent rules (`web-docs/fox`)
 - Added `Docs/` like the wada repo: `README.md` (index, the three repos, reading order), `agent-rules.md`, `project-overview.md`, `project-structure.md`, `development-workflow.md`, this work log (history below rebuilt from git and the wada work log).
