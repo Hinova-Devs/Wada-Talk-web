@@ -5,7 +5,7 @@ the doc for the area you are touching.
 
 ## Start of a session
 0. **Find the Linear issue** for what you are about to do (team Hinova, project Wada App, IDs like `HDT-27`). Do not create a duplicate. Move it to In Progress, and when you finish move it to In Review with a short comment (done / verified / **not** verified).
-1. Read `README.md` (this folder), `work-log.md`, and the doc for your area. **Before writing Next.js code, read the guide for what you touch in `node_modules/next/dist/docs/`**: this is Next.js 16 and it differs from older versions (see `AGENTS.md`).
+1. Read `product-brief.md` (product and design rules), `README.md` (this folder), `work-log.md`, and the doc for your area. **Before writing Next.js code, read the guide for what you touch in `node_modules/next/dist/docs/`**: this is Next.js 16 and it differs from older versions (see `AGENTS.md`).
 2. Do **one** step. Name it in your first message. If the request is unclear or is a big decision (a new service, a new package, a new page or subdomain, a change to a decision in `project-overview.md`), **ask the owner first**.
 3. Use the branch you were given. Otherwise create `<job>/fox` from `main`. **Never commit to `main`.**
 

@@ -1,3 +1,16 @@
+# Wada-Talk-web: start here (Claude Code, Codex and people)
+
+This repo is the website: public site (wadatalk.com), org portal (`/portal`), `/join/<code>` and Hinova's
+`ops.wadatalk.com`. The Flutter app (`wada`) and the backend (`Wada Backend`) are separate repos; clone all three side by side.
+
+1. Read `Docs/product-brief.md` (what Wada is, product and design rules).
+2. Read `Docs/agent-rules.md` (never / always / what "done" means), then `Docs/work-log.md`. The current sprint and
+   who owns what are at the top of `../wada/Docs/work-log.md`.
+3. Before calling a backend function, read its contract in `../Wada Backend/DOC/` (`ops-api.md`, `dashboard-api.md`).
+   Database or function changes happen only in the Wada Backend repo.
+4. Do one Linear issue (`HDT-…`) on its own branch `<issue-or-job>/<name>` from `main`. Never commit to `main`.
+5. Before finishing: `npx tsc --noEmit` and `npx eslint <changed files>` clean; update `Docs/work-log.md`.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
