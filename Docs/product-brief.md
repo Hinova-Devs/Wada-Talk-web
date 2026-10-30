@@ -7,7 +7,7 @@ Last updated by the owner's direction of 2026-10-19 → 2026-10-25.
 
 ## In one line
 Wada helps Somali adults **speak** English for real situations (interviews, study, work, daily life), with short
-lessons, an AI partner (Geeli) and 1:1 Live Talk calls with other learners.
+lessons, an AI partner and 1:1 Live Talk calls with other learners.
 
 ## Who it is for
 Higher-education level adults: university students, office and tech workers, school leavers going for scholarships
@@ -34,7 +34,7 @@ They already know some English. **They need confidence speaking it**, not a chil
    (calls). Never log speech, transcripts, phone numbers or tokens.
 
 ## Design rules (the redesign is in progress, owner: fox)
-- The current look (**design v4**: dark navy, lime, rounded Baloo2, Geeli fox, 3D press buttons) is being **replaced
+- The current look (**design v4**: dark navy, lime, rounded Baloo2, fox mascot, 3D press buttons) is being **replaced
   completely**. Do not polish or extend v4, and do not invent a new look in a feature branch.
 - It must **not look AI-generic** (no default "generic blue" SaaS, no gradients for decoration, no emoji as icons).
   It should look like a real designer made it: professional, clear, speaking-first.
@@ -58,9 +58,9 @@ changes in the same commit. The app and the site call those contracts; they neve
 |---|---|
 | Unit | One lesson about one situation (e.g. "Greet people at an interview"). Has a level (A1–B2) and a category |
 | Variant | One of 3 versions of a unit's content (`units.variants`), so learners don't all get the same lines |
-| Geeli | The AI speaking partner (and today's mascot) |
+| the AI | The AI speaking partner. It has no name; never call it anything but "the AI" |
 | Say it your way | 3 prompts the learner answers out loud, using 1–3 target words |
-| Practice with AI | A short spoken role-play with Geeli (`practice-turn`) |
+| Practice with AI | A short spoken role-play with AI (`practice-turn`) |
 | Live Talk | 1:1 video call with another learner (LiveKit) |
 | Feedback | Report after a call: score, sub-scores, mistakes with replay, tip in English + Somali |
 | Review | Cards made from the learner's own mistakes |
