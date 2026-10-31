@@ -1,29 +1,29 @@
-.design-action-1:hover{background:#F49852!important;color:#0D1321!important}
-.design-action-1:active{transform:translateY(5px)!important;box-shadow:0 0 0 #C85512!important}
-.design-action-2:hover{background:rgba(255,255,255,.06)!important;color:#FFFCF7!important}
-.design-action-3:hover{transform:translateY(-2px)!important;box-shadow:0 7px 0 #E0D3C0!important;color:#1A2030!important}
-.design-action-3:active{transform:translateY(5px)!important;box-shadow:0 0 0 #EADFCF!important}
-.design-action-4:hover{transform:translateY(-2px)!important;box-shadow:0 7px 0 #E0D3C0!important;color:#1A2030!important}
-.design-action-4:active{transform:translateY(5px)!important;box-shadow:0 0 0 #EADFCF!important}
-.design-action-5:hover{transform:translateY(-2px)!important;box-shadow:0 7px 0 #E0D3C0!important;color:#1A2030!important}
-.design-action-5:active{transform:translateY(5px)!important;box-shadow:0 0 0 #EADFCF!important}
-.design-action-6:hover{transform:translateY(-2px)!important;box-shadow:0 7px 0 #E0D3C0!important;color:#1A2030!important}
-.design-action-6:active{transform:translateY(5px)!important;box-shadow:0 0 0 #EADFCF!important}
-.design-action-7:hover{transform:translateY(-2px)!important;box-shadow:0 7px 0 #E0D3C0!important;color:#1A2030!important}
-.design-action-7:active{transform:translateY(5px)!important;box-shadow:0 0 0 #EADFCF!important}
-.design-action-8:hover{transform:translateY(-2px)!important;box-shadow:0 7px 0 #E0D3C0!important;color:#1A2030!important}
-.design-action-8:active{transform:translateY(5px)!important;box-shadow:0 0 0 #EADFCF!important}
-.design-action-9:hover{background:rgba(255,255,255,.06)!important;color:#FFFCF7!important}
-.design-action-10:hover{background:#F49852!important;color:#0D1321!important}
-.design-action-10:active{transform:translateY(5px)!important;box-shadow:0 0 0 #C85512!important}
-.design-action-11:hover{background:rgba(255,255,255,.06)!important;color:#FFFCF7!important}
-.design-action-12:hover{background:#F49852!important;color:#0D1321!important}
-.design-action-12:active{transform:translateY(5px)!important;box-shadow:0 0 0 #C85512!important}
-.design-action-13:hover{background:#F49852!important;color:#0D1321!important}
-.design-action-14:hover{background:#F49852!important;color:#0D1321!important}
-.design-action-14:active{transform:translateY(5px)!important;box-shadow:0 0 0 #C85512!important}
-.design-action-15:hover{background:rgba(255,255,255,.06)!important;color:#FFFCF7!important}
-.design-action-16:hover{background:#F49852!important;color:#0D1321!important}
+.design-action-1:hover{background:#54D4F1!important;color:#0F1B2D!important}
+.design-action-1:active{transform:translateY(5px)!important;box-shadow:0 0 0 #0B7DB3!important}
+.design-action-2:hover{background:rgba(255,255,255,.06)!important;color:#E6ECF3!important}
+.design-action-3:hover{transform:translateY(-2px)!important;box-shadow:0 14px 30px -10px rgba(38,174,232,.6)!important;color:#0F1B2D!important}
+.design-action-3:active{transform:translateY(5px)!important;box-shadow:0 0 0 #D3DBE5!important}
+.design-action-4:hover{transform:translateY(-2px)!important;box-shadow:0 14px 30px -10px rgba(38,174,232,.6)!important;color:#0F1B2D!important}
+.design-action-4:active{transform:translateY(5px)!important;box-shadow:0 0 0 #D3DBE5!important}
+.design-action-5:hover{transform:translateY(-2px)!important;box-shadow:0 14px 30px -10px rgba(38,174,232,.6)!important;color:#0F1B2D!important}
+.design-action-5:active{transform:translateY(5px)!important;box-shadow:0 0 0 #D3DBE5!important}
+.design-action-6:hover{transform:translateY(-2px)!important;box-shadow:0 14px 30px -10px rgba(38,174,232,.6)!important;color:#0F1B2D!important}
+.design-action-6:active{transform:translateY(5px)!important;box-shadow:0 0 0 #D3DBE5!important}
+.design-action-7:hover{transform:translateY(-2px)!important;box-shadow:0 14px 30px -10px rgba(38,174,232,.6)!important;color:#0F1B2D!important}
+.design-action-7:active{transform:translateY(5px)!important;box-shadow:0 0 0 #D3DBE5!important}
+.design-action-8:hover{transform:translateY(-2px)!important;box-shadow:0 14px 30px -10px rgba(38,174,232,.6)!important;color:#0F1B2D!important}
+.design-action-8:active{transform:translateY(5px)!important;box-shadow:0 0 0 #D3DBE5!important}
+.design-action-9:hover{background:rgba(255,255,255,.06)!important;color:#E6ECF3!important}
+.design-action-10:hover{background:#54D4F1!important;color:#0F1B2D!important}
+.design-action-10:active{transform:translateY(5px)!important;box-shadow:0 0 0 #0B7DB3!important}
+.design-action-11:hover{background:rgba(255,255,255,.06)!important;color:#E6ECF3!important}
+.design-action-12:hover{background:#54D4F1!important;color:#0F1B2D!important}
+.design-action-12:active{transform:translateY(5px)!important;box-shadow:0 0 0 #0B7DB3!important}
+.design-action-13:hover{background:#54D4F1!important;color:#0F1B2D!important}
+.design-action-14:hover{background:#54D4F1!important;color:#0F1B2D!important}
+.design-action-14:active{transform:translateY(5px)!important;box-shadow:0 0 0 #0B7DB3!important}
+.design-action-15:hover{background:rgba(255,255,255,.06)!important;color:#E6ECF3!important}
+.design-action-16:hover{background:#54D4F1!important;color:#0F1B2D!important}
 .design-action-17:hover{text-decoration:underline!important}
 .design-action-18:hover{text-decoration:underline!important}
 .design-action-19:hover{text-decoration:underline!important}
