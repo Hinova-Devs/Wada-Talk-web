@@ -46,7 +46,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 </section>
 
 <section style={{"maxWidth":"1200px","margin":"0 auto","padding":"clamp(72px,9vw,120px) clamp(16px,4vw,40px)"} as CSSProperties}>
-<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0B7DB3"} as CSSProperties}>{"How it works"}</div>
+<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0A6C99"} as CSSProperties}>{"How it works"}</div>
 <h2 style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(34px,4.4vw,56px)","lineHeight":"1.1","letterSpacing":"-.02em","margin":"10px 0 0"} as CSSProperties}>{"From demo to a talking class"}</h2>
 <ol style={{"listStyle":"none","margin":"40px 0 0","padding":"0","display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,240px),1fr))","gap":"16px"} as CSSProperties}>
 <li style={{"background":"#E6ECF3","border":"2px solid #D3DBE5","borderRadius":"24px","padding":"22px","boxShadow":"0 14px 30px -10px rgba(38,174,232,.6)","display":"grid","gap":"12px","alignContent":"start"} as CSSProperties}>
@@ -74,7 +74,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 
 <section style={{"background":"#E6ECF3","borderTop":"2px solid #D3DBE5","borderBottom":"2px solid #D3DBE5"} as CSSProperties}>
 <div style={{"maxWidth":"1200px","margin":"0 auto","padding":"clamp(72px,9vw,120px) clamp(16px,4vw,40px)"} as CSSProperties}>
-<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0B7DB3"} as CSSProperties}>{"Dashboard tour"}</div>
+<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0A6C99"} as CSSProperties}>{"Dashboard tour"}</div>
 <h2 style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(34px,4.4vw,56px)","lineHeight":"1.1","letterSpacing":"-.02em","margin":"10px 0 0"} as CSSProperties}>{"Know what to teach next"}</h2>
 <div style={{"display":"flex","flexWrap":"wrap","gap":"24px","marginTop":"40px","alignItems":"flex-start"} as CSSProperties}>
 <div role={"tablist"} aria-label={"Dashboard views"} style={{"flex":"1 1 280px","display":"grid","gap":"10px"} as CSSProperties}>
@@ -133,7 +133,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 <section style={{"maxWidth":"1200px","margin":"0 auto","padding":"clamp(72px,9vw,120px) clamp(16px,4vw,40px)"} as CSSProperties}>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,300px),1fr))","gap":"20px","alignItems":"stretch"} as CSSProperties}>
 <div style={{"display":"grid","alignContent":"center","gap":"14px"} as CSSProperties}>
-<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0B7DB3"} as CSSProperties}>{"Privacy promise"}</div>
+<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0A6C99"} as CSSProperties}>{"Privacy promise"}</div>
 <h2 style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(32px,3.8vw,48px)","lineHeight":"1.1","letterSpacing":"-.02em","margin":"0"} as CSSProperties}>{"Students speak freely because their calls stay theirs."}</h2>
 <img src={"/assets/fox.webp"} alt={""} style={{"width":"110px","display":"block"} as CSSProperties} loading="lazy" width={240} height={240} />
 </div>
@@ -170,7 +170,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 
 <section id={"plans"} style={{"background":"#E6ECF3","borderTop":"2px solid #D3DBE5","borderBottom":"2px solid #D3DBE5"} as CSSProperties}>
 <div style={{"maxWidth":"1200px","margin":"0 auto","padding":"clamp(72px,9vw,120px) clamp(16px,4vw,40px)"} as CSSProperties}>
-<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0B7DB3"} as CSSProperties}>{"Plans"}</div>
+<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0A6C99"} as CSSProperties}>{"Plans"}</div>
 <h2 style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(34px,4.4vw,56px)","lineHeight":"1.1","letterSpacing":"-.02em","margin":"10px 0 0"} as CSSProperties}>{"Start with one class"}</h2>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,290px),1fr))","gap":"18px","marginTop":"40px","alignItems":"stretch"} as CSSProperties}>
 <div style={{"background":"#E6ECF3","border":"2px solid #D3DBE5","borderRadius":"28px","padding":"26px","boxShadow":"0 14px 30px -10px rgba(38,174,232,.6)","display":"grid","gap":"14px","alignContent":"start"} as CSSProperties}>
@@ -199,7 +199,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 {v.formOpen && <>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,340px),1fr))","gap":"40px 56px","alignItems":"start"} as CSSProperties}>
 <div style={{"display":"grid","gap":"16px"} as CSSProperties}>
-<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0B7DB3"} as CSSProperties}>{"Book a demo"}</div>
+<div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"#0A6C99"} as CSSProperties}>{"Book a demo"}</div>
 <h2 style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(36px,4.6vw,60px)","lineHeight":"1.08","letterSpacing":"-.02em","margin":"0"} as CSSProperties}>{"See Wada with your own class in mind."}</h2>
 <p style={{"margin":"0","color":"#5B6778","maxWidth":"38ch"} as CSSProperties}>{"Tell us a little about your organization. We'll reply on WhatsApp or by phone, usually within a working day."}</p>
 <div style={{"display":"flex","alignItems":"flex-end","gap":"12px","marginTop":"8px"} as CSSProperties}>

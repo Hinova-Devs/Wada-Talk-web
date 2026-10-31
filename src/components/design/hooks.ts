@@ -54,7 +54,7 @@ export function useHome(lang: Language) {
         return { isText: false, isMistake: true, t: MISTAKES[g.m].said, active: a,
           bg: a ? '#DC3545' : '#FDE3E1', fg: a ? '#FFFFFF' : '#8E1F19', line: a ? '#A8261F' : '#DC3545', pick: () => pickM(g.m!), key: (e: React.KeyboardEvent<HTMLElement>) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pickM(g.m!); } } };
       }),
-      chips: MISTAKES.map((_, i) => { const a = i === s.mistake; return { n: i + 1, active: a, bg: a ? '#26AEE8' : '#E6ECF3', fg: a ? '#0F1B2D' : '#0F1B2D', border: a ? '#0B7DB3' : '#C3CCD8', pick: () => pickM(i) }; }),
+      chips: MISTAKES.map((_, i) => { const a = i === s.mistake; return { n: i + 1, active: a, bg: a ? '#26AEE8' : '#E6ECF3', fg: a ? '#0F1B2D' : '#0F1B2D', border: a ? '#0A6C99' : '#C3CCD8', pick: () => pickM(i) }; }),
       m, mNum: s.mistake + 1,
       flip: () => update(x => ({ flipped: !x.flipped })), flipDeg: s.flipped ? '180deg' : '0deg',
       play: play, playLabel: s.playing ? 'Playing…' : 'Hear it',
