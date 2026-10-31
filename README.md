@@ -48,7 +48,7 @@ To look at both views without signing in, run the site with any `NEXT_PUBLIC_SUP
   `http://localhost:3000/auth/callback` and `http://ops.localhost:3000/auth/callback`. Without these the email link does
   not sign anyone in.
 - Decide the contact mailbox (`hello@wadatalk.com` in the footer, forms and help page) and set `NEXT_PUBLIC_CONTACT_EMAIL`.
-- `/join/<code>` calls `class_preview`, which the backend does not have yet.
+- `/join/<code>` no longer calls the missing `class_preview`: it only checks the shape of the code and tells the learner to enter it in the app (the backend can check a code only for a signed-in learner, `take_seat`). Showing the class name before sign-in needs a public preview function in the backend.
 
 **Sign-in fallback.** If Supabase does not allow the `/auth/callback` redirect, the email link lands on `/?code=...`; `src/proxy.ts` forwards that to `/auth/callback`, so the link still signs the person in (it needs only the Site URL `http://localhost:3000` / `https://wada-talk.com` to be allowed). Adding the callback URLs above is still the clean fix.
 
