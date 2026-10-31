@@ -32,6 +32,9 @@ Docs (start here): [`Docs/README.md`](Docs/README.md). AI agents: [`Docs/agent-r
 4. **Domain.** Visible links and docs now say `wada-talk.com` and `ops.wada-talk.com` (was `wadatalk.com`). The contact
    email `hello@wadatalk.com` was **not** changed: see "Going live".
 
+### Dark mode
+The site and the portal follow the app's dark palette. Colours are CSS variables (`--bg`, `--ink`, `--mut`, `--accent-ink`, `--line`, `--neu-d`, `--neu-l`…) set once in `src/app/globals.css`: light by default, dark when the system is dark, or when `data-theme="dark"` is set. The **Auto / Light / Dark** button (`src/components/theme-toggle.tsx`, in the site header and the portal top bar) saves the choice in this browser; a small script in `src/app/layout.tsx` applies it before the page paints. Hero sections and the QR code stay dark / light in both themes. New colours should use these variables, not hex.
+
 ### Signing in to the portal (university admin and teacher)
 There is no password. Go to `/login`, type your work email, open the link Supabase emails you.
 Only invited staff can sign in (`shouldCreateUser: false`): an **admin** sees every class, the team and can create

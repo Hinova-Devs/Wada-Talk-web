@@ -40,9 +40,9 @@ export function useHome(lang: Language) {
       steps: STEPS.map((x, i) => {
         const a = i === s.step;
         return { n: i + 1, title: so ? x.so : x.t, line: so ? x.sl : x.l, cur: a ? 'step' as const : undefined,
-          bg: a ? '#CFEAF6' : '#E6ECF3', border: a ? '#26AEE8' : '#D3DBE5',
-          numBg: a ? '#26AEE8' : '#E6ECF3', numFg: a ? '#0F1B2D' : '#5B6778',
-          bar: i <= s.step ? '#26AEE8' : '#DCE3EC', pick: () => pickStep(i) };
+          bg: a ? 'var(--accent-soft)' : 'var(--bg)', border: a ? '#26AEE8' : 'var(--line)',
+          numBg: a ? '#26AEE8' : 'var(--bg)', numFg: a ? '#0F1B2D' : 'var(--mut)',
+          bar: i <= s.step ? '#26AEE8' : 'var(--surf2)', pick: () => pickStep(i) };
       }),
       step0: s.step === 0, step1: s.step === 1, step2: s.step === 2, step3: s.step === 3,
       subsStatic: SUBS.map(([label, v]) => ({ label, v, w: v + '%' })),
@@ -52,9 +52,9 @@ export function useHome(lang: Language) {
         if (g.m == null) return { isText: true, isMistake: false, t: g.t };
         const a = g.m === s.mistake;
         return { isText: false, isMistake: true, t: MISTAKES[g.m].said, active: a,
-          bg: a ? '#DC3545' : '#FDE3E1', fg: a ? '#FFFFFF' : '#8E1F19', line: a ? '#A8261F' : '#DC3545', pick: () => pickM(g.m!), key: (e: React.KeyboardEvent<HTMLElement>) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pickM(g.m!); } } };
+          bg: a ? '#DC3545' : 'var(--red-bg)', fg: a ? '#FFFFFF' : 'var(--red-text)', line: a ? '#A8261F' : '#DC3545', pick: () => pickM(g.m!), key: (e: React.KeyboardEvent<HTMLElement>) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pickM(g.m!); } } };
       }),
-      chips: MISTAKES.map((_, i) => { const a = i === s.mistake; return { n: i + 1, active: a, bg: a ? '#26AEE8' : '#E6ECF3', fg: a ? '#0F1B2D' : '#0F1B2D', border: a ? '#0A6C99' : '#C3CCD8', pick: () => pickM(i) }; }),
+      chips: MISTAKES.map((_, i) => { const a = i === s.mistake; return { n: i + 1, active: a, bg: a ? '#26AEE8' : 'var(--bg)', fg: a ? '#0F1B2D' : 'var(--ink)', border: a ? '#0A6C99' : 'var(--edge)', pick: () => pickM(i) }; }),
       m, mNum: s.mistake + 1,
       flip: () => update(x => ({ flipped: !x.flipped })), flipDeg: s.flipped ? '180deg' : '0deg',
       play: play, playLabel: s.playing ? 'Playing…' : 'Hear it',
@@ -67,5 +67,5 @@ export function useHome(lang: Language) {
     };
 }
 export function useSafety(lang:Language){const [open,setOpen]=useState(0);return {lang,en:lang==='en',so:lang==='so',setLang:()=>{},faq:FAQ.map(([q,a],i)=>({q,a,open:open===i,rot:open===i?'45deg':'0deg',toggle:()=>setOpen(old=>old===i?-1:i)}))}}
-export function useOrganizations(lang:Language){const [tab,setTab]=useState(0);return {lang,langCode:lang,setLang:()=>{},tabs:TABS.map(([title,line],i)=>({title,line,active:tab===i,bg:tab===i?'#CFEAF6':'#E6ECF3',border:tab===i?'#26AEE8':'#D3DBE5',pick:()=>setTab(i)})),tabTitle:TABS[tab][0],t0:tab===0,t1:tab===1,t2:tab===2,t3:tab===3,skills:SKILLS.map(([label,was,now])=>({label,v:now,was:was+'%',now:now+'%'})),mistakes:MIST.map(([cat,ex,pct],i)=>({n:i+1,cat,ex,pct})),students:STUDENTS.map(([name,trend,min,last,inactive])=>({name,trend,min,last,trendColor:trend.startsWith('▲')?'#7ddfd5':trend.startsWith('▼')?'#F4A09A':'#A0ABBA',tagBg:inactive?'#26AEE8':'#243550',tagFg:inactive?'#0F1B2D':'#B5C0CF'})),types:TYPES.map(label=>({label})),formOpen:true,done:false}}
+export function useOrganizations(lang:Language){const [tab,setTab]=useState(0);return {lang,langCode:lang,setLang:()=>{},tabs:TABS.map(([title,line],i)=>({title,line,active:tab===i,bg:tab===i?'var(--accent-soft)':'var(--bg)',border:tab===i?'#26AEE8':'var(--line)',pick:()=>setTab(i)})),tabTitle:TABS[tab][0],t0:tab===0,t1:tab===1,t2:tab===2,t3:tab===3,skills:SKILLS.map(([label,was,now])=>({label,v:now,was:was+'%',now:now+'%'})),mistakes:MIST.map(([cat,ex,pct],i)=>({n:i+1,cat,ex,pct})),students:STUDENTS.map(([name,trend,min,last,inactive])=>({name,trend,min,last,trendColor:trend.startsWith('▲')?'#7ddfd5':trend.startsWith('▼')?'#F4A09A':'#A0ABBA',tagBg:inactive?'#26AEE8':'#243550',tagFg:inactive?'#0F1B2D':'#B5C0CF'})),types:TYPES.map(label=>({label})),formOpen:true,done:false}}
 
