@@ -33,7 +33,7 @@ Never add a non-`NEXT_PUBLIC_` secret here for use in pages: the site holds no s
 ## Sign-in on ops (owner setup, once per person)
 1. Create an account on the ops site (email + password).
 2. In the Supabase SQL editor: `insert into public.platform_admins (user_id) select id from auth.users where email = '<their email>';`
-3. Supabase → Auth → URL configuration: add `https://ops.wadatalk.com/auth/callback` and `http://ops.localhost:3000/auth/callback` to Redirect URLs.
+3. Supabase → Auth → URL configuration: add `https://ops.wada-talk.com/auth/callback` and `http://ops.localhost:3000/auth/callback` to Redirect URLs.
 
 ## Backend changes the site needs
 The site never changes the database. If a page needs a new column, function or rule: make that change in the
@@ -41,7 +41,7 @@ The site never changes the database. If a page needs a new column, function or r
 matters: a page that reads a column the database does not have yet shows "Could not load".
 
 ## Deploy
-- One deploy serves `wadatalk.com` and `ops.wadatalk.com` (the ops subdomain must be added to the host and to DNS).
+- One deploy serves `wada-talk.com` and `ops.wada-talk.com` (the ops subdomain must be added to the host and to DNS).
 - The hosting setup is not recorded in this repo yet: ask the owner, then write it here (host, project, how a merge to `main` deploys, where env is set).
 
 ## Tasks live in Linear

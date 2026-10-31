@@ -304,7 +304,7 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 </div>
 <div style={{"background":"#1C2A40","border":"1px solid rgba(255,255,255,.08)","borderRadius":"28px","overflow":"hidden","boxShadow":"0 30px 70px rgba(0,0,0,.4)","minWidth":"0"} as CSSProperties}>
 <div style={{"display":"flex","alignItems":"center","gap":"10px","padding":"14px 18px","borderBottom":"1px solid rgba(255,255,255,.08)","fontSize":"13px"} as CSSProperties}>
-<img src={"/assets/fox-tile.webp"} alt={""} width={"24"} height={"24"} style={{"width":"24px","height":"24px","borderRadius":"8px"} as CSSProperties} loading="lazy" /><span style={{"fontWeight":"800"} as CSSProperties}>{"org.wadatalk.com"}</span><span style={{"color":"#A0ABBA"} as CSSProperties}>{"· Overview"}</span><span style={{"marginLeft":"auto","fontSize":"11px","fontWeight":"800","padding":"3px 9px","borderRadius":"999px","background":"#243550","color":"#B5C0CF"} as CSSProperties}>{"Sample data"}</span>
+<img src={"/assets/fox-tile.webp"} alt={""} width={"24"} height={"24"} style={{"width":"24px","height":"24px","borderRadius":"8px"} as CSSProperties} loading="lazy" /><span style={{"fontWeight":"800"} as CSSProperties}>{"org.wada-talk.com"}</span><span style={{"color":"#A0ABBA"} as CSSProperties}>{"· Overview"}</span><span style={{"marginLeft":"auto","fontSize":"11px","fontWeight":"800","padding":"3px 9px","borderRadius":"999px","background":"#243550","color":"#B5C0CF"} as CSSProperties}>{"Sample data"}</span>
 </div>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(120px,1fr))","gap":"10px","padding":"16px"} as CSSProperties}>
 <div style={{"background":"#0F1B2D","borderRadius":"16px","padding":"14px"} as CSSProperties}><div style={{"fontSize":"12px","fontWeight":"700","color":"#A0ABBA"} as CSSProperties}>{"Active this week"}</div><div style={{"fontFamily":"'Plus Jakarta Sans',sans-serif","fontWeight":"800","fontSize":"32px","lineHeight":"1.1"} as CSSProperties}>{"38"}</div></div>
@@ -369,7 +369,7 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 {v.wide && <>
 <div style={{"display":"grid","gap":"8px","justifyItems":"center","marginBottom":"12px"} as CSSProperties}>
 <div style={{"width":"112px","height":"112px","borderRadius":"18px","background":"#E6ECF3","display":"grid","placeItems":"center","color":"#5B6778","fontSize":"12px","fontWeight":"800","backgroundImage":"repeating-linear-gradient(45deg,transparent 0 7px,#D3DBE5 7px 8px)","boxShadow":"8px 8px 18px #C3CCD8,-8px -8px 18px #FFFFFF"} as CSSProperties}>{"QR"}</div>
-<span style={{"fontSize":"13px","color":"#B5C0CF","fontWeight":"700"} as CSSProperties}>{"wadatalk.com/download"}</span>
+<span style={{"fontSize":"13px","color":"#B5C0CF","fontWeight":"700"} as CSSProperties}>{"wada-talk.com/download"}</span>
 </div>
 </>}
 </div>

@@ -6,11 +6,11 @@ web; the learner app is the Flutter app (wada repo) and the backend is Supabase 
 
 | Part | Where | Who uses it |
 |---|---|---|
-| **Public site** | `wadatalk.com`: home, students, paths, organizations, download, safety, plans, method, about, legal pages… English and Somali (`/so/...`) | Everyone |
+| **Public site** | `wada-talk.com`: home, students, paths, organizations, download, safety, plans, method, about, legal pages… English and Somali (`/so/...`) | Everyone |
 | **Join a class** | `/join/<code>`: checks a class join code (`class_preview`) and points to the app stores | Students invited by a university |
 | **Organization portal** | `/portal`: classes, students, scores for a university or company. Sign-in, then the user's `memberships` role (backend roles `teacher` / `admin`, read through `my_orgs`) decides access | Schools and companies |
 | **Portal preview** | `/portal-preview` (and `?role=teacher`): the portal with sample data, for demos (not indexed) | Sales / demos |
-| **Hinova ops** | `ops.wadatalk.com` (code in `src/app/ops`): **Lessons** (plan → generate with AI → review → publish units) and **Organizations** (create universities and companies, add admins) | Hinova staff (platform admins) only |
+| **Hinova ops** | `ops.wada-talk.com` (code in `src/app/ops`): **Lessons** (plan → generate with AI → review → publish units) and **Organizations** (create universities and companies, add admins) | Hinova staff (platform admins) only |
 
 ## Who owns it
 Hinova. The owner decides product, wording and anything public. Teammates (e.g. farahabdishakur) work on the public site
@@ -27,7 +27,7 @@ and the portal.
 - Content of the public pages lives in `src/lib/content.ts` (English and Somali).
 
 ## Decisions already made (do not reopen without the owner)
-- **Ops lives on its own subdomain** `ops.wadatalk.com` (`ops.localhost:3000` locally), not `admin.` ("admin" means
+- **Ops lives on its own subdomain** `ops.wada-talk.com` (`ops.localhost:3000` locally), not `admin.` ("admin" means
   school admins). Not linked from the public site, not indexed. Gate: the user must be in `platform_admins`
   (`is_platform_admin()`). Sign-in is email + password; anyone can create an account, only platform admins get in.
 - **One codebase and one deploy** for the public site, portal and ops.

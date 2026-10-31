@@ -16,7 +16,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Organization portal (`/portal`) + previews | 🟡 now reads and writes through the backend's `my_orgs` / `org_*` / `class_*` functions (`design/wada-app-look`); tsc + lint clean, previews checked in the browser; **not tried signed in** against the Wad project |
 | Site look | 🟡 restyled to the Wada app design (Plus Jakarta Sans, `#E6ECF3` surface, `#26AEE8`, neumorphic cards) on `design/wada-app-look`; only the home page and portal previews were looked at |
 | School admin | removed (`/school-admin`, its CSS and the "School" type); university admin (`/portal`) stays |
-| Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wadatalk.com` DNS / host setup not done |
+| Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wada-talk.com` DNS / host setup not done |
 | Ops: Lessons plan + unit editor (O3) | ✅ merged; used by the owner against the dev project |
 | Ops: Organizations (K2) | 🟡 merged into `o3/fox` after O3 had gone to `main`; reached `main` through P0 (#7) |
 | Ops: CEFR levels A1–B2 (levels plan P0) | ✅ merged (#7) and deployed with the backend |
@@ -25,8 +25,9 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Needs the owner
 - [ ] **Merge PR #8** (`p1b/fox`) after the backend generation fix (wada-backend #8) is merged and `ops-units` is deployed.
-- [ ] **ops subdomain:** DNS record for `ops.wadatalk.com`, add the domain in the host, and add `https://ops.wadatalk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
+- [ ] **ops subdomain:** DNS record for `ops.wada-talk.com`, add the domain in the host, and add `https://ops.wada-talk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
 - [ ] **Ops access:** each founder creates an account on the ops site, then is added to `platform_admins` (see `development-workflow.md`).
+- [ ] **Go live on `wada-talk.com`:** see README → "Going live" (env, DNS for both domains, Supabase Site URL + Redirect URLs for `wada-talk.com` and `ops.wada-talk.com`, contact mailbox).
 - [ ] **Write down the hosting:** which host serves the site, how `main` deploys, where env is set (`development-workflow.md` → Deploy).
 - [ ] **Portal sign-in (Wad project):** add `http://localhost:3000/auth/callback` (and the real site's `/auth/callback`) to Supabase Auth → Redirect URLs. Today only `http://localhost:3000` is listed, so the email link never reaches the callback. Then sign in once with an invited staff email and try Overview, Classes and Students.
 - [ ] **`/join/<code>`:** the page calls `class_preview`, which does not exist in the backend (nor on the Wad project). Add it to the backend or change the page to `take_seat` flow.
@@ -49,6 +50,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 ## 2026-10-31 — Site restyle, school admin removed, portal on the real backend (`design/wada-app-look`)
 - Restyled the site and the portal/ops dashboards to the Wada app look (colours, Plus Jakarta Sans, neumorphic cards, inset fields). Removed the school admin (route, component, CSS, "School" in the demo form and copy).
 - Portal: replaced the `portal_*` calls with the backend's functions (reads in `src/lib/portal/backend.ts`; writes `create_class`, `update_class`, `new_join_code`, `revoke_join_code`, `set_staff_role`, `invite-staff`). Roles come from `my_orgs()`. Removed sections without backend data; Export is a CSV built in the browser.
+- Domain: visible links and docs say `wada-talk.com` / `ops.wada-talk.com` (was `wadatalk.com`; `Docs/product-brief.md` is shared by three repos, so it was left alone). `hello@wadatalk.com` was not changed: nobody confirmed that mailbox exists on the new domain. README has a "Going live" list.
 - Ran: `tsc --noEmit` and `eslint` on the changed portal files clean; looked at the portal previews (admin and teacher) in the browser. Not verified: signed-in use against the Wad project (Redirect URL missing, see Needs the owner), the other public pages, ops Lessons/Organizations pages, dark mode (the app's dark palette is not ported).
 
 ## 2026-10-26 — Product brief and start-here header (`agent-context/fox`)

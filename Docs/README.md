@@ -2,8 +2,8 @@
 
 Read these before you change anything. They are written for the team **and** for the AI agents that work on the site.
 
-This repo is the **website**: the public site (wadatalk.com), the organization portal (`/portal`), class join links
-(`/join/<code>`) and Hinova's internal site (`ops.wadatalk.com`). Two other repos sit next to it on the owner's Desktop:
+This repo is the **website**: the public site (wada-talk.com), the organization portal (`/portal`), class join links
+(`/join/<code>`) and Hinova's internal site (`ops.wada-talk.com`). Two other repos sit next to it on the owner's Desktop:
 
 | Repo (folder) | GitHub | What |
 |---|---|---|

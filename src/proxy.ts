@@ -3,7 +3,7 @@ import { updateSession } from "@/lib/supabase/middleware";
 
 const configured = () => !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-/** Hinova's internal site lives on its own subdomain (ops.wadatalk.com, ops.localhost locally). */
+/** Hinova's internal site lives on its own subdomain (ops.wada-talk.com, ops.localhost locally). */
 export const isOpsHost = (host: string | null) => !!host && host.startsWith("ops.");
 
 export async function proxy(request: NextRequest) {
