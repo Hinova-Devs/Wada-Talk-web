@@ -7,9 +7,9 @@ web; the learner app is the Flutter app (wada repo) and the backend is Supabase 
 | Part | Where | Who uses it |
 |---|---|---|
 | **Public site** | `wadatalk.com`: home, students, paths, organizations, download, safety, plans, method, about, legal pages… English and Somali (`/so/...`) | Everyone |
-| **Join a class** | `/join/<code>`: checks a class join code (`class_preview`) and points to the app stores | Students invited by a school |
-| **Organization portal** | `/portal`: classes, students, scores for a university or company. Sign-in, then the user's `memberships` role (`teacher` / `org_admin`) decides access | Schools and companies |
-| **Portal preview** | `/portal-preview`, `/school-admin/preview`: the portal with sample data, for demos (not indexed) | Sales / demos |
+| **Join a class** | `/join/<code>`: checks a class join code (`class_preview`) and points to the app stores | Students invited by a university |
+| **Organization portal** | `/portal`: classes, students, scores for a university or company. Sign-in, then the user's `memberships` role (backend roles `teacher` / `admin`, read through `my_orgs`) decides access | Schools and companies |
+| **Portal preview** | `/portal-preview` (and `?role=teacher`): the portal with sample data, for demos (not indexed) | Sales / demos |
 | **Hinova ops** | `ops.wadatalk.com` (code in `src/app/ops`): **Lessons** (plan → generate with AI → review → publish units) and **Organizations** (create universities and companies, add admins) | Hinova staff (platform admins) only |
 
 ## Who owns it

@@ -13,7 +13,9 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 |---|---|
 | Public site (EN + SO pages, home, students, organizations, safety, legal) | 🟡 built; content partly draft |
 | Join a class (`/join/<code>`) | 🟡 calls `class_preview`; not tried against real class codes |
-| Organization portal (`/portal`) + previews | 🟡 built by the team; calls `portal_*` functions the backend does not have yet (see gotchas), so it shows "not ready" for real users |
+| Organization portal (`/portal`) + previews | 🟡 now reads and writes through the backend's `my_orgs` / `org_*` / `class_*` functions (`design/wada-app-look`); tsc + lint clean, previews checked in the browser; **not tried signed in** against the Wad project |
+| Site look | 🟡 restyled to the Wada app design (Plus Jakarta Sans, `#E6ECF3` surface, `#26AEE8`, neumorphic cards) on `design/wada-app-look`; only the home page and portal previews were looked at |
+| School admin | removed (`/school-admin`, its CSS and the "School" type); university admin (`/portal`) stays |
 | Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wadatalk.com` DNS / host setup not done |
 | Ops: Lessons plan + unit editor (O3) | ✅ merged; used by the owner against the dev project |
 | Ops: Organizations (K2) | 🟡 merged into `o3/fox` after O3 had gone to `main`; reached `main` through P0 (#7) |
@@ -26,7 +28,10 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - [ ] **ops subdomain:** DNS record for `ops.wadatalk.com`, add the domain in the host, and add `https://ops.wadatalk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
 - [ ] **Ops access:** each founder creates an account on the ops site, then is added to `platform_admins` (see `development-workflow.md`).
 - [ ] **Write down the hosting:** which host serves the site, how `main` deploys, where env is set (`development-workflow.md` → Deploy).
-- [ ] **Portal vs backend:** decide whether the portal changes to the backend's dashboard functions (`DOC/dashboard-api.md`) or the backend adds the `portal_*` functions the portal calls.
+- [ ] **Portal sign-in (Wad project):** add `http://localhost:3000/auth/callback` (and the real site's `/auth/callback`) to Supabase Auth → Redirect URLs. Today only `http://localhost:3000` is listed, so the email link never reaches the callback. Then sign in once with an invited staff email and try Overview, Classes and Students.
+- [ ] **`/join/<code>`:** the page calls `class_preview`, which does not exist in the backend (nor on the Wad project). Add it to the backend or change the page to `take_seat` flow.
+- [ ] **Repo vs live backend:** `institution_portal`, `class_code_rotation`, `university_operations` (and the company ones) are `;` stubs in wada-backend; their SQL exists only on the live project (`university_operations`, `org_live_talk_hours`, `org_portal_profile`, `record_portal_login`…). The portal does not use those yet. Commit the real SQL to the backend repo.
+- [ ] **Score scale:** the portal assumes `latest_score` / `avg_score` are 0–100 (skills 0–20 are shown ×5 as %). Confirm in `dashboard-api.md`.
 
 ## Decisions & gotchas
 - **Next.js 16:** `src/proxy.ts` is the middleware (renamed from `middleware.ts`). Read `node_modules/next/dist/docs/` before writing Next code; `next dev` re-writes the Next block in `AGENTS.md`.
@@ -35,9 +40,16 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - **Stacked PRs:** a PR based on another feature branch merges into that branch, not `main` (K2 #6 merged into `o3/fox` 26 s after O3 went to `main`, so K2 missed `main`). Base PRs on `main`, or check the base before merging.
 - **`package-lock.json`** differs on the owner's machine: leave it unstaged unless a package change is the point.
 - **Lint:** `npm run lint` over the whole repo reports old errors in files not touched recently; check only the files you change.
-- **Portal functions:** the merged portal calls `portal_*` RPCs and the role `org_admin`; the backend has `my_orgs`, `class_overview`… and the role `admin` (`DOC/dashboard-api.md`). Until one side changes, real users see "not ready".
+- **Portal functions:** the portal now follows the backend contract (`DOC/dashboard-api.md`); the web role label `org_admin` is only the UI name for the backend role `admin`. `src/lib/portal/backend.ts` is the one place that maps backend answers to what the dashboard shows. No Live Talk hours, group discussions, safety reports or settings: the backend has no data for them.
+- **Join codes** are shown only once, when created (`new_join_code`); the portal keeps them in page state only.
+- **Preview data** lives in `src/app/portal-preview/page.tsx` in the same shape `loadPortal` returns; `?role=teacher` shows the teacher view. Previews need `NEXT_PUBLIC_SUPABASE_*` set (any values) or the proxy redirects `/portal*` to `/login`.
 
 ## Log (newest first)
+
+## 2026-10-31 — Site restyle, school admin removed, portal on the real backend (`design/wada-app-look`)
+- Restyled the site and the portal/ops dashboards to the Wada app look (colours, Plus Jakarta Sans, neumorphic cards, inset fields). Removed the school admin (route, component, CSS, "School" in the demo form and copy).
+- Portal: replaced the `portal_*` calls with the backend's functions (reads in `src/lib/portal/backend.ts`; writes `create_class`, `update_class`, `new_join_code`, `revoke_join_code`, `set_staff_role`, `invite-staff`). Roles come from `my_orgs()`. Removed sections without backend data; Export is a CSV built in the browser.
+- Ran: `tsc --noEmit` and `eslint` on the changed portal files clean; looked at the portal previews (admin and teacher) in the browser. Not verified: signed-in use against the Wad project (Redirect URL missing, see Needs the owner), the other public pages, ops Lessons/Organizations pages, dark mode (the app's dark palette is not ported).
 
 ## 2026-10-26 — Product brief and start-here header (`agent-context/fox`)
 - `Docs/product-brief.md` (same file in all three repos) and a start-here header at the top of `AGENTS.md` (above the Next.js block). Docs only.
