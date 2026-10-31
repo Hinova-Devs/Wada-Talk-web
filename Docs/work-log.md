@@ -12,7 +12,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Area | Status |
 |---|---|
 | Public site (EN + SO pages, home, students, organizations, safety, legal) | 🟡 built; content partly draft |
-| Join a class (`/join/<code>`) | 🟡 calls `class_preview`; not tried against real class codes |
+| Join a class (`/join/<code>`) | 🟡 checks only the shape of the code and points to the app (no backend preview function exists); looked at with curl, not in a browser |
 | Organization portal (`/portal`) + previews | 🟡 now reads and writes through the backend's `my_orgs` / `org_*` / `class_*` functions (`design/wada-app-look`); tsc + lint clean, previews checked in the browser; **not tried signed in** against the Wad project |
 | Site look | 🟡 restyled to the Wada app design (Plus Jakarta Sans, `#E6ECF3` surface, `#26AEE8`, neumorphic cards) on `design/wada-app-look`; only the home page and portal previews were looked at |
 | School admin | removed (`/school-admin`, its CSS and the "School" type); university admin (`/portal`) stays |
@@ -30,7 +30,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - [ ] **Go live on `wada-talk.com`:** see README → "Going live" (env, DNS for both domains, Supabase Site URL + Redirect URLs for `wada-talk.com` and `ops.wada-talk.com`, contact mailbox).
 - [ ] **Write down the hosting:** which host serves the site, how `main` deploys, where env is set (`development-workflow.md` → Deploy).
 - [ ] **Portal sign-in (Wad project):** add `http://localhost:3000/auth/callback` (and the real site's `/auth/callback`) to Supabase Auth → Redirect URLs. Today only `http://localhost:3000` is listed, so the email link never reaches the callback. Then sign in once with an invited staff email and try Overview, Classes and Students.
-- [ ] **`/join/<code>`:** the page calls `class_preview`, which does not exist in the backend (nor on the Wad project). Add it to the backend or change the page to `take_seat` flow.
+- [ ] **`/join/<code>` class name:** the page used to call `class_preview`, which exists nowhere (and made every real code say "invalid or expired"). It now shows the code and sends the learner to the app. If the page should show the class and organization name before sign-in, the backend needs a public preview function (owner decision; it would reveal class names to anyone with a code).
 - [ ] **Repo vs live backend:** `institution_portal`, `class_code_rotation`, `university_operations` (and the company ones) are `;` stubs in wada-backend; their SQL exists only on the live project (`university_operations`, `org_live_talk_hours`, `org_portal_profile`, `record_portal_login`…). The portal does not use those yet. Commit the real SQL to the backend repo.
 - [ ] **Score scale:** the portal assumes `latest_score` / `avg_score` are 0–100 (skills 0–20 are shown ×5 as %). Confirm in `dashboard-api.md`.
 
@@ -50,6 +50,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 ## 2026-10-31 — Site restyle, school admin removed, portal on the real backend (`design/wada-app-look`)
 - Restyled the site and the portal/ops dashboards to the Wada app look (colours, Plus Jakarta Sans, neumorphic cards, inset fields). Removed the school admin (route, component, CSS, "School" in the demo form and copy).
 - Portal: replaced the `portal_*` calls with the backend's functions (reads in `src/lib/portal/backend.ts`; writes `create_class`, `update_class`, `new_join_code`, `revoke_join_code`, `set_staff_role`, `invite-staff`). Roles come from `my_orgs()`. Removed sections without backend data; Export is a CSV built in the browser.
+- Join page: removed the `class_preview` call (no such function), so real codes are no longer called "invalid or expired"; bad shapes still are. "Enter a code" links to `/download`, where the code form lives.
 - Sign-in fallback in `src/proxy.ts`: `/?code=…` is passed to `/auth/callback`, because the Wad project allows only `http://localhost:3000` as a redirect URL. Checked with curl (redirect, and a bad code goes to `/login?error=invalid-link`); a real email link was not sent.
 - Domain: visible links and docs say `wada-talk.com` / `ops.wada-talk.com` (was `wadatalk.com`; `Docs/product-brief.md` is shared by three repos, so it was left alone). `hello@wadatalk.com` was not changed: nobody confirmed that mailbox exists on the new domain. README has a "Going live" list.
 - Ran: `tsc --noEmit` and `eslint` on the changed portal files clean; looked at the portal previews (admin and teacher) in the browser. Not verified: signed-in use against the Wad project (Redirect URL missing, see Needs the owner), the other public pages, ops Lessons/Organizations pages, dark mode (the app's dark palette is not ported).
