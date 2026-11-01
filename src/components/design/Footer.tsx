@@ -7,7 +7,7 @@ export default function Footer(){return (
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,170px),1fr))","gap":"36px 28px"} as CSSProperties}>
 <div style={{"display":"grid","gap":"12px","alignContent":"start"} as CSSProperties}>
 <div style={{"display":"flex","alignItems":"center","gap":"12px"} as CSSProperties}>
-<img src={"/assets/fox-tile.webp"} alt={""} width={"52"} height={"52"} style={{"width":"52px","height":"52px","borderRadius":"16px","display":"block"} as CSSProperties} loading="lazy" />
+
 <span style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"40px","lineHeight":"1","paddingTop":"6px"} as CSSProperties}>{"wada"}</span>
 </div>
 <span style={{"fontSize":"15px","fontWeight":"700","lineHeight":"1.45"} as CSSProperties}>{"wada = together"}<br  />{"wada hadal = dialogue"}</span>

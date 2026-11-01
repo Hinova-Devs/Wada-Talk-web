@@ -17,7 +17,7 @@ export default function SafetyDesign({lang="en"}: {lang?: "en"|"so"}) { const v=
 </div>
 <div style={{"display":"flex","justifyContent":"center","position":"relative"} as CSSProperties}>
 <div style={{"width":"min(100%,360px)","aspectRatio":"1","borderRadius":"50%","background":"#0F1B2D","display":"grid","placeItems":"center","position":"relative"} as CSSProperties}>
-<img src={"/assets/fox.webp"} alt={"Wada the fox"} style={{"width":"62%","display":"block","animation":"wbob 3.6s ease-in-out infinite"} as CSSProperties} loading="lazy" width={240} height={240} />
+
 <span style={{"position":"absolute","right":"4%","bottom":"10%","width":"84px","height":"84px","borderRadius":"26px","background":"#26AEE8","color":"#0F1B2D","display":"grid","placeItems":"center","boxShadow":"0 14px 30px -10px rgba(38,174,232,.6)"} as CSSProperties}><svg width={"40"} height={"40"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}><path d={"M20 13c0 5-3.5 7.5-7.66 8.950a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"}></path><path d={"m9 12 2 2 4-4"}></path></svg></span>
 </div>
 </div>

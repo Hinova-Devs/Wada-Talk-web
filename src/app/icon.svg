@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4FCBFA"/>
+      <stop offset="0.55" stop-color="#26AEE8"/>
+      <stop offset="1" stop-color="#1673C9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.28" cy="0.18" r="0.7">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="l" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E4F5FF"/>
+    </linearGradient>
+    <linearGradient id="r" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#BFEBFF"/>
+      <stop offset="1" stop-color="#8BD6F7"/>
+    </linearGradient>
+    <filter id="sh" filterUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1100">
+      <feDropShadow dx="0" dy="26" stdDeviation="22" flood-color="#0A3F7A" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="230" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="230" fill="url(#glow)"/>
+  <g filter="url(#sh)" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="128">
+    <polyline points="512,430 654,716 800,318" stroke="url(#r)"/>
+    <polyline points="224,318 370,716 512,430" stroke="url(#l)"/>
+  </g>
+  <circle cx="512" cy="262" r="52" fill="#fff" filter="url(#sh)"/>
+</svg>

@@ -47,6 +47,24 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-01 — Fox removed from the site (not committed yet)
+- The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.
+
+### 2026-11-01 — About page: team section (not committed yet)
+- About page: the five new sections are cards (`.about-cards`), and a new "Our team" grid (`src/components/team.tsx`, photos in `public/team/*.webp`, cropped 4:5) lists the Chancellor, Academic Advisor, CEO, CTO, COO, CMO and Head of Learning with the names the owner gave.
+- Needs the owner: the CMO name is not set yet (card shows the role only); names and roles to be confirmed before launch.
+
+### 2026-11-01 — new app icon (not committed yet)
+- New icon: a "W" made of two overlapping strokes (two people together) with a dot above. Master files and the render script are in `brand/` (`wada-icon.svg`, `wada-icon-1024.png` for the app stores). The site now uses it as `src/app/icon.svg`, `apple-icon.png` and `favicon.ico`; `icons:` was removed from `layout.tsx`.
+- The fox stays as the in-page mascot and in the header/footer/join logos. The Flutter app (`Wada-Talk`) was not touched: its launcher icons must be generated from `brand/wada-icon-1024.png` there.
+- Concept 3 (not installed): two overlapping speech bubbles, cyan and coral, overlap = "together" with a typing-dots mark, on dark navy. Files in `brand/concept-3/`. The site still uses concept 2 (the W) until the owner picks.
+- Concept 5 (not installed): a speech bubble holding a voice waveform that runs from cyan to coral (two voices becoming one), on the app blue. Files in `brand/concept-5/`. (A tree concept was tried and dropped: it looked like a mushroom cloud.)
+- Concept 6 "Dawn" for the Somaliland Tech Expo (not installed): a sunrise whose rings are also sound/signal waves, on deep navy. Files in `brand/expo/` (`dawn.svg`, `dawn-1024.png`).
+- Concept 6b "Dawn, together" (not installed): the same sunrise with two people in front of the sun, so the meaning reads without explanation (two people talking together at a new dawn). `brand/expo/dawn-together.svg` / `-1024.png`.
+- Concept 7 "Hi" (not installed): a soft-3D blue speech bubble with a big white "Hi" (the i-dot is gold, with a sparkle) on warm sand. Self-explanatory: say hi in English. `brand/round3/hi.svg` / `hi-1024.png`.
+- Concept 3b "Together, world" (not installed): the owner picked concept 3 and asked for an international version: the overlap of the two bubbles now holds a globe (two voices, one world). `brand/concept-3/wada-icon-world.svg` / `-1024.png`.
+- Concept 3c "Together, glass" (not installed): the owner asked to advance the *form* of concept 3: same idea, now as glossy glass (rim light, soft highlights, coloured glow, luminous lens, gradient globe). `brand/v2/wada-icon-glass.svg` / `-1024.png`.
+
 ## 2026-10-31 — Site restyle, school admin removed, portal on the real backend (`design/wada-app-look`)
 - Restyled the site and the portal/ops dashboards to the Wada app look (colours, Plus Jakarta Sans, neumorphic cards, inset fields). Removed the school admin (route, component, CSS, "School" in the demo form and copy).
 - Portal: replaced the `portal_*` calls with the backend's functions (reads in `src/lib/portal/backend.ts`; writes `create_class`, `update_class`, `new_join_code`, `revoke_join_code`, `set_staff_role`, `invite-staff`). Roles come from `my_orgs()`. Removed sections without backend data; Export is a CSV built in the browser.

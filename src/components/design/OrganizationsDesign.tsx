@@ -25,7 +25,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 <div style={{"position":"relative","minWidth":"0"} as CSSProperties}>
 <div style={{"background":"#1C2A40","border":"1px solid rgba(255,255,255,.08)","borderRadius":"28px","overflow":"hidden","boxShadow":"0 30px 70px rgba(0,0,0,.4)"} as CSSProperties}>
 <div style={{"display":"flex","alignItems":"center","gap":"10px","padding":"14px 18px","borderBottom":"1px solid rgba(255,255,255,.08)","fontSize":"13px"} as CSSProperties}>
-<img src={"/assets/fox-tile.webp"} alt={""} width={"24"} height={"24"} style={{"width":"24px","height":"24px","borderRadius":"8px"} as CSSProperties} loading="lazy" /><span style={{"fontWeight":"800"} as CSSProperties}>{"org.wada-talk.com"}</span><span style={{"color":"#A0ABBA"} as CSSProperties}>{"· Class 2B"}</span><span style={{"marginLeft":"auto","fontSize":"11px","fontWeight":"800","padding":"3px 9px","borderRadius":"999px","background":"#243550","color":"#B5C0CF"} as CSSProperties}>{"Sample data"}</span>
+<span aria-hidden="true" style={{width:24,height:24,borderRadius:8,background:"#26AEE8",color:"#fff",display:"inline-grid",placeItems:"center",fontWeight:800,fontSize:13,lineHeight:1,flex:"none"}}>w</span><span style={{"fontWeight":"800"} as CSSProperties}>{"org.wada-talk.com"}</span><span style={{"color":"#A0ABBA"} as CSSProperties}>{"· Class 2B"}</span><span style={{"marginLeft":"auto","fontSize":"11px","fontWeight":"800","padding":"3px 9px","borderRadius":"999px","background":"#243550","color":"#B5C0CF"} as CSSProperties}>{"Sample data"}</span>
 </div>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(110px,1fr))","gap":"10px","padding":"16px"} as CSSProperties}>
 <div style={{"background":"#0F1B2D","borderRadius":"16px","padding":"14px"} as CSSProperties}><div style={{"fontSize":"12px","fontWeight":"700","color":"#A0ABBA"} as CSSProperties}>{"Active this week"}</div><div style={{"fontFamily":"'Plus Jakarta Sans',sans-serif","fontWeight":"800","fontSize":"32px","lineHeight":"1.1"} as CSSProperties}>{"38"}</div></div>
@@ -40,7 +40,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 </div>
 </div>
 </div>
-<img src={"/assets/fox.webp"} alt={""} style={{"position":"absolute","left":"-28px","bottom":"-34px","width":"110px","animation":"wbob 3.6s ease-in-out infinite","filter":"drop-shadow(0 12px 18px rgba(0,0,0,.35))"} as CSSProperties} loading="lazy" width={240} height={240} />
+
 </div>
 </div>
 </section>
@@ -135,7 +135,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 <div style={{"display":"grid","alignContent":"center","gap":"14px"} as CSSProperties}>
 <div style={{"fontSize":"14px","fontWeight":"800","letterSpacing":".08em","textTransform":"uppercase","color":"var(--accent-ink)"} as CSSProperties}>{"Privacy promise"}</div>
 <h2 style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(32px,3.8vw,48px)","lineHeight":"1.1","letterSpacing":"-.02em","margin":"0"} as CSSProperties}>{"Students speak freely because their calls stay theirs."}</h2>
-<img src={"/assets/fox.webp"} alt={""} style={{"width":"110px","display":"block"} as CSSProperties} loading="lazy" width={240} height={240} />
+
 </div>
 <div style={{"background":"var(--green-bg)","borderRadius":"28px","padding":"26px","display":"grid","gap":"12px","alignContent":"start"} as CSSProperties}>
 <span style={{"fontFamily":"'Plus Jakarta Sans',sans-serif","fontWeight":"800","fontSize":"26px","color":"var(--green-text)"} as CSSProperties}>{"You see"}</span>
@@ -203,7 +203,7 @@ export default function OrganizationsDesign({lang="en"}: {lang?: "en"|"so"}) { c
 <h2 style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(36px,4.6vw,60px)","lineHeight":"1.08","letterSpacing":"-.02em","margin":"0"} as CSSProperties}>{"See Wada with your own class in mind."}</h2>
 <p style={{"margin":"0","color":"var(--mut)","maxWidth":"38ch"} as CSSProperties}>{"Tell us a little about your organization. We'll reply on WhatsApp or by phone, usually within a working day."}</p>
 <div style={{"display":"flex","alignItems":"flex-end","gap":"12px","marginTop":"8px"} as CSSProperties}>
-<img src={"/assets/fox.webp"} alt={""} style={{"width":"110px","display":"block"} as CSSProperties} loading="lazy" width={240} height={240} />
+
 <div style={{"background":"var(--bg)","border":"2px solid var(--line)","borderRadius":"18px 18px 18px 4px","padding":"10px 14px","fontWeight":"800","fontSize":"16px","marginBottom":"36px"} as CSSProperties}>{"It takes two minutes!"}</div>
 </div>
 </div>

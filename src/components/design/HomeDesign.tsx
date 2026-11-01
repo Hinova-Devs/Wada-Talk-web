@@ -51,16 +51,14 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 <div style={{"position":"absolute","left":"50%","top":"100%","transform":"translate(-50%,-50%)"} as CSSProperties}><div style={{"animation":"wspinr " + v.spinDur + " linear infinite"} as CSSProperties}><div style={{"display":"flex","alignItems":"center","gap":"8px","whiteSpace":"nowrap","padding":"8px 14px 8px 8px","borderRadius":"999px","background":"var(--bg)","color":"var(--ink)","fontWeight":"800","fontSize":"clamp(12px,3.4cqw,15px)","boxShadow":"0 14px 30px -10px rgba(38,174,232,.6)"} as CSSProperties}><span style={{"width":"30px","height":"30px","borderRadius":"50%","display":"grid","placeItems":"center","background":"var(--accent-soft)","color":"var(--accent-ink)"} as CSSProperties}><svg width={"16"} height={"16"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"2.2"} strokeLinecap={"round"} strokeLinejoin={"round"}><path d={"m5 8 6 6"}></path><path d={"m4 14 6-6 2-3"}></path><path d={"M2 5h12"}></path><path d={"M7 2h1"}></path><path d={"m22 22-5-10-5 10"}></path><path d={"M14 18h6"}></path></svg></span>{"Somali on tap"}</div></div></div>
 <div style={{"position":"absolute","left":"0%","top":"50%","transform":"translate(-50%,-50%)"} as CSSProperties}><div style={{"animation":"wspinr " + v.spinDur + " linear infinite"} as CSSProperties}><div style={{"display":"flex","alignItems":"center","gap":"8px","whiteSpace":"nowrap","padding":"8px 14px 8px 8px","borderRadius":"999px","background":"var(--bg)","color":"var(--ink)","fontWeight":"800","fontSize":"clamp(12px,3.4cqw,15px)","boxShadow":"0 14px 30px -10px rgba(38,174,232,.6)"} as CSSProperties}><span style={{"width":"30px","height":"30px","borderRadius":"50%","display":"grid","placeItems":"center","background":"var(--accent-soft)","color":"var(--accent-ink)"} as CSSProperties}><svg width={"16"} height={"16"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"2.2"} strokeLinecap={"round"} strokeLinejoin={"round"}><path d={"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"}></path><path d={"m9 12 2 2 4-4"}></path></svg></span>{"Safe partners"}</div></div></div>
 </div>
-<div style={{"position":"absolute","left":"50%","top":"50%","width":"52%","transform":"translate(-50%,-46%)"} as CSSProperties}>
-<img src={"/assets/fox.webp"} alt={"Wada the fox, waving"} style={{"width":"100%","display":"block","animation":"wbob 3.6s ease-in-out infinite","filter":"drop-shadow(0 18px 24px rgba(0,0,0,.35))"} as CSSProperties} loading="lazy" width={240} height={240} />
-</div>
+<div style={{"position":"absolute","left":"50%","top":"50%","width":"52%","transform":"translate(-50%,-50%)","textAlign":"center","fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"clamp(26px,5vw,56px)","lineHeight":"1","color":"var(--ink)","opacity":"0.35"} as CSSProperties}>{"wada"}</div>
 {v.bubbles && <>
 <div style={{"position":"absolute","zIndex":"3","left":"57%","top":"17%","background":"var(--bg)","color":"var(--ink)","borderRadius":"18px 18px 18px 4px","padding":"10px 14px","fontWeight":"800","fontSize":"clamp(13px,3.4cqw,16px)","lineHeight":"1.25","boxShadow":"0 14px 30px -10px rgba(38,174,232,.6)","maxWidth":"38%","textAlign":"left"} as CSSProperties}>{v.heroBubble}</div>
 </>}
 </div>
 <div style={{"order":"2","justifySelf":"center","width":"min(100%,300px)","textAlign":"left","background":"#1C2A40","border":"1px solid rgba(255,255,255,.08)","borderRadius":"24px","padding":"18px","boxShadow":"0 24px 60px rgba(0,0,0,.35)"} as CSSProperties}>
 <div style={{"display":"flex","alignItems":"center","gap":"10px"} as CSSProperties}>
-<img src={"/assets/fox-tile.webp"} alt={""} width={"36"} height={"36"} style={{"width":"36px","height":"36px","borderRadius":"11px","display":"block","border":"1px solid rgba(255,255,255,.1)"} as CSSProperties} loading="lazy" />
+<span aria-hidden="true" style={{width:36,height:36,borderRadius:12,background:"#26AEE8",color:"#fff",display:"inline-grid",placeItems:"center",fontWeight:800,fontSize:20,lineHeight:1,flex:"none"}}>w</span>
 <div style={{"display":"grid","lineHeight":"1.2"} as CSSProperties}><span style={{"fontWeight":"800","fontSize":"15px"} as CSSProperties}>{"Your coach"}</span><span style={{"fontSize":"12px","color":"#A0ABBA"} as CSSProperties}>{"Private. Only you see this."}</span></div>
 </div>
 <div style={{"display":"grid","gap":"8px","marginTop":"14px"} as CSSProperties}>
@@ -93,7 +91,7 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 </h2>
 <div style={{"display":"flex","alignItems":"flex-end","gap":"12px","justifySelf":"end"} as CSSProperties}>
 {v.bubbles && <><div style={{"background":"var(--bg)","border":"2px solid var(--line)","borderRadius":"18px 18px 4px 18px","padding":"10px 14px","fontWeight":"800","fontSize":"16px","marginBottom":"40px"} as CSSProperties}>{"Sound familiar?"}</div></>}
-<img src={"/assets/fox.webp"} alt={""} style={{"width":"120px","display":"block"} as CSSProperties} loading="lazy" width={240} height={240} />
+
 </div>
 </div>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,260px),1fr))","gap":"20px","marginTop":"48px"} as CSSProperties}>
@@ -152,9 +150,9 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 {v.step1 && <>
 <div style={{"padding":"4px 16px 16px","display":"flex","flexDirection":"column","gap":"10px","flex":"1"} as CSSProperties}>
 <div style={{"fontFamily":"'Plus Jakarta Sans',sans-serif","fontWeight":"800","fontSize":"24px"} as CSSProperties}>{"Practice with AI"}</div>
-<div style={{"display":"flex","gap":"8px","alignItems":"flex-end"} as CSSProperties}><img src={"/assets/fox-tile.webp"} alt={""} width={"28"} height={"28"} style={{"width":"28px","height":"28px","borderRadius":"9px"} as CSSProperties} loading="lazy" /><div style={{"background":"var(--surf2)","borderRadius":"14px 14px 14px 4px","padding":"9px 11px","fontSize":"13px","fontWeight":"600","lineHeight":"1.4"} as CSSProperties}>{"Tell me about your last job."}</div></div>
+<div style={{"display":"flex","gap":"8px","alignItems":"flex-end"} as CSSProperties}><span aria-hidden="true" style={{width:28,height:28,borderRadius:9,background:"#26AEE8",color:"#fff",display:"inline-grid",placeItems:"center",fontWeight:800,fontSize:15,lineHeight:1,flex:"none"}}>w</span><div style={{"background":"var(--surf2)","borderRadius":"14px 14px 14px 4px","padding":"9px 11px","fontSize":"13px","fontWeight":"600","lineHeight":"1.4"} as CSSProperties}>{"Tell me about your last job."}</div></div>
 <div style={{"alignSelf":"flex-end","maxWidth":"85%","background":"#26AEE8","color":"#0F1B2D","borderRadius":"14px 14px 4px 14px","padding":"9px 11px","fontSize":"13px","fontWeight":"700","lineHeight":"1.4"} as CSSProperties}>{"I am working in a shop since two years."}</div>
-<div style={{"display":"flex","gap":"8px","alignItems":"flex-end"} as CSSProperties}><img src={"/assets/fox-tile.webp"} alt={""} width={"28"} height={"28"} style={{"width":"28px","height":"28px","borderRadius":"9px"} as CSSProperties} loading="lazy" /><div style={{"background":"var(--surf2)","borderRadius":"14px 14px 14px 4px","padding":"9px 11px","fontSize":"13px","fontWeight":"600","lineHeight":"1.4"} as CSSProperties}>{"Close! Try it with "}<b >{"for"}</b>{" instead of "}<b >{"since"}</b>{"."}</div></div>
+<div style={{"display":"flex","gap":"8px","alignItems":"flex-end"} as CSSProperties}><span aria-hidden="true" style={{width:28,height:28,borderRadius:9,background:"#26AEE8",color:"#fff",display:"inline-grid",placeItems:"center",fontWeight:800,fontSize:15,lineHeight:1,flex:"none"}}>w</span><div style={{"background":"var(--surf2)","borderRadius":"14px 14px 14px 4px","padding":"9px 11px","fontSize":"13px","fontWeight":"600","lineHeight":"1.4"} as CSSProperties}>{"Close! Try it with "}<b >{"for"}</b>{" instead of "}<b >{"since"}</b>{"."}</div></div>
 <div style={{"marginTop":"auto","alignSelf":"center","width":"64px","height":"64px","borderRadius":"50%","display":"grid","placeItems":"center","background":"#26AEE8","color":"#0F1B2D","boxShadow":"0 14px 30px -10px rgba(38,174,232,.6)"} as CSSProperties}><svg width={"26"} height={"26"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}><path d={"M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"}></path><path d={"M19 10v2a7 7 0 0 1-14 0v-2"}></path><line x1={"12"} x2={"12"} y1={"19"} y2={"22"}></line></svg></div>
 </div>
 </>}
@@ -245,7 +243,7 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 </div>
 </div>
 <div style={{"display":"flex","alignItems":"flex-end","gap":"12px"} as CSSProperties}>
-<img src={"/assets/fox.webp"} alt={""} style={{"width":"96px","display":"block","animation":v.foxHop} as CSSProperties} loading="lazy" width={240} height={240} />
+
 {v.bubbles && <><div style={{"background":"var(--bg)","border":"2px solid var(--line)","borderRadius":"18px 18px 18px 4px","padding":"10px 14px","fontWeight":"800","fontSize":"16px","marginBottom":"34px"} as CSSProperties}>{v.coachBubble}</div></>}
 </div>
 </div>
@@ -304,7 +302,7 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 </div>
 <div style={{"background":"#1C2A40","border":"1px solid rgba(255,255,255,.08)","borderRadius":"28px","overflow":"hidden","boxShadow":"0 30px 70px rgba(0,0,0,.4)","minWidth":"0"} as CSSProperties}>
 <div style={{"display":"flex","alignItems":"center","gap":"10px","padding":"14px 18px","borderBottom":"1px solid rgba(255,255,255,.08)","fontSize":"13px"} as CSSProperties}>
-<img src={"/assets/fox-tile.webp"} alt={""} width={"24"} height={"24"} style={{"width":"24px","height":"24px","borderRadius":"8px"} as CSSProperties} loading="lazy" /><span style={{"fontWeight":"800"} as CSSProperties}>{"org.wada-talk.com"}</span><span style={{"color":"#A0ABBA"} as CSSProperties}>{"· Overview"}</span><span style={{"marginLeft":"auto","fontSize":"11px","fontWeight":"800","padding":"3px 9px","borderRadius":"999px","background":"#243550","color":"#B5C0CF"} as CSSProperties}>{"Sample data"}</span>
+<span aria-hidden="true" style={{width:24,height:24,borderRadius:8,background:"#26AEE8",color:"#fff",display:"inline-grid",placeItems:"center",fontWeight:800,fontSize:13,lineHeight:1,flex:"none"}}>w</span><span style={{"fontWeight":"800"} as CSSProperties}>{"org.wada-talk.com"}</span><span style={{"color":"#A0ABBA"} as CSSProperties}>{"· Overview"}</span><span style={{"marginLeft":"auto","fontSize":"11px","fontWeight":"800","padding":"3px 9px","borderRadius":"999px","background":"#243550","color":"#B5C0CF"} as CSSProperties}>{"Sample data"}</span>
 </div>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(120px,1fr))","gap":"10px","padding":"16px"} as CSSProperties}>
 <div style={{"background":"#0F1B2D","borderRadius":"16px","padding":"14px"} as CSSProperties}><div style={{"fontSize":"12px","fontWeight":"700","color":"#A0ABBA"} as CSSProperties}>{"Active this week"}</div><div style={{"fontFamily":"'Plus Jakarta Sans',sans-serif","fontWeight":"800","fontSize":"32px","lineHeight":"1.1"} as CSSProperties}>{"38"}</div></div>
@@ -365,7 +363,7 @@ export default function HomeDesign({lang="en"}: {lang?: "en"|"so"}) { const v=us
 <p style={{"margin":"22px 0 0","fontSize":"17px","color":"#B5C0CF"} as CSSProperties}>{"Have a class code? "}<Link href={"/join"} style={{"color":"#26AEE8","fontWeight":"800"} as CSSProperties}>{"Join your class →"}</Link></p>
 </div>
 <div style={{"position":"relative","display":"flex","alignItems":"flex-end","justifyContent":"center","gap":"24px"} as CSSProperties}>
-<img src={"/assets/fox.webp"} alt={"Wada the fox"} style={{"width":"min(240px,55%)","display":"block","animation":"wbob 3.6s ease-in-out infinite","filter":"drop-shadow(0 18px 24px rgba(0,0,0,.35))"} as CSSProperties} loading="lazy" width={240} height={240} />
+
 {v.wide && <>
 <div style={{"display":"grid","gap":"8px","justifyItems":"center","marginBottom":"12px"} as CSSProperties}>
 <div style={{"width":"112px","height":"112px","borderRadius":"18px","background":"var(--bg)","display":"grid","placeItems":"center","color":"var(--mut)","fontSize":"12px","fontWeight":"800","backgroundImage":"repeating-linear-gradient(45deg,transparent 0 7px,var(--line) 7px 8px)","boxShadow":"8px 8px 18px var(--neu-d),-8px -8px 18px var(--neu-l)"} as CSSProperties}>{"QR"}</div>
