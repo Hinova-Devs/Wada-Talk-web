@@ -11,7 +11,7 @@ export default async function JoinClass({ params }: { params: Promise<{ code: st
   const { code: raw } = await params;
   const code = decodeURIComponent(raw).toUpperCase();
   const ok = SHAPE.test(code);
-  return <Frame><section className="container"><div className="join-card"><img src="/assets/fox-tile.webp" width="72" height="72" alt="" />
+  return <Frame><section className="container"><div className="join-card">
     {ok ? <><div className="eyebrow">Class invitation</div><h1 className="join-title">Join your class in Wada</h1>
       <p>Get the app, sign in, then enter this code under <b>Join a class</b>.</p><div className="class-code">{code}</div><StoreButtons code={code} />
       <p className="join-note">Your teacher will see your progress, scores and common mistakes, never your recordings or what you said.</p></>

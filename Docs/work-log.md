@@ -47,6 +47,13 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-01 — Fox removed from the site (not committed yet)
+- The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.
+
+### 2026-11-01 — About page: team section (not committed yet)
+- About page: the five new sections are cards (`.about-cards`), and a new "Our team" grid (`src/components/team.tsx`, photos in `public/team/*.webp`, cropped 4:5) lists the Chancellor, Academic Advisor, CEO, CTO, COO, CMO and Head of Learning with the names the owner gave.
+- Needs the owner: the CMO name is not set yet (card shows the role only); names and roles to be confirmed before launch.
+
 ### 2026-11-01 — new app icon (not committed yet)
 - New icon: a "W" made of two overlapping strokes (two people together) with a dot above. Master files and the render script are in `brand/` (`wada-icon.svg`, `wada-icon-1024.png` for the app stores). The site now uses it as `src/app/icon.svg`, `apple-icon.png` and `favicon.ico`; `icons:` was removed from `layout.tsx`.
 - The fox stays as the in-page mascot and in the header/footer/join logos. The Flutter app (`Wada-Talk`) was not touched: its launcher icons must be generated from `brand/wada-icon-1024.png` there.
