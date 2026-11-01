@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A1330"/><stop offset="0.62" stop-color="#16305F"/><stop offset="1" stop-color="#1E4A84"/></linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.66" r="0.6"><stop offset="0" stop-color="#FFB45C" stop-opacity="0.55"/><stop offset="0.45" stop-color="#26AEE8" stop-opacity="0.2"/><stop offset="1" stop-color="#26AEE8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="sun" cx="0.5" cy="1" r="0.9"><stop offset="0" stop-color="#FFF6D2"/><stop offset="1" stop-color="#FFA24F"/></radialGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#071022"/><stop offset="1" stop-color="#0A1834"/></linearGradient>
+    <clipPath id="sky"><rect x="0" y="0" width="1024" height="720"/></clipPath>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>
+  <g clip-path="url(#sky)" fill="none" stroke-width="64">
+    <circle cx="512" cy="720" r="404" stroke="#7FE0FF" stroke-opacity="0.38"/>
+    <circle cx="512" cy="720" r="296" stroke="#52C8F2"/>
+    <circle cx="512" cy="720" r="188" stroke="#FF8F5C"/>
+  </g>
+  <path d="M410 720 A102 102 0 0 1 614 720 Z" fill="url(#sun)"/>
+  <rect x="0" y="720" width="1024" height="304" fill="url(#ground)"/>
+  <rect x="0" y="718" width="1024" height="6" fill="#FFD9A0" opacity="0.8"/>
+  <path d="M0 860 Q180 800 340 840 T700 836 T1024 820 L1024 1024 L0 1024 Z" fill="#050B1A" opacity="0.7"/>
+</svg>
