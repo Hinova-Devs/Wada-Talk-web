@@ -2,8 +2,8 @@
 
 # CLAUDE.md — Wada-Talk-web (Next.js)
 
-The Wada website: the public site (wadatalk.com, English + Somali), class join links (`/join/<code>`), the organization
-portal (`/portal`) and Hinova's internal site (`ops.wadatalk.com`: Lessons and Organizations). The learner app is the
+The Wada website: the public site (wada-talk.com, English + Somali), class join links (`/join/<code>`), the organization
+portal (`/portal`) and Hinova's internal site (`ops.wada-talk.com`: Lessons and Organizations). The learner app is the
 **wada** repo (Flutter) and the backend is the **Wada Backend** repo (Supabase); both sit next to this folder.
 
 ## Start every session here

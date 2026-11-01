@@ -1,4 +1,4 @@
-export const portalSections = [["overview","Overview"],["classes","Classes"],["class-detail","Class detail"],["students","Students"],["student-detail","Student detail"],["skills","Skills and mistakes"],["talk-hours","Live Talk hours"],["discussions","Group discussions"],["reports","Safety reports"],["export","Export"],["team","Team and seats"],["settings","Settings"]] as const;
+export const portalSections = [["overview","Overview"],["classes","Classes"],["class-detail","Class detail"],["students","Students"],["student-detail","Student detail"],["skills","Skills and mistakes"],["export","Export"],["team","Team and seats"]] as const;
 export type PortalSection=(typeof portalSections)[number][0];
 export type PortalRow=Record<string,unknown>;
 export function rows(v:unknown):PortalRow[]{if(Array.isArray(v))return v.filter((x):x is PortalRow=>!!x&&typeof x==="object");return v&&typeof v==="object"?[v as PortalRow]:[]}

@@ -12,9 +12,11 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Area | Status |
 |---|---|
 | Public site (EN + SO pages, home, students, organizations, safety, legal) | 🟡 built; content partly draft |
-| Join a class (`/join/<code>`) | 🟡 calls `class_preview`; not tried against real class codes |
-| Organization portal (`/portal`) + previews | 🟡 built by the team; calls `portal_*` functions the backend does not have yet (see gotchas), so it shows "not ready" for real users |
-| Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wadatalk.com` DNS / host setup not done |
+| Join a class (`/join/<code>`) | 🟡 checks only the shape of the code and points to the app (no backend preview function exists); looked at with curl, not in a browser |
+| Organization portal (`/portal`) + previews | 🟡 now reads and writes through the backend's `my_orgs` / `org_*` / `class_*` functions (`design/wada-app-look`); tsc + lint clean, previews checked in the browser; **not tried signed in** against the Wad project |
+| Site look | 🟡 restyled to the Wada app design (Plus Jakarta Sans, `#E6ECF3` surface, `#26AEE8`, neumorphic cards) on `design/wada-app-look`; only the home page and portal previews were looked at |
+| School admin | removed (`/school-admin`, its CSS and the "School" type); university admin (`/portal`) stays |
+| Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wada-talk.com` DNS / host setup not done |
 | Ops: Lessons plan + unit editor (O3) | ✅ merged; used by the owner against the dev project |
 | Ops: Organizations (K2) | 🟡 merged into `o3/fox` after O3 had gone to `main`; reached `main` through P0 (#7) |
 | Ops: CEFR levels A1–B2 (levels plan P0) | ✅ merged (#7) and deployed with the backend |
@@ -23,10 +25,14 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Needs the owner
 - [ ] **Merge PR #8** (`p1b/fox`) after the backend generation fix (wada-backend #8) is merged and `ops-units` is deployed.
-- [ ] **ops subdomain:** DNS record for `ops.wadatalk.com`, add the domain in the host, and add `https://ops.wadatalk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
+- [ ] **ops subdomain:** DNS record for `ops.wada-talk.com`, add the domain in the host, and add `https://ops.wada-talk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
 - [ ] **Ops access:** each founder creates an account on the ops site, then is added to `platform_admins` (see `development-workflow.md`).
+- [ ] **Go live on `wada-talk.com`:** see README → "Going live" (env, DNS for both domains, Supabase Site URL + Redirect URLs for `wada-talk.com` and `ops.wada-talk.com`, contact mailbox).
 - [ ] **Write down the hosting:** which host serves the site, how `main` deploys, where env is set (`development-workflow.md` → Deploy).
-- [ ] **Portal vs backend:** decide whether the portal changes to the backend's dashboard functions (`DOC/dashboard-api.md`) or the backend adds the `portal_*` functions the portal calls.
+- [ ] **Portal sign-in (Wad project):** add `http://localhost:3000/auth/callback` (and the real site's `/auth/callback`) to Supabase Auth → Redirect URLs. Today only `http://localhost:3000` is listed, so the email link never reaches the callback. Then sign in once with an invited staff email and try Overview, Classes and Students.
+- [ ] **`/join/<code>` class name:** the page used to call `class_preview`, which exists nowhere (and made every real code say "invalid or expired"). It now shows the code and sends the learner to the app. If the page should show the class and organization name before sign-in, the backend needs a public preview function (owner decision; it would reveal class names to anyone with a code).
+- [ ] **Repo vs live backend:** `institution_portal`, `class_code_rotation`, `university_operations` (and the company ones) are `;` stubs in wada-backend; their SQL exists only on the live project (`university_operations`, `org_live_talk_hours`, `org_portal_profile`, `record_portal_login`…). The portal does not use those yet. Commit the real SQL to the backend repo.
+- [ ] **Score scale:** the portal assumes `latest_score` / `avg_score` are 0–100 (skills 0–20 are shown ×5 as %). Confirm in `dashboard-api.md`.
 
 ## Decisions & gotchas
 - **Next.js 16:** `src/proxy.ts` is the middleware (renamed from `middleware.ts`). Read `node_modules/next/dist/docs/` before writing Next code; `next dev` re-writes the Next block in `AGENTS.md`.
@@ -35,9 +41,21 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - **Stacked PRs:** a PR based on another feature branch merges into that branch, not `main` (K2 #6 merged into `o3/fox` 26 s after O3 went to `main`, so K2 missed `main`). Base PRs on `main`, or check the base before merging.
 - **`package-lock.json`** differs on the owner's machine: leave it unstaged unless a package change is the point.
 - **Lint:** `npm run lint` over the whole repo reports old errors in files not touched recently; check only the files you change.
-- **Portal functions:** the merged portal calls `portal_*` RPCs and the role `org_admin`; the backend has `my_orgs`, `class_overview`… and the role `admin` (`DOC/dashboard-api.md`). Until one side changes, real users see "not ready".
+- **Portal functions:** the portal now follows the backend contract (`DOC/dashboard-api.md`); the web role label `org_admin` is only the UI name for the backend role `admin`. `src/lib/portal/backend.ts` is the one place that maps backend answers to what the dashboard shows. No Live Talk hours, group discussions, safety reports or settings: the backend has no data for them.
+- **Join codes** are shown only once, when created (`new_join_code`); the portal keeps them in page state only.
+- **Preview data** lives in `src/app/portal-preview/page.tsx` in the same shape `loadPortal` returns; `?role=teacher` shows the teacher view. Previews need `NEXT_PUBLIC_SUPABASE_*` set (any values) or the proxy redirects `/portal*` to `/login`.
 
 ## Log (newest first)
+
+## 2026-10-31 — Site restyle, school admin removed, portal on the real backend (`design/wada-app-look`)
+- Restyled the site and the portal/ops dashboards to the Wada app look (colours, Plus Jakarta Sans, neumorphic cards, inset fields). Removed the school admin (route, component, CSS, "School" in the demo form and copy).
+- Portal: replaced the `portal_*` calls with the backend's functions (reads in `src/lib/portal/backend.ts`; writes `create_class`, `update_class`, `new_join_code`, `revoke_join_code`, `set_staff_role`, `invite-staff`). Roles come from `my_orgs()`. Removed sections without backend data; Export is a CSV built in the browser.
+- Public pages audit (27 URLs incl. `/so`, at 375 px and 1280 px, in a browser): no horizontal overflow, no broken images, no error pages. A contrast sweep found blue text `#0B7DB3` on `#E6ECF3` at 3.8:1 and grey text at 2–3:1; blue text is now `#0A6C99` (4.9:1) and the greys `#5B6778`. After the fix 0 failing text nodes on 14 public and portal-preview pages (WCAG AA, 4.5:1 / 3:1 for large text). The ops sign-in page and the signed-in ops pages were not swept.
+- Join page: removed the `class_preview` call (no such function), so real codes are no longer called "invalid or expired"; bad shapes still are. "Enter a code" links to `/download`, where the code form lives.
+- Sign-in fallback in `src/proxy.ts`: `/?code=…` is passed to `/auth/callback`, because the Wad project allows only `http://localhost:3000` as a redirect URL. Checked with curl (redirect, and a bad code goes to `/login?error=invalid-link`); a real email link was not sent.
+- Dark mode: colours moved to CSS variables in `globals.css` (light values unchanged, dark values from the app's palette); Auto / Light / Dark button in the header and the portal top bar (`theme-toggle.tsx`), saved in `localStorage`, applied by a script in `layout.tsx`. Contrast sweep (WCAG AA) over 27 public and portal-preview pages in dark and in light: 0 failing text nodes. `tsc` clean and `npm run build` passes; `HomeDesign.tsx` has 155 old lint errors that are the same on `main`. Not checked: signed-in portal and ops pages in dark, the Somali text length in dark, the `opengraph-image` (kept light on purpose).
+- Domain: visible links and docs say `wada-talk.com` / `ops.wada-talk.com` (was `wadatalk.com`; `Docs/product-brief.md` is shared by three repos, so it was left alone). `hello@wadatalk.com` was not changed: nobody confirmed that mailbox exists on the new domain. README has a "Going live" list.
+- Ran: `tsc --noEmit` and `eslint` on the changed portal files clean; looked at the portal previews (admin and teacher) in the browser. Not verified: signed-in use against the Wad project (Redirect URL missing, see Needs the owner), the other public pages, ops Lessons/Organizations pages, dark mode (the app's dark palette is not ported).
 
 ## 2026-10-26 — Product brief and start-here header (`agent-context/fox`)
 - `Docs/product-brief.md` (same file in all three repos) and a start-here header at the top of `AGENTS.md` (above the Next.js block). Docs only.

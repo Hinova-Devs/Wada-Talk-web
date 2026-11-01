@@ -17,5 +17,5 @@ export const STUDENTS = [
   ['Student A', '▲ 6', 84, 'Today', 0], ['Student B', '▲ 4', 61, 'Yesterday', 0], ['Student C', '▲ 1', 39, '3 days ago', 0],
   ['Student D', '—', 12, '9 days', 1], ['Student E', '▼ 2', 8, '14 days', 1]
 ] as const;
-export const TYPES = ['University', 'School', 'Business', 'NGO'];
+export const TYPES = ['University', 'Business', 'NGO'];
 

@@ -12,7 +12,7 @@ Wada-Talk-web/                    THIS repo: the website, portal and ops (Next.j
 │   │   ├── join/[code]/          Join a class by code
 │   │   ├── portal/               Organization portal (signed in, teacher / org_admin)
 │   │   ├── portal-preview/       Portal with sample data (demo, not indexed)
-│   │   ├── school-admin/, university-admin/   Redirects to the portal preview / portal
+│   │   ├── university-admin/   Redirects to the portal preview / portal
 │   │   ├── auth/callback/        Supabase sign-in callback for the public host
 │   │   ├── ops/                  Hinova ops, served on ops.<host>: login, lessons, lessons/[id], organizations, auth/callback
 │   │   ├── layout.tsx, globals.css, not-found.tsx, robots.ts, sitemap.ts, opengraph-image.tsx
@@ -20,7 +20,6 @@ Wada-Talk-web/                    THIS repo: the website, portal and ops (Next.j
 │   │   ├── design/               Home, Organizations and Safety page designs (+ their .data.ts)
 │   │   ├── ops/                  shell, login-form, lessons-board, unit-editor, variant-fields, orgs-board
 │   │   ├── portal/               dashboard
-│   │   ├── school/               school-admin preview
 │   │   └── pages.tsx, shell.tsx, forms.tsx   public page frame, header/footer, store buttons, forms
 │   └── lib/
 │       ├── content.ts            Public page content (EN + SO), paths, documents
@@ -45,5 +44,5 @@ Wada-Talk-web/                    THIS repo: the website, portal and ops (Next.j
 
 ## Naming
 - Branches: use the branch you are given; otherwise `<job>/fox` (for example `p1b/fox`). Never commit to `main`.
-- Components: `kebab-case.tsx` in `components/ops`, `portal`, `school`; the older design files use `PascalCase.tsx`. Keep a folder's style.
+- Components: `kebab-case.tsx` in `components/ops`, `portal`; the older design files use `PascalCase.tsx`. Keep a folder's style.
 - Docs file names are lower-case with hyphens.

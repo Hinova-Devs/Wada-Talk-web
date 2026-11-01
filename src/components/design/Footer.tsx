@@ -2,13 +2,13 @@ import Link from "next/link";
 import type {CSSProperties} from "react";
 export default function Footer(){return (
 
-<footer style={{"background":"#F0873A","color":"#0D1321","fontFamily":"'Nunito Sans',system-ui,sans-serif"} as CSSProperties}>
+<footer style={{"background":"#26AEE8","color":"#0F1B2D","fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif"} as CSSProperties}>
 <div style={{"maxWidth":"1200px","margin":"0 auto","padding":"64px clamp(16px,4vw,40px) 28px"} as CSSProperties}>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,170px),1fr))","gap":"36px 28px"} as CSSProperties}>
 <div style={{"display":"grid","gap":"12px","alignContent":"start"} as CSSProperties}>
 <div style={{"display":"flex","alignItems":"center","gap":"12px"} as CSSProperties}>
 <img src={"/assets/fox-tile.webp"} alt={""} width={"52"} height={"52"} style={{"width":"52px","height":"52px","borderRadius":"16px","display":"block"} as CSSProperties} loading="lazy" />
-<span style={{"fontFamily":"'Baloo 2',system-ui,sans-serif","fontWeight":"800","fontSize":"40px","lineHeight":"1","paddingTop":"6px"} as CSSProperties}>{"wada"}</span>
+<span style={{"fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif","fontWeight":"800","fontSize":"40px","lineHeight":"1","paddingTop":"6px"} as CSSProperties}>{"wada"}</span>
 </div>
 <span style={{"fontSize":"15px","fontWeight":"700","lineHeight":"1.45"} as CSSProperties}>{"wada = together"}<br  />{"wada hadal = dialogue"}</span>
 </div>
