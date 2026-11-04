@@ -69,7 +69,8 @@ export function FinanceBoard({ month, rows, loadFailed }: { month: string; rows:
         <article className="oa-stat blue"><span>Net</span><strong>{usd(income - out)}</strong><small>Income minus all money out</small></article>
       </div>
       {message && <div className={message.ok ? "oa-preview-banner" : "oa-empty"} role="status">{message.text}</div>}
-      <form className="oa-panel ops-add" onSubmit={add}>
+      <form className="oa-panel oa-create-form ops-add" onSubmit={add}>
+        <h2>Add an entry</h2>
         <div>
           <label>Type<select name="kind">{KINDS.map(([id, l]) => <option key={id} value={id}>{l}</option>)}</select></label>
           <label>Category<input name="category" list="fin-cats" required maxLength={60} /></label>

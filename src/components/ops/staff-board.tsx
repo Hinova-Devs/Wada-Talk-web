@@ -67,7 +67,8 @@ export function StaffBoard({ rows, loadFailed }: { rows: StaffRow[]; loadFailed:
       </header>
       {message && <div className={message.ok ? "oa-preview-banner" : "oa-empty"} role="status">{message.text}</div>}
       {adding && (
-        <form className="oa-panel ops-add" onSubmit={add}>
+        <form className="oa-panel oa-create-form ops-add" onSubmit={add}>
+          <h2>Add a team member</h2>
           <div>
             <label>Full name<input name="name" required maxLength={120} /></label>
             <label>Email (they must have signed up on this site)<input name="email" type="email" required /></label>
