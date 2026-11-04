@@ -22,6 +22,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Ops: CEFR levels A1–B2 (levels plan P0) | ✅ merged (#7) and deployed with the backend |
 | Ops: words and grammar per unit (P1b) + "Stopped / Try again" for stuck generations | 🟡 PR #8 (`p1b/fox`) open; tsc + lint clean; not tried signed in |
 | Ops: Overview, Staff directory (teachers, finance), Finance (ops roles) | 🟡 branch `ops-finance-staff/claude`; tsc + eslint clean on `src/app/ops`, `components/ops`, `lib/ops`; **not run against a database** (backend migration `20261104100000` untested, no pgTAP written) |
+| Ops: Affiliates (payout requests, referrers, pilot date, test payment) + `/r/<code>` invite page | 🟡 branch `affiliates/claude`; eslint + tsc clean; not tried signed in; backend migration `20261104110000` not applied or tested |
 | Docs (this folder) | 🟡 first version on `web-docs/fox` |
 
 ## Needs the owner
@@ -48,6 +49,9 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - **Preview data** lives in `src/app/portal-preview/page.tsx` in the same shape `loadPortal` returns; `?role=teacher` shows the teacher view. Previews need `NEXT_PUBLIC_SUPABASE_*` set (any values) or the proxy redirects `/portal*` to `/login`.
 
 ## Log (newest first)
+
+### 2026-11-04 — Ops: Affiliates
+- New Ops → Affiliates page (super admin): payout requests with Mark paid (writes a Finance payout), referrers table, pilot date + minimum payout, and a "Record $3 payment" test button until the gateway is connected. `/r/<code>` is the page the app's affiliate link opens (shows the code and the store buttons). Contract: `DOC/ops-api.md` section 9 in wada-backend. Depends on the ops roles PR (#15 / wada-backend #22).
 
 ### 2026-11-04 — Ops: Overview, Staff, Finance
 - `/ops` menu now follows `ops_role()` (super admin, teacher, finance): Overview (super admin home: units by status, orgs, team, month income, recent activity), Lessons (super admin + teacher; teachers don't see Publish), Organizations, **Staff** (directory of teachers/finance with planned/generated counts, pay per unit, owed, Pay and Remove), **Finance** (monthly income/expense/payout entries, net). Contract: `DOC/ops-api.md` section 8 in wada-backend.
