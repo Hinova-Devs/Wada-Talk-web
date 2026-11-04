@@ -21,9 +21,11 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Ops: Organizations (K2) | 🟡 merged into `o3/fox` after O3 had gone to `main`; reached `main` through P0 (#7) |
 | Ops: CEFR levels A1–B2 (levels plan P0) | ✅ merged (#7) and deployed with the backend |
 | Ops: words and grammar per unit (P1b) + "Stopped / Try again" for stuck generations | 🟡 PR #8 (`p1b/fox`) open; tsc + lint clean; not tried signed in |
+| Ops: Overview, Staff directory (teachers, finance), Finance (ops roles) | 🟡 branch `ops-finance-staff/claude`; tsc + eslint clean on `src/app/ops`, `components/ops`, `lib/ops`; **not run against a database** (backend migration `20261104100000` untested, no pgTAP written) |
 | Docs (this folder) | 🟡 first version on `web-docs/fox` |
 
 ## Needs the owner
+- [ ] **Ops roles:** merge wada-backend branch `ops-staff-finance/claude`, then `supabase db push` and `supabase functions deploy ops-units`. Then add teachers in Ops → Staff (they sign up on the ops page first). Teachers plan/generate; only super admins publish.
 - [ ] **Merge PR #8** (`p1b/fox`) after the backend generation fix (wada-backend #8) is merged and `ops-units` is deployed.
 - [ ] **ops subdomain:** DNS record for `ops.wada-talk.com`, add the domain in the host, and add `https://ops.wada-talk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
 - [ ] **Ops access:** each founder creates an account on the ops site, then is added to `platform_admins` (see `development-workflow.md`).
@@ -46,6 +48,10 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - **Preview data** lives in `src/app/portal-preview/page.tsx` in the same shape `loadPortal` returns; `?role=teacher` shows the teacher view. Previews need `NEXT_PUBLIC_SUPABASE_*` set (any values) or the proxy redirects `/portal*` to `/login`.
 
 ## Log (newest first)
+
+### 2026-11-04 — Ops: Overview, Staff, Finance
+- `/ops` menu now follows `ops_role()` (super admin, teacher, finance): Overview (super admin home: units by status, orgs, team, month income, recent activity), Lessons (super admin + teacher; teachers don't see Publish), Organizations, **Staff** (directory of teachers/finance with planned/generated counts, pay per unit, owed, Pay and Remove), **Finance** (monthly income/expense/payout entries, net). Contract: `DOC/ops-api.md` section 8 in wada-backend.
+- Teacher pay: owed = units generated × rate minus payouts to that email; "Pay" writes a payout to Finance.
 
 ### 2026-11-01 — Fox removed from the site (not committed yet)
 - The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.
