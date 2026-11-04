@@ -36,7 +36,7 @@ Docs (start here): [`Docs/README.md`](Docs/README.md). AI agents: [`Docs/agent-r
 The site and the portal follow the app's dark palette. Colours are CSS variables (`--bg`, `--ink`, `--mut`, `--accent-ink`, `--line`, `--neu-d`, `--neu-l`…) set once in `src/app/globals.css`: light by default, dark when the system is dark, or when `data-theme="dark"` is set. The **Auto / Light / Dark** button (`src/components/theme-toggle.tsx`, in the site header and the portal top bar) saves the choice in this browser; a small script in `src/app/layout.tsx` applies it before the page paints. Hero sections and the QR code stay dark / light in both themes. New colours should use these variables, not hex.
 
 ### Signing in to the portal (university admin and teacher)
-There is no password. Go to `/login`, type your work email, open the link Supabase emails you.
+Go to `/login`. **With a password:** type your work email and password, then Sign in. **Without one:** leave the password empty and open the link Supabase emails you. On a development project the seeded Ms. Sahra (`sahra@demo.wada.test`, admin of Demo University) signs in with a password; her password is in `../Wada Backend/DOC/authentication.md`. Do not use the demo account in production.
 Only invited staff can sign in (`shouldCreateUser: false`): an **admin** sees every class, the team and can create
 classes and invite staff; a **teacher** sees only the classes they teach. Send invitations from Portal → Team
 (admin only) or ask Hinova to add the first admin from the ops site.

@@ -47,6 +47,9 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-04 — Login: email + password again (`login-password/claude`)
+- `/login` has an optional password: with it the form calls `signInWithPassword` and goes to `/portal`; empty, it sends the email link as before (invitation-only, `shouldCreateUser:false`). Password sign-in works only for accounts that already have a password (the seeded demo teacher/admin); invited staff still use the link. The earlier version (before 41183e0) allowed a password only for the dev demo account; this allows it for any account that has one. Not tested against the live project.
+
 ### 2026-11-04 — Login page: direct demo links (`login-demo/claude`)
 - `/login` now says there is no password (an email link is sent) and links to `/portal-preview` (admin) and `/portal-preview?role=teacher`: sample data, no sign-in, nothing saved. Real organization data still needs a signed-in, invited account; the portal login was not removed.
 
