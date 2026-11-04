@@ -1,6 +1,6 @@
 // Who sees what in /ops. Roles come from `ops_role()` (ops-api.md section 8).
 export type OpsRole = "super_admin" | "teacher" | "finance";
-export type OpsSection = "overview" | "lessons" | "organizations" | "staff" | "finance";
+export type OpsSection = "overview" | "lessons" | "organizations" | "staff" | "affiliates" | "finance";
 
 /** The menu, in order; each entry lists the roles that see it. */
 export const MENU: { id: OpsSection; href: string; label: string; icon: string; roles: OpsRole[] }[] = [
@@ -8,6 +8,7 @@ export const MENU: { id: OpsSection; href: string; label: string; icon: string; 
   { id: "lessons", href: "/lessons", label: "Lessons", icon: "▤", roles: ["super_admin", "teacher"] },
   { id: "organizations", href: "/organizations", label: "Organizations", icon: "▦", roles: ["super_admin"] },
   { id: "staff", href: "/staff", label: "Staff", icon: "◉", roles: ["super_admin"] },
+  { id: "affiliates", href: "/affiliates", label: "Affiliates", icon: "⇄", roles: ["super_admin"] },
   { id: "finance", href: "/finance", label: "Finance", icon: "＄", roles: ["super_admin", "finance"] },
 ];
 export const ROLE_LABELS: Record<OpsRole, string> = { super_admin: "Super admin", teacher: "Teacher", finance: "Finance" };
