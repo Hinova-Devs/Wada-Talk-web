@@ -17,3 +17,12 @@ export async function callOps<T = Record<string, unknown>>(fn: "ops-units" | "op
 }
 
 export const opsUnits = <T = Record<string, unknown>>(body: Record<string, unknown>) => callOps<T>("ops-units", body);
+
+/** Calls an ops database function (`ops_staff_set`, `ops_finance_add` …). Throws an Error whose message is safe to show. */
+export async function opsRpc<T = unknown>(fn: string, args: Record<string, unknown> = {}): Promise<T> {
+  const { data, error } = await createClient().rpc(fn, args);
+  if (!error) return data as T;
+  if (/not_allowed/.test(error.message)) throw new Error("Your role can't do this.");
+  // Functions raise 'code: readable sentence'; show the sentence.
+  throw new Error(error.message.replace(/^[a-z_]+: /, "") || "Something went wrong. Try again.");
+}
