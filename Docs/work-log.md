@@ -14,7 +14,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Public site (EN + SO pages, home, students, organizations, safety, legal) | 🟡 built; content partly draft |
 | Join a class (`/join/<code>`) | 🟡 checks only the shape of the code and points to the app (no backend preview function exists); looked at with curl, not in a browser |
 | Organization portal (`/portal`) + previews | 🟡 now reads and writes through the backend's `my_orgs` / `org_*` / `class_*` functions (`design/wada-app-look`); tsc + lint clean, previews checked in the browser; **not tried signed in** against the Wad project |
-| Site look | 🟡 restyled to the Wada app design (Plus Jakarta Sans, `#E6ECF3` surface, `#26AEE8`, neumorphic cards) on `design/wada-app-look`; only the home page and portal previews were looked at |
+| Site look | 🟡 matched Flutter main `868e8b7` (2026-11-04): orange, warm cream / brown, teal progress, violet icons; branch `theme/app-match`; light/dark and phone-width browser checks; not deployed |
 | School admin | removed (`/school-admin`, its CSS and the "School" type); university admin (`/portal`) stays |
 | Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wada-talk.com` DNS / host setup not done |
 | Ops: Lessons plan + unit editor (O3) | ✅ merged; used by the owner against the dev project |
@@ -24,6 +24,7 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Docs (this folder) | 🟡 first version on `web-docs/fox` |
 
 ## Needs the owner
+- [ ] Review and merge `theme/app-match` to release the orange app theme; this branch is not deployed.
 - [ ] **Merge PR #8** (`p1b/fox`) after the backend generation fix (wada-backend #8) is merged and `ops-units` is deployed.
 - [ ] **ops subdomain:** DNS record for `ops.wada-talk.com`, add the domain in the host, and add `https://ops.wada-talk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
 - [ ] **Ops access:** each founder creates an account on the ops site, then is added to `platform_admins` (see `development-workflow.md`).
@@ -46,6 +47,13 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - **Preview data** lives in `src/app/portal-preview/page.tsx` in the same shape `loadPortal` returns; `?role=teacher` shows the teacher view. Previews need `NEXT_PUBLIC_SUPABASE_*` set (any values) or the proxy redirects `/portal*` to `/login`.
 
 ## Log (newest first)
+
+### 2026-11-04 — Match the current Flutter app theme (`theme/app-match`)
+- Source is actual Flutter `main` commit `868e8b7432ea68a133fad2574ff04499d6abd4cc` (app-colours PR #36), `lib/core/theme/app_theme.dart` and `lib/core/widgets/widgets.dart`, rather than the older cyan docs.
+- Orange `#F26B1D`, dark orange actions `#D9480F`, warm cream `#F4EEE8`, dark surface `#2A2421`; teal progress and violet icon tiles. Shared CSS tokens cover public pages, portal and ops; inline marketing styles, previews, QR and social image updated. Raised cards use paired shadows, fields use inset shadows, buttons press to 0.97.
+- Verified: TypeScript, production build; browser home, safety, organization page; light/dark toggle and no horizontal overflow at desktop and 390px on checked pages. ESLint reports the same 153 existing `react-hooks/refs` errors in HomeDesign and existing warnings; other changed TS/TSX files have no errors.
+- Not verified: signed-in portal/ops, live deployment. No backend or auth behavior changed.
+
 
 ### 2026-11-01 — Fox removed from the site (not committed yet)
 - The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.

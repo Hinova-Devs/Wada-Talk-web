@@ -2,7 +2,7 @@ import Link from "next/link";
 import type {CSSProperties} from "react";
 export default function Footer(){return (
 
-<footer style={{"background":"#26AEE8","color":"#0F1B2D","fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif"} as CSSProperties}>
+<footer style={{"background":"var(--accent)","color":"var(--navy)","fontFamily":"'Plus Jakarta Sans',system-ui,sans-serif"} as CSSProperties}>
 <div style={{"maxWidth":"1200px","margin":"0 auto","padding":"64px clamp(16px,4vw,40px) 28px"} as CSSProperties}>
 <div style={{"display":"grid","gridTemplateColumns":"repeat(auto-fit,minmax(min(100%,170px),1fr))","gap":"36px 28px"} as CSSProperties}>
 <div style={{"display":"grid","gap":"12px","alignContent":"start"} as CSSProperties}>
