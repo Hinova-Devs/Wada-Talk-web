@@ -85,3 +85,7 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.oa-button{transition:none}}
 /* Fixed dark sections need their own shadow pair even when the page is light. */
 .site-header.dark,.brand-dark,.page-hero{--shadow-card:8px 8px 18px #171311,-8px -8px 18px #37302B;--shadow-sm:4px 4px 10px #171311,-4px -4px 10px #37302B}
+/* Ops sidebar is always dark: fixed light text so it stays readable in dark theme (var(--bg)/--surf2 go dark there). */
+.oa-sidebar{background:#221D1A;color:var(--paper);box-shadow:1px 0 0 #ffffff14}.oa-sidebar .wordmark,.oa-side-org strong{color:var(--paper)}
+.oa-nav-link{color:var(--paper)!important}.oa-nav-link i{color:var(--hero-muted)}.oa-nav-link:hover{background:#ffffff1f}
+.oa-nav-link.active i,.oa-sidebar .oa-nav-link[aria-current=page] i{color:inherit}
