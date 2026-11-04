@@ -85,3 +85,11 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button,.oa-button{transition:none}}
 /* Fixed dark sections need their own shadow pair even when the page is light. */
 .site-header.dark,.brand-dark,.page-hero{--shadow-card:8px 8px 18px #171311,-8px -8px 18px #37302B;--shadow-sm:4px 4px 10px #171311,-4px -4px 10px #37302B}
+/* Course plan: category tabs are photo cards */
+.ops-tabs.ops-cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:20px}
+.ops-tabs.ops-cats a{display:flex;align-items:flex-end;min-height:124px;padding:14px;border:2px solid transparent;border-radius:16px;background-color:#2a211c;background-size:cover;background-position:center;color:#fff;font-size:14px;font-weight:800;line-height:1.2;text-shadow:0 1px 3px rgba(0,0,0,.6);box-shadow:0 6px 16px rgba(0,0,0,.25);transition:transform .15s,border-color .15s}
+.ops-tabs.ops-cats a:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.35)}
+.ops-tabs.ops-cats a[aria-current=page]{border-color:var(--accent-dark);color:#fff;box-shadow:0 0 0 3px var(--accent),0 8px 20px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion:reduce){.ops-tabs.ops-cats a{transition:none}.ops-tabs.ops-cats a:hover{transform:none}}
+.ops-unit{grid-template-columns:88px minmax(0,1fr);column-gap:14px;align-content:start}.ops-unit>*{grid-column:2}
+.ops-unit>.ops-thumb{grid-column:1;grid-row:1/span 4;width:88px;height:62px;border-radius:10px;background-color:var(--line);background-size:cover;background-position:center}

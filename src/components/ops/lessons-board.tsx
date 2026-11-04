@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useEffect, useState } from "react";
 import { opsUnits } from "@/lib/ops/call";
+import { CATEGORY_PHOTOS, unitPhoto } from "@/lib/ops/photos";
 import { CATEGORIES, categoryLabel, type Category, isStuck, LEVELS, levelLabel, lineList, type PlanRow, STATUS_LABELS, wordList } from "@/lib/ops/units";
 
 const when = (iso: string) =>
@@ -87,9 +88,10 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
         </div>
       </div>
 
-      <nav className="ops-tabs" aria-label="Categories">
+      <nav className="ops-tabs ops-cats" aria-label="Categories">
         {CATEGORIES.map(([id, label]) => (
-          <Link key={id} href={`/lessons?category=${id}`} aria-current={id === category ? "page" : undefined}>{label}</Link>
+          <Link key={id} href={`/lessons?category=${id}`} aria-current={id === category ? "page" : undefined}
+            style={{ backgroundImage: `linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.78)), ${CATEGORY_PHOTOS[id]}` }}>{label}</Link>
         ))}
       </nav>
 
@@ -167,6 +169,7 @@ export function LessonsBoard({ category, rows, loadFailed }: { category: Categor
                   <tr key={r.id}>
                     <td>{r.position}</td>
                     <td className="ops-unit">
+                      <span className="ops-thumb" aria-hidden="true" style={{ backgroundImage: unitPhoto(category, r.title, r.can_do_items?.text_en) }} />
                       <Link href={`/lessons/${r.id}`}><strong>{r.title}</strong></Link>
                       <small>{r.can_do_items?.text_en}</small>
                       {r.target_words?.length > 0 && <small>Words: {r.target_words.join(", ")}</small>}
