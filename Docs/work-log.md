@@ -47,6 +47,9 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-04 — Login page: direct demo links (`login-demo/claude`)
+- `/login` now says there is no password (an email link is sent) and links to `/portal-preview` (admin) and `/portal-preview?role=teacher`: sample data, no sign-in, nothing saved. Real organization data still needs a signed-in, invited account; the portal login was not removed.
+
 ### 2026-11-01 — Fox removed from the site (not committed yet)
 - The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.
 
