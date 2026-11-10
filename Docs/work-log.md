@@ -47,6 +47,9 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-10 - CI for the website (HDT-89, not committed yet)
+- Added `.github/workflows/ci.yml` (PR + push to main): `npm ci`, eslint, `npm run build` on Node 22 with dummy Supabase env. Lint covers `src` except `src/components/design/HomeDesign.tsx`, because full `npm run lint` fails on old errors: 153 `react-hooks/refs` in HomeDesign.tsx and 3 `no-require-imports` in `brand/install.cjs`, `brand/render.cjs`. Fix them, then switch the step to `npm run lint`.
+
 ### 2026-11-01 — Fox removed from the site (not committed yet)
 - The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.
 
