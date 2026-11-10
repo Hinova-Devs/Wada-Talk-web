@@ -19,7 +19,7 @@ Docs (start here): [`Docs/README.md`](Docs/README.md). AI agents: [`Docs/agent-r
    `#E6ECF3`, accent `#26AEE8`, neumorphic cards and inset fields. Colours are set in `src/app/globals.css` and in the
    design components (`src/components/design/`). The dark palette of the app is not ported yet.
 2. **School admin removed.** `/school-admin`, its component and CSS, and "School" in the demo form and copy are gone.
-   The university admin (`/portal`, `/university-admin` redirects to it) stays.
+   The university admin (`/portal`) stays; the `/university-admin` redirect is removed.
 3. **Portal on the real backend.** `/portal` now reads and writes only through the Wada Backend contract
    (`../Wada Backend/DOC/dashboard-api.md`); one file maps the answers: `src/lib/portal/backend.ts`.
    - Reads: `my_orgs`, `org_overview`, `class_overview`, `class_students`, `student_detail`, `class_skills`,
@@ -41,7 +41,7 @@ Only invited staff can sign in (`shouldCreateUser: false`): an **admin** sees ev
 classes and invite staff; a **teacher** sees only the classes they teach. Send invitations from Portal → Team
 (admin only) or ask Hinova to add the first admin from the ops site.
 To look at both views without signing in, run the site with any `NEXT_PUBLIC_SUPABASE_*` values and open
-`/portal-preview` (admin) and `/portal-preview?role=teacher` (teacher): sample data, nothing is saved.
+`/portal-preview` (admin) and `/portal-preview?role=teacher` (teacher): sample data, nothing is saved. In production builds it returns 404 unless `ALLOW_PORTAL_PREVIEW=1` is set in the host's environment (set it only for a demo deploy).
 
 ### Going live (`wada-talk.com`) — still to do by the owner
 - Set `NEXT_PUBLIC_SITE_URL=https://wada-talk.com` (and the Supabase URL + anon key) in the host's environment.

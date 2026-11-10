@@ -1,1 +1,1 @@
-import type {MetadataRoute} from 'next';export default function robots():MetadataRoute.Robots{return {rules:{userAgent:'*',allow:'/',disallow:['/portal','/portal-preview','/login','/auth','/join/']},sitemap:(process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000')+'/sitemap.xml'}}
+import type {MetadataRoute} from 'next';export default function robots():MetadataRoute.Robots{return {rules:{userAgent:'*',allow:'/',disallow:['/portal','/portal-preview','/login','/so/login','/auth','/join/']},sitemap:(process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000')+'/sitemap.xml'}}

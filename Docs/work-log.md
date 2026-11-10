@@ -47,6 +47,11 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-10 — HDT-69 + HDT-66: gate portal-preview, SEO pass (branch `seo-gate/claude`)
+- `/portal-preview` now 404s in production builds unless `ALLOW_PORTAL_PREVIEW=1`; dev unchanged. `/university-admin` (+`/preview`) removed: nothing linked to it.
+- SEO: public pages now set `openGraph` (title, description, url, image) in `[...slug]/page.tsx`; `robots.ts` also disallows `/so/login`. Sitemap, canonical base (`NEXT_PUBLIC_SITE_URL`, wada-talk.com at go-live) and OG image were already fine.
+
+
 ### 2026-11-01 — Fox removed from the site (not committed yet)
 - The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.
 
