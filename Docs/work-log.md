@@ -51,6 +51,8 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-10 - CI for the website (HDT-89, not committed yet)
+- Added `.github/workflows/ci.yml` (PR + push to main): `npm ci`, eslint, `npm run build` on Node 22 with dummy Supabase env. Lint covers `src` except `src/components/design/HomeDesign.tsx`, because full `npm run lint` fails on old errors: 153 `react-hooks/refs` in HomeDesign.tsx and 3 `no-require-imports` in `brand/install.cjs`, `brand/render.cjs`. Fix them, then switch the step to `npm run lint`.
 ### 2026-11-04 — Match the current Flutter app theme (`theme/app-match`)
 - Source is actual Flutter `main` commit `868e8b7432ea68a133fad2574ff04499d6abd4cc` (app-colours PR #36), `lib/core/theme/app_theme.dart` and `lib/core/widgets/widgets.dart`, rather than the older cyan docs.
 - Orange `#F26B1D`, dark orange actions `#D9480F`, warm cream `#F4EEE8`, dark surface `#2A2421`; teal progress and violet icon tiles. Shared CSS tokens cover public pages, portal and ops; inline marketing styles, previews, QR and social image updated. Raised cards use paired shadows, fields use inset shadows, buttons press to 0.97.

@@ -1,0 +1,30 @@
+name: Web CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    name: Lint and build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      # Dummy public values so the build runs. Never put real secrets here.
+      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: dummy-anon-key
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Known debt: HomeDesign.tsx has 153 react-hooks/refs errors and brand/*.cjs 3 no-require-imports errors (HDT-89). Lint the rest; drop the ignore once fixed.
+      - run: npx eslint src --ignore-pattern src/components/design/HomeDesign.tsx
+      - run: npm run build
