@@ -51,6 +51,10 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 
 ## Log (newest first)
 
+### 2026-11-10 — HDT-69 + HDT-66: gate portal-preview, SEO pass (branch `seo-gate/claude`)
+- `/portal-preview` now 404s in production builds unless `ALLOW_PORTAL_PREVIEW=1`; dev unchanged. `/university-admin` (+`/preview`) removed: nothing linked to it.
+- SEO: public pages now set `openGraph` (title, description, url, image) in `[...slug]/page.tsx`; `robots.ts` also disallows `/so/login`. Sitemap, canonical base (`NEXT_PUBLIC_SITE_URL`, wada-talk.com at go-live) and OG image were already fine.
+
 ### 2026-11-04 — Match the current Flutter app theme (`theme/app-match`)
 - Source is actual Flutter `main` commit `868e8b7432ea68a133fad2574ff04499d6abd4cc` (app-colours PR #36), `lib/core/theme/app_theme.dart` and `lib/core/widgets/widgets.dart`, rather than the older cyan docs.
 - Orange `#F26B1D`, dark orange actions `#D9480F`, warm cream `#F4EEE8`, dark surface `#2A2421`; teal progress and violet icon tiles. Shared CSS tokens cover public pages, portal and ops; inline marketing styles, previews, QR and social image updated. Raised cards use paired shadows, fields use inset shadows, buttons press to 0.97.

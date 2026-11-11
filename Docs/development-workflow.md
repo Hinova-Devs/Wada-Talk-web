@@ -26,6 +26,7 @@
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | The Supabase project (dev or pilot) |
 | `NEXT_PUBLIC_SITE_URL` | The site's own URL, for links, sitemap and Open Graph |
+| `ALLOW_PORTAL_PREVIEW` | Server-only. `1` lets a production build serve `/portal-preview` (sample data); unset = 404. Dev is always open |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Contact address on the public pages |
 | `NEXT_PUBLIC_APP_STORE_URL`, `NEXT_PUBLIC_PLAY_STORE_URL` | Store buttons (download page, join page) |
 Never add a non-`NEXT_PUBLIC_` secret here for use in pages: the site holds no secrets.

@@ -1,3 +1,4 @@
+import {notFound} from "next/navigation";
 import PortalDashboard from "@/components/portal/dashboard";
 import { isPortalSection, type PortalRow } from "@/lib/portal/data";
 export const metadata={title:"Organization portal preview",robots:{index:false,follow:false}};
@@ -18,7 +19,8 @@ const sum=(l:PortalRow[],k:string)=>l.reduce((a,r)=>a+(Number(r[k])||0),0);
 const scored=(l:PortalRow[])=>l.filter(s=>s.score!=null);
 const avg=(l:PortalRow[])=>scored(l).length?Math.round(sum(scored(l),"score")/scored(l).length):0;
 export default async function Page({searchParams}:{searchParams:Params}){
-  const params=await searchParams;const one=(k:string)=>typeof params[k]==="string"?String(params[k]):"";
+  const params=await searchParams; // awaited first so the page stays dynamic and the flag is read at request time
+  if(process.env.NODE_ENV==="production"&&process.env.ALLOW_PORTAL_PREVIEW!=="1")notFound();const one=(k:string)=>typeof params[k]==="string"?String(params[k]):"";
   const section=isPortalSection(one("section"))?(one("section") as Parameters<typeof PortalDashboard>[0]["section"]):"overview";
   const range=["week","4-weeks","term"].includes(one("range"))?one("range"):"week";
   const classId=classes.some(c=>c.id===one("class_id"))?one("class_id"):"";const studentId=one("student_id");

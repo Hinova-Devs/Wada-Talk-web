@@ -12,7 +12,6 @@ Wada-Talk-web/                    THIS repo: the website, portal and ops (Next.j
 │   │   ├── join/[code]/          Join a class by code
 │   │   ├── portal/               Organization portal (signed in, teacher / org_admin)
 │   │   ├── portal-preview/       Portal with sample data (demo, not indexed)
-│   │   ├── university-admin/   Redirects to the portal preview / portal
 │   │   ├── auth/callback/        Supabase sign-in callback for the public host
 │   │   ├── ops/                  Hinova ops, served on ops.<host>: login, lessons, lessons/[id], organizations, auth/callback
 │   │   ├── layout.tsx, globals.css, not-found.tsx, robots.ts, sitemap.ts, opengraph-image.tsx
