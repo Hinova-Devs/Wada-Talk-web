@@ -9,18 +9,18 @@ export const metadata: Metadata = { title: "Edit unit" };
 export const dynamic = "force-dynamic";
 
 export default async function UnitPage({ params }: { params: Promise<{ id: string }> }) {
-  const gate = await opsGate();
-  if (!gate.allowed) return <NoAccess email={gate.email} failed={gate.failed} />;
+  const gate = await opsGate(["super_admin", "teacher"]);
+  if (!gate.allowed) return <NoAccess email={gate.email} role={gate.role} failed={gate.failed} />;
   const { id } = await params;
   const { data, error } = /^[0-9a-f-]{36}$/i.test(id)
     ? await gate.supabase.from("units").select(UNIT_COLUMNS).eq("id", id).maybeSingle()
     : { data: null, error: null };
   const unit = data as unknown as UnitRow | null;
   return (
-    <OpsShell email={gate.email} section="lessons">
+    <OpsShell email={gate.email} role={gate.role} section="lessons">
       {unit ? (
         // A new version from the server (after save, publish or generation) starts the editor afresh.
-        <UnitEditor key={unit.updated_at} unit={unit} />
+        <UnitEditor key={unit.updated_at} unit={unit} canPublish={gate.role === "super_admin"} />
       ) : (
         <div className="oa-page-head">
           <div>
