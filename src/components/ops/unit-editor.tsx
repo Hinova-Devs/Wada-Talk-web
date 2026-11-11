@@ -29,7 +29,7 @@ const fromUnit = (u: UnitRow): Form => ({
 });
 
 /** Review and edit one unit: plan fields, then easy / medium / hard content. Save, generate, publish. */
-export function UnitEditor({ unit }: { unit: UnitRow }) {
+export function UnitEditor({ unit, canPublish }: { unit: UnitRow; canPublish: boolean }) {
   const router = useRouter();
   const initial = useMemo(() => fromUnit(unit), [unit]);
   const [form, setForm] = useState<Form>(initial);
@@ -124,12 +124,12 @@ export function UnitEditor({ unit }: { unit: UnitRow }) {
               {busy === "save" ? "Saving…" : dirty ? "Save changes" : "Saved"}
             </button>
           )}
-          {unit.status === "draft" && (
+          {canPublish && unit.status === "draft" && (
             <button type="button" className="oa-button ghost" disabled={!!busy || dirty} title={dirty ? "Save your changes first" : undefined} onClick={publish}>
               {busy === "publish" ? "Publishing…" : "Publish"}
             </button>
           )}
-          {unit.status === "published" && (
+          {canPublish && unit.status === "published" && (
             <button type="button" className="oa-button ghost" disabled={!!busy} onClick={unpublish}>{busy === "unpublish" ? "Working…" : "Unpublish"}</button>
           )}
           {(editable || stuck) && (

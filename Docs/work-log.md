@@ -14,16 +14,20 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 | Public site (EN + SO pages, home, students, organizations, safety, legal) | 🟡 built; content partly draft |
 | Join a class (`/join/<code>`) | 🟡 checks only the shape of the code and points to the app (no backend preview function exists); looked at with curl, not in a browser |
 | Organization portal (`/portal`) + previews | 🟡 now reads and writes through the backend's `my_orgs` / `org_*` / `class_*` functions (`design/wada-app-look`); tsc + lint clean, previews checked in the browser; **not tried signed in** against the Wad project |
-| Site look | 🟡 restyled to the Wada app design (Plus Jakarta Sans, `#E6ECF3` surface, `#26AEE8`, neumorphic cards) on `design/wada-app-look`; only the home page and portal previews were looked at |
+| Site look | 🟡 matched Flutter main `868e8b7` (2026-11-04): orange, warm cream / brown, teal progress, violet icons; branch `theme/app-match`; light/dark and phone-width browser checks; not deployed |
 | School admin | removed (`/school-admin`, its CSS and the "School" type); university admin (`/portal`) stays |
 | Ops: sign-in, admin gate, subdomain (O2) | 🟡 merged; `ops.wada-talk.com` DNS / host setup not done |
 | Ops: Lessons plan + unit editor (O3) | ✅ merged; used by the owner against the dev project |
 | Ops: Organizations (K2) | 🟡 merged into `o3/fox` after O3 had gone to `main`; reached `main` through P0 (#7) |
 | Ops: CEFR levels A1–B2 (levels plan P0) | ✅ merged (#7) and deployed with the backend |
 | Ops: words and grammar per unit (P1b) + "Stopped / Try again" for stuck generations | 🟡 PR #8 (`p1b/fox`) open; tsc + lint clean; not tried signed in |
+| Ops: Overview, Staff directory (teachers, finance), Finance (ops roles) | 🟡 branch `ops-finance-staff/claude`; tsc + eslint clean on `src/app/ops`, `components/ops`, `lib/ops`; **not run against a database** (backend migration `20261104100000` untested, no pgTAP written) |
+| Ops: Affiliates (payout requests, referrers, pilot date, test payment) + `/r/<code>` invite page | 🟡 branch `affiliates/claude`; eslint + tsc clean; not tried signed in; backend migration `20261104110000` not applied or tested |
 | Docs (this folder) | 🟡 first version on `web-docs/fox` |
 
 ## Needs the owner
+- [ ] Review and merge `theme/app-match` to release the orange app theme; this branch is not deployed.
+- [ ] **Ops roles:** merge wada-backend branch `ops-staff-finance/claude`, then `supabase db push` and `supabase functions deploy ops-units`. Then add teachers in Ops → Staff (they sign up on the ops page first). Teachers plan/generate; only super admins publish.
 - [ ] **Merge PR #8** (`p1b/fox`) after the backend generation fix (wada-backend #8) is merged and `ops-units` is deployed.
 - [ ] **ops subdomain:** DNS record for `ops.wada-talk.com`, add the domain in the host, and add `https://ops.wada-talk.com/auth/callback` (and `http://ops.localhost:3000/auth/callback`) to Supabase Auth → Redirect URLs.
 - [ ] **Ops access:** each founder creates an account on the ops site, then is added to `platform_admins` (see `development-workflow.md`).
@@ -51,6 +55,18 @@ Legend: ✅ done and verified · 🟡 code done, someone must verify or do a man
 - `/portal-preview` now 404s in production builds unless `ALLOW_PORTAL_PREVIEW=1`; dev unchanged. `/university-admin` (+`/preview`) removed: nothing linked to it.
 - SEO: public pages now set `openGraph` (title, description, url, image) in `[...slug]/page.tsx`; `robots.ts` also disallows `/so/login`. Sitemap, canonical base (`NEXT_PUBLIC_SITE_URL`, wada-talk.com at go-live) and OG image were already fine.
 
+### 2026-11-04 — Match the current Flutter app theme (`theme/app-match`)
+- Source is actual Flutter `main` commit `868e8b7432ea68a133fad2574ff04499d6abd4cc` (app-colours PR #36), `lib/core/theme/app_theme.dart` and `lib/core/widgets/widgets.dart`, rather than the older cyan docs.
+- Orange `#F26B1D`, dark orange actions `#D9480F`, warm cream `#F4EEE8`, dark surface `#2A2421`; teal progress and violet icon tiles. Shared CSS tokens cover public pages, portal and ops; inline marketing styles, previews, QR and social image updated. Raised cards use paired shadows, fields use inset shadows, buttons press to 0.97.
+- Verified: TypeScript, production build; browser home, safety, organization page; light/dark toggle and no horizontal overflow at desktop and 390px on checked pages. ESLint reports the same 153 existing `react-hooks/refs` errors in HomeDesign and existing warnings; other changed TS/TSX files have no errors.
+- Not verified: signed-in portal/ops, live deployment. No backend or auth behavior changed.
+
+### 2026-11-04 — Ops: Affiliates
+- New Ops → Affiliates page (super admin): payout requests with Mark paid (writes a Finance payout), referrers table, pilot date + minimum payout, and a "Record $3 payment" test button until the gateway is connected. `/r/<code>` is the page the app's affiliate link opens (shows the code and the store buttons). Contract: `DOC/ops-api.md` section 9 in wada-backend. Depends on the ops roles PR (#15 / wada-backend #22).
+
+### 2026-11-04 — Ops: Overview, Staff, Finance
+- `/ops` menu now follows `ops_role()` (super admin, teacher, finance): Overview (super admin home: units by status, orgs, team, month income, recent activity), Lessons (super admin + teacher; teachers don't see Publish), Organizations, **Staff** (directory of teachers/finance with planned/generated counts, pay per unit, owed, Pay and Remove), **Finance** (monthly income/expense/payout entries, net). Contract: `DOC/ops-api.md` section 8 in wada-backend.
+- Teacher pay: owed = units generated × rate minus payouts to that email; "Pay" writes a payout to Finance.
 
 ### 2026-11-01 — Fox removed from the site (not committed yet)
 - The fox mascot is gone everywhere it was used as an image (header, footer, login, join cards, home/organizations/safety heroes, 404, download page, press kit); logos now show just the word "wada". Small chat avatars became a blue "w" circle; the home hero ring shows a faint "wada". The press kit offers the new W icon (`public/assets/wada-icon.png`). The fox files stay in `public/assets/` unused.
